@@ -1,0 +1,163 @@
+# @file DKMakefile.common
+# @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
+# @brief Common makefile that can be reused throughout Nordic projects.
+# @version 0.1
+# @date 2019-10-20
+# 
+# @copyright (c) Danius Kalvaitis 2019 All rights reserved
+
+NRF52832_UICR_ADDR := 0x10001080
+NRF52840_UICR_ADDR := 0x10001080
+
+NRF52832_FAMILY := NRF52
+NRF52840_FAMILY := NRF52840
+
+SD_ID_DEC               := $(shell printf "%u" $(SD_ID)) # Convert to decimal value to include in firmware version
+
+UICR_DATA               := $(shell printf "0xFFFF%02X%02X" $(HW_ID) $(HW_VERSION))
+BOOT_SETTINGS_DEBUG     := $(BOOT_SETTINGS_DIRECTORY)/$(FULL_PROJECT_NAME)_boot_settings_debug.hex
+BOOT_SETTINGS_RELEASE   := $(BOOT_SETTINGS_DIRECTORY)/$(FULL_PROJECT_NAME)_boot_settings_release.hex
+HEX_FILE                := $(HEX_DIRECTORY)/hw$(HW_ID)_appid$(APP_ID)_appv$(APP_VERSION)_sd$(strip $(SD_ID_DEC))_bl$(BOOTLOADER_VERSION).hex
+DFU_FILE                := $(DFU_DIRECTORY)/hw$(HW_ID)_appid$(APP_ID)_appv$(APP_VERSION)_sd$(strip $(SD_ID_DEC))_bl$(BOOTLOADER_VERSION).zip
+DFU_FILE_APP            := $(DFU_DIRECTORY)/hw$(HW_ID)_appid$(APP_ID)_appv$(APP_VERSION).zip
+
+ifneq (,$(findstring DNRF52832_XXAA,$(CFLAGS)))
+FAMILY = $(NRF52832_FAMILY)
+UICR_ADDRESS = $(NRF52832_UICR_ADDR)
+else ifneq (,$(findstring DNRF52840_XXAA,$(CFLAGS)))
+FAMILY = $(NRF52840_FAMILY)
+UICR_ADDRESS = $(NRF52840_UICR_ADDR)
+else
+UICR_ADDRESS = NULL
+endif
+
+# Create boot settings, dfu and hex output directories
+
+$(BOOT_SETTINGS_DIRECTORY): | $(OUTPUT_DIRECTORY)
+	$(MK) $@
+
+$(HEX_DIRECTORY): | $(OUTPUT_DIRECTORY)
+	$(MK) $@
+
+$(DFU_DIRECTORY): | $(OUTPUT_DIRECTORY)
+	$(MK) $@
+
+$(BOOT_SETTINGS_DEBUG): $(BOOT_SETTINGS_DIRECTORY) default
+	@echo Generating bootloader settings debug application version
+	nrfutil settings generate --family $(FAMILY) --application $(APPLICATION_DEBUG) --application-version $(APP_VERSION) --bootloader-version $(BOOTLOADER_VERSION) --bl-settings-version $(BOOTLOADER_SETTINGS_VERSION) $(BOOT_SETTINGS_DEBUG)
+	@echo Generated $(BOOT_SETTINGS_DEBUG)
+
+$(BOOT_SETTINGS_RELEASE): $(BOOT_SETTINGS_DIRECTORY) release
+	@echo Generating bootloader settings release application version
+	nrfutil settings generate --family $(FAMILY) --application $(APPLICATION_RELEASE) --application-version $(APP_VERSION) --bootloader-version $(BOOTLOADER_VERSION) --bl-settings-version $(BOOTLOADER_SETTINGS_VERSION) $(BOOT_SETTINGS_RELEASE)
+	@echo Generated $(BOOT_SETTINGS_RELEASE)
+
+$(HEX_FILE): $(HEX_DIRECTORY) $(BOOT_SETTINGS_RELEASE)
+	@echo Generating combined hex file
+	mergehex -m $(SOFT_DEVICE) $(BOOTLOADER) $(BOOT_SETTINGS_RELEASE) -o $(HEX_FILE)
+	mergehex -m $(HEX_FILE) $(APPLICATION_RELEASE) -o $(HEX_FILE)
+
+$(DFU_FILE): $(DFU_DIRECTORY) release
+	@echo Generating DFU zip file
+	nrfutil pkg generate --application $(APPLICATION_RELEASE) --application-version $(APP_VERSION) --bootloader $(BOOTLOADER) \
+	--bootloader-version $(BOOTLOADER_VERSION) --hw-version $(HW_ID) --sd-req $(SD_REQ) --sd-id $(SD_ID) --softdevice $(SOFT_DEVICE) --key-file $(DK_DFU_PUBLIC_KEY) \
+	$(DFU_FILE)
+
+$(DFU_FILE_APP): $(DFU_DIRECTORY) release
+	@echo Generating DFU app zip file
+	nrfutil pkg generate --application $(APPLICATION_RELEASE) --application-version $(APP_VERSION) --hw-version $(HW_ID) --sd-req $(SD_REQ) --key-file $(DK_DFU_PUBLIC_KEY) \
+	$(DFU_FILE_APP)
+
+.PHONY: help
+
+help:
+	@echo following targets are available:
+	@echo   $(FULL_PROJECT_NAME)_debug
+	@echo   $(FULL_PROJECT_NAME)_release
+	@echo   flash_debug - flash debug binary
+	@echo   flash_release - flash release binary
+	@echo   flash_softdevice - flash $(SOFT_DEVICE_NAME) softdevice
+	@echo   reset - reset chip
+	@echo   generate_boot_settings_debug - generate bootloader settings using debug app hex
+	@echo   generate_boot_settings_release - generate bootloader settings using release app hex
+	@echo   flash_boot_settings_debug - flash bootloader settings page debug
+	@echo   flash_boot_settings_release - flash bootloader settings page release
+	@echo   flash_bootloader - flash bootloader
+	@echo   flash_uicr - write hw_id and hw_v to UICR
+	@echo   erase_uicr - clear uicr memory
+	@echo   generate_hex - generate a release hex file containing everything \(softdevice, app, bootloader\)
+	@echo   flash_hex - flash a release hex file containing everything \(softdevice, app, bootloader\)
+	@echo   generate_dfu_package - generate release dfu zip file containing everything \(softdevice, app, bootloader\)
+	@echo   generate_dfu_app_package: - generate release dfu app zip file containing only app
+	@echo   erase - erase chip
+	@echo   sdk_config - starting external tool for editing sdk_config.h
+
+.PHONY: flash_debug flash_release flash_softdevice reset generate_boot_settings_debug generate_boot_settings_release flash_boot_settings_debug \
+        flash_boot_settings_release flash_bootloader flash_uicr erase_uicr generate_hex flash_hex generate_dfu_package generate_dfu_app_package erase sdk_config
+
+# Flash the program
+flash_debug: default
+	@echo Flashing: $(APPLICATION_DEBUG)
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(APPLICATION_DEBUG) --sectorerase
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --reset
+
+flash_release: release
+	@echo Flashing: $(APPLICATION_RELEASE)
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(APPLICATION_RELEASE) --sectorerase
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --reset
+
+# Flash softdevice
+flash_softdevice:
+	@echo Flashing: $(SOFT_DEVICE_NAME)
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(SOFT_DEVICE) --sectorerase
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --reset
+
+reset:
+	@echo Resetting...
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --reset
+
+generate_boot_settings_debug: $(BOOT_SETTINGS_DEBUG)
+
+generate_boot_settings_release: $(BOOT_SETTINGS_RELEASE)
+
+flash_boot_settings_debug: $(BOOT_SETTINGS_DEBUG)
+	@echo Flashing bootloader settings debug
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(BOOT_SETTINGS_DEBUG) --sectorerase
+
+flash_boot_settings_release: $(BOOT_SETTINGS_RELEASE)
+	@echo Flashing bootloader settings release
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(BOOT_SETTINGS_RELEASE) --sectorerase
+
+flash_bootloader:
+	@echo Flashing bootloader
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(BOOTLOADER)
+
+flash_uicr:
+ifeq ($(UICR_ADDRESS), NULL)
+	@echo Flashing UICR data not supported for this device. Edit the "DKMakefile.common". Aborting...
+	@exit 1
+endif
+
+	@echo Flashing UICR with HW ID and HW V $(UICR_DATA)
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --memwr $(UICR_ADDRESS) --val $(UICR_DATA)
+
+erase_uicr:
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --eraseuicr
+
+generate_hex: $(HEX_FILE)
+
+flash_hex: $(HEX_FILE)
+	@echo Flashing combined hex file
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --eraseall
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --program $(HEX_FILE)
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --reset
+
+generate_dfu_package: $(DFU_FILE)
+
+generate_dfu_app_package: $(DFU_FILE_APP)
+
+erase:
+	nrfjprog $(DEBUGER_S_NUMBER) -f nrf52 --eraseall
+
+sdk_config:
+	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
