@@ -137,7 +137,7 @@ typedef struct
 {
 	uint8_t                                 _padding0               :1;
 	tlv320aic3106_left_dac_datapath_ctrl_t  left_dac_datapath_ctrl  :2;
-	tlv320aic3106_left_dac_datapath_ctrl_t  left_dac_datapath_ctrl  :2;
+	tlv320aic3106_right_dac_datapath_ctrl_t right_dac_datapath_ctrl  :2;
 	bool                                    dac_dual_rate_enabled   :1;
 	bool                                    adc_dual_rate_enabled   :1;
 	tlv320aic3106_fsref_setting_t           fsref_setting           :1;
@@ -233,7 +233,7 @@ typedef struct
 	bool                                    left_dac_dig_effects_en         :1;
 	tlv320aic3106_highpass_filter_ctrl_t    right_adc_highpass_filter_ctrl  :2;
 	tlv320aic3106_highpass_filter_ctrl_t    left_adc_highpass_filter_ctrl   :2;
-} tlv320aic3106_audio_codec_overflow_flag_t;
+} tlv320aic3106_audio_codec_digital_filter_ctrl_t;
 
 typedef enum
 {
@@ -501,7 +501,7 @@ typedef struct
 	uint8_t                                         _padding1                       :1;
 	tlc320aic3106_short_circuit_protection_mode_t   short_circuit_protection_mode   :1;
 	bool                                            short_circuit_protection_en     :1;
-	tlc320aic3106_hprcom_out_drv_t                  hprcom_out_drv_cfg              :2;
+	tlc320aic3106_hprcom_out_drv_t                  hprcom_out_drv_cfg              :3;
 	uint8_t                                         _padding0                       :2;
 } tlv320aic3106_hi_pwr_out_drv_ctrl_t;
 
@@ -921,7 +921,7 @@ typedef enum
 {
 	TLV320AIC3106_DAC_QUIESCENT_CURRENT_DEFAULT     = 0x00,
 	TLV320AIC3106_DAC_QUIESCENT_CURRENT_1_5_DAC_REF = 0x01,
-	TLV320AIC3106_DAC_QUIESCENT_CURRENT_2_DAC_REF   = 0x04,
+	TLV320AIC3106_DAC_QUIESCENT_CURRENT_2_DAC_REF   = 0x03,
 } tlv320aic3106_dac_quiescent_current_t;
 
 typedef struct
