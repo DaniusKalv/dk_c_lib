@@ -1,7 +1,7 @@
 /**
- * @file there_might_be_noise_v1.h
+ * @file dk_010017.h
  * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
- * @brief Hardware description for There Might Be Noise v1.
+ * @brief Hardware description for There Might Be Noise v1.0.
  * 
  * @version 0.1
  * @date 2019-10-20
@@ -34,12 +34,12 @@ extern "C" {
 #define DK_BSP_I2S_DOUT         NRF_GPIO_PIN_MAP(1,9)   /**< I2S master data out pin. */
 #define DK_BSP_I2S_DIN          NRF_GPIO_PIN_MAP(0,8)   /**< I2S master data in pin. */
 #define DK_BSP_I2S_WCLK         NRF_GPIO_PIN_MAP(0,12)  /**< I2S word clock pin. */
-#define DK_BSP_I2S_WCLK         NRF_GPIO_PIN_MAP(0,11)  /**< I2S bit clock pin. */
+#define DK_BSP_I2S_BCLK         NRF_GPIO_PIN_MAP(0,11)  /**< I2S bit clock pin. */
 #define DK_BSP_I2S_MCLK         NRF_GPIO_PIN_MAP(0,14)  /**< I2S master clock pin. */
 
 //Codec (TLV320AIC3106)
-#define DK_BSP_TLV320_RST       16  /**< TLV320AIC3106 reset (active low) pin.
-#define DK_BSP_TLV320_INT       18  /**< TLV320AIC3106 interrupt pin.
+#define DK_BSP_TLV320_RST       16  /**< TLV320AIC3106 reset (active low) pin. */
+#define DK_BSP_TLV320_INT       18  /**< TLV320AIC3106 interrupt pin. */
 
 //Audio amplifier (TPA3220DDW)
 #define DK_BSP_TPA3220_MUTE     17  /**< TPA3220DDW mute (active low) pin. */
