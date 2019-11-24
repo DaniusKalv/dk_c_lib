@@ -16,6 +16,7 @@
 #ifndef DK_APP_IDS_H
 #define DK_APP_IDS_H
 
-#define DK_APP_ID_010017    1
+#define DK_APP_ID_01017     1
+#define DK_APP_ID_01013     2
 
 #endif // DK_APP_IDS_H
