@@ -1,5 +1,5 @@
 /**
- * @file dk_010013.h
+ * @file dk_01013.h
  * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
  * @brief Hardware description for Phil It Up v1.0.
  * 
@@ -10,8 +10,8 @@
  * 
  */
 
-#ifndef DK_010013_H
-#define DK_010013_H
+#ifndef DK_01013_H
+#define DK_01013_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,11 +43,12 @@ extern "C" {
 #define DK_BSP_I2S_BCLK     NRF_GPIO_PIN_MAP(1,0)   /**< I2S bit clock pin. */
 
 //TLV320DAC codec
-#define DK_BSP_TLV320_PWR_EN    NRF_GPIO_PIN_MAP(1,1)   /**< Enable voltage regulator for TLV320 pin. */
-#define DK_BSP_TLV320_RST       NRF_GPIO_PIN_MAP(1,3)   /**< TLV320 reset pin (active low). */
+#define DK_BSP_TLV320_PWR_EN            NRF_GPIO_PIN_MAP(1,1)   /**< Enable voltage regulator for TLV320 pin. */
+#define DK_BSP_TLV320_RST               NRF_GPIO_PIN_MAP(1,3)   /**< TLV320 reset pin (active low). */
+#define DK_BSP_TLV320_I2C_ITERFACE      1                       /**< I2C interface instance that TLV320 is connected to. */
 
 //I2C slave addresses
-#define DK_BSP_IS31FL3206_I2C_ADDRESS   0xD8    /**< IS31FL3206 I2C address. */
+#define DK_BSP_IS31FL3206_I2C_ADDRESS   0x6C    /**< IS31FL3206 I2C address. */
 #define DK_BSP_TLV320_I2C_ADDRESS       0x18    /**< TLV320 I2C address. */
 #define DK_BSP_MLX9061_I2C_ADDRESS      0x5B    /**< MLX9061 I2C address. */
 
@@ -55,4 +56,4 @@ extern "C" {
 }
 #endif
 
-#endif //DK_010013_H
+#endif //DK_01013_H

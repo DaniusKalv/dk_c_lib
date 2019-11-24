@@ -17,8 +17,10 @@
 #include "nrf_gpio.h"
 #include "nordic_common.h"
 
-#if defined(DK_010017)
-#include "dk_010017.h"
+#if defined(DK_01013)
+#include "dk_01013.h"
+#elif defined(DK_01017)
+#include "dk_01017.h"
 #else
 #error "Board is not defined"
 #endif

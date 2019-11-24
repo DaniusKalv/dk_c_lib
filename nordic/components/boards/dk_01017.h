@@ -1,5 +1,5 @@
 /**
- * @file dk_010017.h
+ * @file dk_01017.h
  * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
  * @brief Hardware description for There Might Be Noise v1.0.
  * 
@@ -10,8 +10,8 @@
  * 
  */
 
-#ifndef DK_010017_H
-#define DK_010017_H
+#ifndef DK_01017_H
+#define DK_01017_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,4 +60,4 @@ extern "C" {
 }
 #endif
 
-#endif //DK_010017_H
+#endif //DK_01017_H
