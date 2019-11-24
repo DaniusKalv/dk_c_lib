@@ -1,11 +1,11 @@
 /**
- * @file dk_uicr.h
- * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
- * @brief DK UICR register data.
- * @version 0.1
- * @date 2019-10-20
+ * @file        dk_uicr.h
+ * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
+ * @brief       DK UICR register data.
+ * @version     0.1
+ * @date        2019-11-23
  * 
- * @copyright (c) Danius Kalvaitis 2019 All rights reserved
+ * @copyright   Copyright (c) Danius Kalvaitis 2019 All rights reserved
  * 
  */
 

@@ -1,14 +1,16 @@
 /**
- * @file dk_uicr.c
- * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
- * @version 0.1
- * @date 2019-10-20
+ * @file        dk_uicr.c
+ * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
+ * @brief       DK UICR register data.
+ * @version     0.1
+ * @date        2019-11-23
  * 
- * @copyright (c) Danius Kalvaitis 2019 All rights reserved
+ * @copyright   Copyright (c) Danius Kalvaitis 2019 All rights reserved
  * 
  */
 
 #include "dk_uicr.h"
+#include "dk_config.h"
 
 /* Write HW ID and HW version values to UICR. */
 volatile hug_uicr_hw_info_t hug_uicr_hw_info __attribute__ ((section(".dk_uicr_hw_info"))) = 
@@ -19,12 +21,10 @@ volatile hug_uicr_hw_info_t hug_uicr_hw_info __attribute__ ((section(".dk_uicr_h
 
 #ifdef NRF52840_XXAA
 
-#if(HUG_UICR_REGOUT0_ENABLED)
 /* Write HUG_UICR_REGOUT0 value to vout UICR register. */
 volatile hug_uicr_regout0_t hug_uicr_regout0 __attribute__ ((section(".uicr_regout0"))) =
 {
-	.vout = HUG_UICR_REGOUT0
+	.vout = DK_UICR_REGOUT0
 };
-#endif
 
 #endif
