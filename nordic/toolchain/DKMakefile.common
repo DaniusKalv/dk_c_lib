@@ -91,9 +91,10 @@ help:
 	@echo   generate_dfu_app_package: - generate release dfu app zip file containing only app
 	@echo   erase - erase chip
 	@echo   sdk_config - starting external tool for editing sdk_config.h
+	@echo   dk_config - starting external tool for editing dk_config.h
 
 .PHONY: flash_debug flash_release flash_softdevice reset generate_boot_settings_debug generate_boot_settings_release flash_boot_settings_debug \
-        flash_boot_settings_release flash_bootloader flash_uicr erase_uicr generate_hex flash_hex generate_dfu_package generate_dfu_app_package erase sdk_config
+        flash_boot_settings_release flash_bootloader flash_uicr erase_uicr generate_hex flash_hex generate_dfu_package generate_dfu_app_package erase sdk_config dk_config
 
 # Flash the program
 flash_debug: default
@@ -161,3 +162,6 @@ erase:
 
 sdk_config:
 	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
+
+dk_config:
+	java -jar $(CMSIS_CONFIG_TOOL) $(DK_CONFIG_FILE)
