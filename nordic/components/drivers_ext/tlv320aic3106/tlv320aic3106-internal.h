@@ -5,7 +5,7 @@
  * @version     0.1
  * @date        2019-10-02
  * 
- * @copyright   Copyright (c) 2019 Danius Kalvaitis
+ * @copyright   Copyright (c) Danius Kalvaitis 2019 All rights reserved
  * 
  */
  
