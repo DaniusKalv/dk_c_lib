@@ -21,8 +21,8 @@ extern "C" {
 
 typedef struct
 {
-	uint8_t _padding0       :7;
 	bool    normal_operation:1;
+	uint8_t _padding0       :7;
 } is31fl3206_shutdown_t;
 
 typedef enum

@@ -60,7 +60,7 @@ ret_code_t is31fl3206_shutdown(is31fl3206_t * p_is31fl3206, bool shutdown)
 
 	return twi_write(p_is31fl3206->p_i2c_instance, 
 	                 p_is31fl3206->i2c_address,
-	                 IS31FL3206_RESET,
+	                 IS31FL3206_SHUTDOWN,
 	                 (uint8_t *)&shutdown_reg,
 	                 sizeof(shutdown_reg));
 }
@@ -97,7 +97,7 @@ ret_code_t is31fl3206_set_out_current(is31fl3206_t * p_is31fl3206,
 
 	return twi_write(p_is31fl3206->p_i2c_instance,
 	                 p_is31fl3206->i2c_address,
-	                 IS31FL3206_LED_CURRENT_0 + out,
+	                 IS31FL3206_LED_CTRL0 + out,
 	                 (uint8_t *)&led_current_reg,
 	                 sizeof(led_current_reg));
 }
@@ -135,40 +135,9 @@ ret_code_t is31fl3206_set_out_frequency(is31fl3206_t * p_is31fl3206,
 ret_code_t is31fl3206_reset(is31fl3206_t * p_is31fl3206)
 {
 	uint8_t reset_val = IS31FL3206_RESET_VAL;
-	bool detected_device = false;
-	uint8_t dummy = 0;
-
-	// for (uint8_t address = 1; address <= 127; address++)
-	// {
-	//     ret_code_t err_code = twi_write(p_is31fl3206->p_i2c_instance,
-	//                  address,
-	//                  IS31FL3206_RESET,
-	//                  &reset_val,
-	//                  sizeof(reset_val));
-	//     if (err_code == NRF_SUCCESS)
-	//     {
-	//         detected_device = true;
-	//         NRF_LOG_INFO("TWI device detected at address 0x%x.", address);
-	//     }
-	//     else
-	//     {
-	//         NRF_LOG_ERROR(NRF_LOG_ERROR_STRING_GET(err_code));
-	//     }
-	// }
-
-	// if (!detected_device)
-	// {
-	//     NRF_LOG_INFO("No device was found.");
-	// }
-
-	// twi_write(p_is31fl3206->p_i2c_instance,
-	// 				 0x6C,
-	// 				 IS31FL3206_RESET,
-	// 				 &reset_val,
-	// 				 sizeof(reset_val));
 
 	return twi_write(p_is31fl3206->p_i2c_instance,
-	                 0x6C,
+	                 p_is31fl3206->i2c_address,
 	                 IS31FL3206_RESET,
 	                 &reset_val,
 	                 sizeof(reset_val));

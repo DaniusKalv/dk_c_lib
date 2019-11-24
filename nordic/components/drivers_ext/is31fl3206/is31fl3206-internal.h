@@ -25,7 +25,7 @@
 
 #define IS31FL3206_OUT_FREQUENCY    0x27
 
-#define IS31FL3206_RESET            0x28
+#define IS31FL3206_RESET            0x2F
 #define IS31FL3206_RESET_VAL        0x00
 
 #endif //IS31FL3206_INTERNAL_H
