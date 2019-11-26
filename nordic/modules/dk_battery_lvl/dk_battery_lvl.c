@@ -9,8 +9,18 @@
  * 
  */
 
+#include "dk_lib_common.h"
+#if DK_MODULE_ENABLED(DK_BATTERY_LVL)
+
 #include "dk_battery_lvl.h"
 #include "nrfx_saadc.h"
+#include "dk_config.h"
+#include "dk_common.h"
+#include "sdk_macros.h"
+
+#define NRF_LOG_MODULE_NAME DK_BATTERY_LVL
+#include "nrf_log.h"
+NRF_LOG_MODULE_REGISTER();
 
 APP_TIMER_DEF(m_saadc_timeout_timer_id);
 
@@ -22,7 +32,7 @@ static void saadc_callback(nrfx_saadc_evt_t const * p_event){
 		ret_code_t err_code;
 
 		err_code = nrfx_saadc_buffer_convert(p_event->data.done.p_buffer, SAADC_BUFFER_SAMPLES);
-		APP_ERROR_CHECK(err_code);
+		VERIFY_SUCCESS_VOID(err_code);
 
 		for(uint8_t i = 0; i < p_event->data.done.size; i++){
 			NRF_LOG_INFO("Analog value %d", p_event->data.done.p_buffer[i]);
@@ -48,13 +58,36 @@ static ret_code_t saadc_channel_init(uint8_t saadc_channel){
 	};
 
 	err_code = nrfx_saadc_channel_init(saadc_channel, &channel_config);
-	APP_ERROR_CHECK(err_code);
+	VERIFY_SUCCESS(err_code);
 
-	err_code = nrfx_saadc_buffer_convert(&m_saadc_buffer, SAADC_BUFFER_SAMPLES);
-	APP_ERROR_CHECK(err_code);
+	return nrfx_saadc_buffer_convert(&m_saadc_buffer, SAADC_BUFFER_SAMPLES);
 }
 
-ret_code_t dk_battery_lvl_init(dk_battery_lvl_t * p_dk_battery_lvl, uint8_t saadc_channel)
+static ret_code_t saadc_init()
 {
+	nrfx_saadc_config_t saadc_config =
+	{
+		.resolution         = (nrf_saadc_resolution_t)NRFX_SAADC_CONFIG_RESOLUTION,
+		.oversample         = (nrf_saadc_oversample_t)NRFX_SAADC_CONFIG_OVERSAMPLE,
+		.interrupt_priority = NRFX_SAADC_CONFIG_IRQ_PRIORITY,
+		.low_power_mode     = NRFX_SAADC_CONFIG_LP_MODE
+	};
 
+	return nrfx_saadc_init(&saadc_config, saadc_callback);
 }
+
+ret_code_t dk_battery_lvl_init(dk_battery_lvl_t * p_dk_battery_lvl)
+{
+	ret_code_t err_code;
+	VERIFY_PARAM_NOT_NULL(p_dk_battery_lvl);
+
+	#if DK_CHECK(DK_BATTERY_LVL_SAADC_INIT)
+		err_code = saadc_init();
+		VERIFY_SUCCESS(err_code);
+	#endif // DK_CHECK(DK_BATTERY_LVL_SAADC_INIT)
+
+	err_code = saadc_channel_init(p_dk_battery_lvl->saadc_channel);
+	VERIFY_SUCCESS(err_code);
+}
+
+#endif // DK_MODULE_ENABLED(DK_BATTERY_LVL)
