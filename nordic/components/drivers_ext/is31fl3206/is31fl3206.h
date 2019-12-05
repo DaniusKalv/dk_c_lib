@@ -12,7 +12,7 @@
 #ifndef IS31FL3206_H
 #define IS31FL3206_H
 
-#include "nrfx_twi.h"
+#include "dk_twi_mngr.h"
 #include "sdk_errors.h"
 
 #ifdef __cplusplus
@@ -59,15 +59,15 @@ typedef struct
 
 typedef struct
 {
-	nrfx_twi_t    * p_i2c_instance; /**< Pointer to I2C instance. */
-	uint8_t         i2c_address;    /**< Device I2C slave address. */
+	const dk_twi_mngr_t   * p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
+	uint8_t                 i2c_address;            /**< Device I2C slave address. */
 } is31fl3206_t;
 
-#define IS31FL3206_DEF(_name, _p_i2c_instance, _i2c_address)\
-static is31fl3206_t _name =                                 \
-{                                                           \
-	.p_i2c_instance = _p_i2c_instance,                      \
-	.i2c_address = _i2c_address                             \
+#define IS31FL3206_DEF(_name, _p_twi_mngr_instance, _i2c_address)   \
+static is31fl3206_t _name =                                         \
+{                                                                   \
+	.p_twi_mngr_instance = _p_twi_mngr_instance,                    \
+	.i2c_address = _i2c_address                                     \
 };
 
 typedef enum

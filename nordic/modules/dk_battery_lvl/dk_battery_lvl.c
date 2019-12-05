@@ -17,6 +17,7 @@
 #include "dk_config.h"
 #include "dk_common.h"
 #include "sdk_macros.h"
+#include "app_timer.h"
 
 #define NRF_LOG_MODULE_NAME DK_BATTERY_LVL
 #include "nrf_log.h"
@@ -86,8 +87,7 @@ ret_code_t dk_battery_lvl_init(dk_battery_lvl_t * p_dk_battery_lvl)
 		VERIFY_SUCCESS(err_code);
 	#endif // DK_CHECK(DK_BATTERY_LVL_SAADC_INIT)
 
-	err_code = saadc_channel_init(p_dk_battery_lvl->saadc_channel);
-	VERIFY_SUCCESS(err_code);
+	return saadc_channel_init(p_dk_battery_lvl->saadc_channel);
 }
 
 #endif // DK_MODULE_ENABLED(DK_BATTERY_LVL)
