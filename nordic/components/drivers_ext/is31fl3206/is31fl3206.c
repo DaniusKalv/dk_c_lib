@@ -18,6 +18,12 @@ NRF_LOG_MODULE_REGISTER();
 
 #define IS31FL3206_TWI_BUFFER_SIZE      IS31FL3206_OUT_AMOUNT
 
+typedef struct 
+{
+	uint8_t reg_address;                        /**< Register address. */
+	uint8_t data[IS31FL3206_TWI_BUFFER_SIZE];   /**< Data buffer. */
+} is31fl3206_twi_write_t;
+
 static void twi_mngr_callback(ret_code_t result, void * p_user_data)
 {
 	NRF_LOG_INFO("Result: %x", result);
@@ -33,41 +39,28 @@ static ret_code_t twi_write(is31fl3206_t const * p_is31fl3206,
 	is31fl3206_write.reg_address = reg;
 	memcpy(is31fl3206_write.data, p_data, data_length);
 
-	data_length++; //Add the size of register byte
+	data_length++; //Add the size of register address byte
 
-	nrf_twi_mngr_transfer_t twi_transfero =
-	    NRF_TWI_MNGR_WRITE(
-	        p_is31fl3206->i2c_address,
-	        (uint8_t *)&is31fl3206_write,
-	        data_length,
-	        0
-	    );
-
-	nrf_twi_mngr_transaction_t twi_transactiono =
+	dk_twi_mngr_transaction_t twi_transaction =
 	{
-		.callback            = twi_mngr_callback,
-		.p_user_data         = (void *)p_is31fl3206,
-		.p_transfers         = &twi_transfer,
-		.number_of_transfers = 1,
-		.p_required_twi_cfg  = NULL
+		.i2c_address    = p_is31fl3206->i2c_address,
+		.p_data         = (uint8_t *)&is31fl3206_write,
+		.data_length    = data_length,
+		.callback       = twi_mngr_callback,
+		.p_user_data    = (void *)p_is31fl3206
 	};
 	
-	memcpy(&twi_transfer, &twi_transfero, sizeof(twi_transfero));
-	memcpy(&twi_transaction, &twi_transactiono, sizeof(twi_transactiono));
-
-	return nrf_twi_mngr_schedule(p_is31fl3206->p_twi_mngr_instance,
+	return dk_twi_mngr_schedule(p_is31fl3206->p_dk_twi_mngr_instance,
 	                             &twi_transaction);
+
+	// return nrf_twi_mngr_schedule(p_is31fl3206->p_twi_mngr_instance,
+	//                              &twi_transaction);
 	// return nrf_twi_mngr_perform(p_is31fl3206->p_twi_mngr_instance, NULL, &twi_transfer, 1, NULL);
 }
 
 ret_code_t is31fl3206_init(is31fl3206_t * p_is31fl3206)
 {
-	ret_code_t err_code;
-
 	NRF_LOG_INFO("Initialising IS31FL3206");
-
-	err_code = app_fifo_init(&m_fifo, m_fifo_buffer, IS31FL3206_FIFO_SIZE);
-	VERIFY_SUCCESS(err_code);
 
 	return is31fl3206_reset(p_is31fl3206);
 }

@@ -63,11 +63,11 @@ typedef struct
 	uint8_t                 i2c_address;            /**< Device I2C slave address. */
 } is31fl3206_t;
 
-#define IS31FL3206_DEF(_name, _p_twi_mngr_instance, _i2c_address)   \
-static is31fl3206_t _name =                                         \
-{                                                                   \
-	.p_twi_mngr_instance = _p_twi_mngr_instance,                    \
-	.i2c_address = _i2c_address                                     \
+#define IS31FL3206_DEF(_name, _p_dk_twi_mngr_instance, _i2c_address)    \
+static is31fl3206_t _name =                                             \
+{                                                                       \
+	.p_dk_twi_mngr_instance = _p_dk_twi_mngr_instance,                  \
+	.i2c_address = _i2c_address                                         \
 };
 
 typedef enum
