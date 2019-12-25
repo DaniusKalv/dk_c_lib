@@ -11,6 +11,7 @@
 
 #include "is31fl3206.h"
 #include "is31fl3206-internal.h"
+#include "is31fl3206-gamma.h"
 
 #define NRF_LOG_MODULE_NAME IS31FL3206
 #include "nrf_log.h"
@@ -24,9 +25,28 @@ typedef struct
 	uint8_t data[IS31FL3206_TWI_BUFFER_SIZE];   /**< Data buffer. */
 } is31fl3206_twi_write_t;
 
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+#if(DK_IS31FL3206_GAMMA_STEPS == 32)
+static m_gamma[] = IS31FL3206_GAMMA32;
+#elif(DK_IS31FL3206_GAMMA_STEPS == 64)
+static m_gamma[] = IS31FL3206_GAMMA64;
+#else
+#error DK_IS31FL3206_GAMMA_STEPS defined incorrectly or not defined
+#endif
+#endif
+
 static void twi_mngr_callback(ret_code_t result, void * p_user_data)
 {
-	NRF_LOG_INFO("Result: %x", result);
+	if(result != NRF_SUCCESS)
+	{
+		is31fl3206_t * p_is31fl3206 = (is31fl3206_t *)p_user_data;
+
+		NRF_LOG_ERROR("Error: 0x%x", result);
+		if(p_is31fl3206->error_handler)
+		{
+			p_is31fl3206->error_handler(result, p_is31fl3206);
+		}
+	}
 }
 
 static ret_code_t twi_write(is31fl3206_t const * p_is31fl3206,
@@ -47,11 +67,25 @@ static ret_code_t twi_write(is31fl3206_t const * p_is31fl3206,
 	                             &twi_transaction);
 }
 
-ret_code_t is31fl3206_init(is31fl3206_t * p_is31fl3206)
+ret_code_t is31fl3206_init(is31fl3206_t                 * p_is31fl3206,
+                           is31fl3206_all_out_current_t * p_all_out_current,
+                           is31fl3206_error_handler_t     error_handler)
 {
+	ret_code_t err_code;
 	NRF_LOG_INFO("Initialising IS31FL3206");
 
-	return is31fl3206_reset(p_is31fl3206);
+	p_is31fl3206->error_handler = error_handler;
+
+	err_code = is31fl3206_reset(p_is31fl3206);
+	VERIFY_SUCCESS(err_code);
+
+	if(p_all_out_current)
+	{
+		err_code = is31fl3206_set_all_out_current(p_is31fl3206, p_all_out_current);
+		VERIFY_SUCCESS(err_code);
+	}
+
+	return NRF_SUCCESS;
 }
 
 ret_code_t is31fl3206_shutdown(is31fl3206_t * p_is31fl3206, bool shutdown)
@@ -69,18 +103,66 @@ ret_code_t is31fl3206_shutdown(is31fl3206_t * p_is31fl3206, bool shutdown)
 	                 p_shutdown_data_size);
 }
 
-ret_code_t is31fl3206_set_out_pwm(is31fl3206_t * p_is31fl3206,
-                                  is31fl3206_out_t out,
-                                  uint8_t pwm)
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+ret_code_t is31fl3206_set_out_pwm(is31fl3206_t    * p_is31fl3206,
+                                  is31fl3206_out_t  out,
+                                  uint8_t           pwm,
+                                  bool              gamma_correction)
+#else
+ret_code_t is31fl3206_set_out_pwm(is31fl3206_t    * p_is31fl3206,
+                                  is31fl3206_out_t  out,
+                                  uint8_t           pwm)
+#endif
 {
 	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_pwm_data, sizeof(uint8_t));
 
 	p_pwm_data->reg_address = IS31FL3206_PWM0 + out;
+
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+	if(pwm >= sizeof(m_gamma))
+	{
+		pwm = sizeof(m_gamma) - 1;
+	}
+
+	p_pwm_data->data[0] = m_gamma[pwm];
+#else
 	p_pwm_data->data[0] = pwm;
+#endif
 
 	return twi_write(p_is31fl3206,
 	                 p_pwm_data,
 	                 p_pwm_data_size);
+}
+
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+ret_code_t is31fl3206_set_all_out_pwm(is31fl3206_t                * p_is31fl3206,
+                                      is31fl3206_all_out_pwm_t    * p_all_out_pwm,
+                                      bool                          gamma_correction)
+#else
+ret_code_t is31fl3206_set_all_out_pwm(is31fl3206_t                * p_is31fl3206,
+                                      is31fl3206_all_out_pwm_t    * p_all_out_pwm)
+#endif
+{
+	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_out_pwm_data, sizeof(is31fl3206_all_out_pwm_t));
+
+	p_out_pwm_data->reg_address = IS31FL3206_PWM0;
+	memcpy(p_out_pwm_data->data, p_all_out_pwm->pwm, sizeof(is31fl3206_all_out_pwm_t));
+
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+	for(uint8_t i = 0; i < sizeof(is31fl3206_all_out_pwm_t); i++)
+	{
+		if(p_out_pwm_data->data[i] >= sizeof(m_gamma))
+		{
+			p_out_pwm_data->data[i] = sizeof(m_gamma) - 1;
+		}
+
+		p_out_pwm_data->data[i] = m_gamma[p_out_pwm_data->data[i]];
+	}
+#endif
+
+	return twi_write(p_is31fl3206,
+	                 p_out_pwm_data,
+	                 p_out_pwm_data_size);
 }
 
 ret_code_t is31fl3206_update(is31fl3206_t * p_is31fl3206)
@@ -97,24 +179,35 @@ ret_code_t is31fl3206_update(is31fl3206_t * p_is31fl3206)
 
 ret_code_t is31fl3206_set_out_current(is31fl3206_t * p_is31fl3206,
 	                                  is31fl3206_out_t out,
-	                                  is31fl3206_led_current_t led_current)
+	                                  is31fl3206_out_current_t out_current)
 {
-	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_led_current_data, sizeof(is31fl3206_led_ctrl_t));
+	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_out_current_data, sizeof(is31fl3206_led_ctrl_t));
 
-	p_led_current_data->reg_address = IS31FL3206_LED_CTRL0 + out;
-	is31fl3206_led_ctrl_t * p_led_current_reg = (is31fl3206_led_ctrl_t *)p_led_current_data->data;
+	p_out_current_data->reg_address = IS31FL3206_LED_CTRL0 + out;
+	is31fl3206_led_ctrl_t * p_out_current_reg = (is31fl3206_led_ctrl_t *)p_out_current_data->data;
 
-	memset(p_led_current_reg, 0, sizeof(is31fl3206_led_ctrl_t));
-
-	p_led_current_reg->led_current = led_current;
+	p_out_current_reg->out_current = out_current;
 
 	return twi_write(p_is31fl3206,
-	                 p_led_current_data,
-	                 p_led_current_data_size);
+	                 p_out_current_data,
+	                 p_out_current_data_size);
 }
 
-ret_code_t is31fl3206_shutdown_leds(is31fl3206_t * p_is31fl3206,
-                                    bool shutdown_leds)
+ret_code_t is31fl3206_set_all_out_current(is31fl3206_t                 * p_is31fl3206,
+                                          is31fl3206_all_out_current_t * p_all_out_current)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_all_out_current_data, sizeof(is31fl3206_all_out_current_t));
+
+	p_all_out_current_data->reg_address = IS31FL3206_LED_CTRL0;
+	memcpy(p_all_out_current_data->data, p_all_out_current, sizeof(is31fl3206_all_out_current_t));
+
+	return twi_write(p_is31fl3206,
+	                 p_all_out_current_data,
+	                 p_all_out_current_data_size);
+}
+
+ret_code_t is31fl3206_shutdown_outputs(is31fl3206_t * p_is31fl3206,
+                                       bool shutdown_outputs)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(is31fl3206_twi_write_t, p_global_ctrl_data, sizeof(is31fl3206_global_ctrl_t));
 
@@ -123,7 +216,7 @@ ret_code_t is31fl3206_shutdown_leds(is31fl3206_t * p_is31fl3206,
 
 	memset(p_global_ctrl, 0, sizeof(is31fl3206_global_ctrl_t));
 
-	p_global_ctrl->shutdown_leds = shutdown_leds;
+	p_global_ctrl->shutdown_leds = shutdown_outputs;
 
 	return twi_write(p_is31fl3206,
 	                 p_global_ctrl_data,

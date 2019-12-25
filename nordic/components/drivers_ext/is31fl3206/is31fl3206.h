@@ -14,10 +14,14 @@
 
 #include "dk_twi_mngr.h"
 #include "sdk_errors.h"
+#include "dk_config.h"
+#include "dk_common.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct is31fl3206_s is31fl3206_t; // Forward declaration
 
 typedef struct
 {
@@ -27,16 +31,16 @@ typedef struct
 
 typedef enum
 {
-	IS31FL3206_LED_CURRENT_0        = 0x00,
-	IS31FL3206_LED_CURRENT_MAX      = 0x10,
-	IS31FL3206_LED_CURRENT_11_12    = 0x11,
-	IS31FL3206_LED_CURRENT_9_12     = 0x12,
-	IS31FL3206_LED_CURRENT_7_12     = 0x13,
-} is31fl3206_led_current_t;
+	IS31FL3206_OUT_CURRENT_0        = 0x00,
+	IS31FL3206_OUT_CURRENT_MAX      = 0x10,
+	IS31FL3206_OUT_CURRENT_11_12    = 0x11,
+	IS31FL3206_OUT_CURRENT_9_12     = 0x12,
+	IS31FL3206_OUT_CURRENT_7_12     = 0x13,
+} is31fl3206_out_current_t;
 
 typedef struct
 {
-	is31fl3206_led_current_t led_current;
+	is31fl3206_out_current_t out_current:8;
 } is31fl3206_led_ctrl_t;
 
 typedef struct
@@ -57,17 +61,21 @@ typedef struct
 	is31fl3206_ofs_t    ofs         :1;
 } is31fl3206_out_frequency_t;
 
-typedef struct
+typedef void (* is31fl3206_error_handler_t)(ret_code_t err_code, is31fl3206_t * p_is31fl3206);
+
+struct is31fl3206_s
 {
-	const dk_twi_mngr_t   * p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
-	uint8_t                 i2c_address;            /**< Device I2C slave address. */
-} is31fl3206_t;
+	const dk_twi_mngr_t       * p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
+	uint8_t                     i2c_address;            /**< Device I2C slave address. */
+	is31fl3206_error_handler_t  error_handler;
+};
 
 #define IS31FL3206_DEF(_name, _p_dk_twi_mngr_instance, _i2c_address)    \
 static is31fl3206_t _name =                                             \
 {                                                                       \
 	.p_dk_twi_mngr_instance = _p_dk_twi_mngr_instance,                  \
-	.i2c_address = _i2c_address                                         \
+	.i2c_address = _i2c_address,                                        \
+	.error_handler = NULL                                               \
 };
 
 typedef enum
@@ -87,22 +95,53 @@ typedef enum
 	IS31FL3206_OUT_AMOUNT,
 } is31fl3206_out_t;
 
-ret_code_t is31fl3206_init(is31fl3206_t * p_is31fl3206);
+typedef struct
+{
+	uint8_t pwm[IS31FL3206_OUT_AMOUNT];
+} is31fl3206_all_out_pwm_t;
+
+typedef struct
+{
+	is31fl3206_out_current_t out_current[IS31FL3206_OUT_AMOUNT];
+} is31fl3206_all_out_current_t;
+
+ret_code_t is31fl3206_init(is31fl3206_t                 * p_is31fl3206,
+                           is31fl3206_all_out_current_t * p_all_out_current,
+                           is31fl3206_error_handler_t     error_handler);
 
 ret_code_t is31fl3206_shutdown(is31fl3206_t * p_is31fl3206, bool shutdown);
 
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+ret_code_t is31fl3206_set_out_pwm(is31fl3206_t * p_is31fl3206,
+                                  is31fl3206_out_t out,
+                                  uint8_t pwm,
+                                  bool gamma_correction);
+#else
 ret_code_t is31fl3206_set_out_pwm(is31fl3206_t * p_is31fl3206,
                                   is31fl3206_out_t out,
                                   uint8_t pwm);
+#endif
+
+#if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
+ret_code_t is31fl3206_set_all_out_pwm(is31fl3206_t                * p_is31fl3206,
+                                      is31fl3206_all_out_pwm_t    * p_all_out_pwm,
+                                      bool                          gamma_correction);
+#else
+ret_code_t is31fl3206_set_all_out_pwm(is31fl3206_t                * p_is31fl3206,
+                                      is31fl3206_all_out_pwm_t    * p_all_out_pwm);
+#endif
 
 ret_code_t is31fl3206_update(is31fl3206_t * p_is31fl3206);
 
 ret_code_t is31fl3206_set_out_current(is31fl3206_t * p_is31fl3206,
                                       is31fl3206_out_t out,
-                                      is31fl3206_led_current_t led_current);
+                                      is31fl3206_out_current_t out_current);
 
-ret_code_t is31fl3206_shutdown_leds(is31fl3206_t * p_is31fl3206,
-                                    bool shutdown_leds);
+ret_code_t is31fl3206_set_all_out_current(is31fl3206_t                 * p_is31fl3206,
+                                          is31fl3206_all_out_current_t * p_all_out_current);
+
+ret_code_t is31fl3206_shutdown_outputs(is31fl3206_t * p_is31fl3206,
+                                       bool shutdown_outputs);
 
 ret_code_t is31fl3206_set_out_frequency(is31fl3206_t * p_is31fl3206,
                                         is31fl3206_ofs_t output_frequency);
