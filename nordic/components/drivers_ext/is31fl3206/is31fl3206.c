@@ -27,9 +27,9 @@ typedef struct
 
 #if(DK_CHECK(DK_IS31FL3206_GAMMA_ENABLED))
 #if(DK_IS31FL3206_GAMMA_STEPS == 32)
-static m_gamma[] = IS31FL3206_GAMMA32;
+static uint8_t m_gamma[] = IS31FL3206_GAMMA32;
 #elif(DK_IS31FL3206_GAMMA_STEPS == 64)
-static m_gamma[] = IS31FL3206_GAMMA64;
+static uint8_t m_gamma[] = IS31FL3206_GAMMA64;
 #else
 #error DK_IS31FL3206_GAMMA_STEPS defined incorrectly or not defined
 #endif
@@ -84,6 +84,7 @@ ret_code_t is31fl3206_init(is31fl3206_t                 * p_is31fl3206,
 		err_code = is31fl3206_set_all_out_current(p_is31fl3206, p_all_out_current);
 		VERIFY_SUCCESS(err_code);
 	}
+
 
 	return NRF_SUCCESS;
 }

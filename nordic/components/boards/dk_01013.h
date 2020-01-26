@@ -18,6 +18,7 @@ extern "C" {
 #endif
 
 #include "nrf_gpio.h"
+#include "is31fl3206.h"
 
 //Force sensor
 #define DK_BSP_FS_IN            3   /**< Force sensor input (analog) pin. */
@@ -32,6 +33,13 @@ extern "C" {
 //IS31FL3206 LED driver
 #define DK_BSP_IS31FL3206_EN            6   /**< IS31FL3206 LED driver enable pin. */
 #define DK_BSP_IS31FL3206_I2C_ITERFACE  0   /**< I2C interface instance that IS31FL3206 is connected to. */
+
+#define DK_BSP_LED_OUT_PATTERN_GRB  /**< LEDs are connected to IS31fl3206 outputs using GRB pattern. */
+#define DK_BSP_RGB_LED_AMOUNT 4     /**< RGB LED amount. */
+
+#define DK_BSP_RED_LED_CURRENT_LIMIT    IS31FL3206_OUT_CURRENT_11_12    /**< Current resulting in ~14mA. */
+#define DK_BSP_GREEN_LED_CURRENT_LIMIT  IS31FL3206_OUT_CURRENT_9_12     /**< Current resulting in 12mA. */
+#define DK_BSP_BLUE_LED_CURRENT_LIMIT   IS31FL3206_OUT_CURRENT_MAX      /**< Current resulting in 16mA. */
 
 //MLX9061 infrared thermometer
 #define DK_BSP_MLX9061_I2C_ITERFACE     0   /**< I2C interface instance that MLX9061 is connected to. */

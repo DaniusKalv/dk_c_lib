@@ -40,7 +40,7 @@ extern "C" {
 	if(_buff_name == NULL) return NRF_ERROR_NO_MEM
 
 #define DK_TWI_MNGR_BUFF_ALLOC(_type, _name, _data_size)                            \
-	uint32_t CONCAT_2(_name, _size) = _data_size + 1;                               \
+	const uint32_t CONCAT_2(_name, _size) = _data_size + 1;                         \
 	_type * _name = (_type *)dk_twi_mngr_data_buffer_alloc(CONCAT_2(_name, _size)); \
 	DK_TWI_MNGR_BUFF_CHECK(_name)
 
