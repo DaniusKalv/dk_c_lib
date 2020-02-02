@@ -22,6 +22,7 @@ extern "C" {
 
 //Force sensor
 #define DK_BSP_FS_IN            3   /**< Force sensor input (analog) pin. */
+#define DK_BSP_FS_IN_AIN        1   /**< Force sensor analog input . */
 
 //I2C interfaces
 #define DK_BSP_I2C_SCL0         26  /**< I2C interface 0 SCL pin. */
