@@ -22,7 +22,7 @@ typedef struct
 	uint8_t     hw_v;       /**< Hardware version. */
 	uint8_t     hw_id;      /**< Hardware ID. */
 	uint16_t    _padding0;
-} hug_uicr_hw_info_t;
+} dk_uicr_hw_info_t;
 
 #ifdef NRF52840_XXAA
 
@@ -31,7 +31,7 @@ typedef struct
 {
 	uint32_t vout       :3;     /**< Vout value. */
 	uint32_t _padding0  :29;
-} hug_uicr_regout0_t;
+} dk_uicr_regout0_t;
 
 #endif
 

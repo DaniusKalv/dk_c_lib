@@ -10,10 +10,13 @@
  */
 
 #include "dk_uicr.h"
+
+#ifdef NRF52840_XXAA
 #include "dk_config.h"
+#endif
 
 /* Write HW ID and HW version values to UICR. */
-volatile hug_uicr_hw_info_t hug_uicr_hw_info __attribute__ ((section(".dk_uicr_hw_info"))) = 
+volatile dk_uicr_hw_info_t dk_uicr_hw_info __attribute__ ((section(".dk_uicr_hw_info"))) = 
 {
 	.hw_id  = HW_ID,
 	.hw_v   = HW_VERSION
@@ -21,8 +24,8 @@ volatile hug_uicr_hw_info_t hug_uicr_hw_info __attribute__ ((section(".dk_uicr_h
 
 #ifdef NRF52840_XXAA
 
-/* Write HUG_UICR_REGOUT0 value to vout UICR register. */
-volatile hug_uicr_regout0_t hug_uicr_regout0 __attribute__ ((section(".uicr_regout0"))) =
+/* Write DK_UICR_REGOUT0 value to vout UICR register. */
+volatile dk_uicr_regout0_t dk_uicr_regout0 __attribute__ ((section(".uicr_regout0"))) =
 {
 	.vout = DK_UICR_REGOUT0
 };
