@@ -21,6 +21,8 @@
 #include "dk_01013.h"
 #elif defined(DK_01017)
 #include "dk_01017.h"
+#elif defined(DK_01021)
+#include "dk_01021.h"
 #else
 #error "Board is not defined"
 #endif
