@@ -20,5 +20,10 @@
 #define DK_BLE_UUID_ACC_ALERT_CHARACTERISTIC        0x4B26  /**< Accelerometer alert characteristic UUID. */
 #define DK_BLE_UUID_ACC_CONFIG_CHARACTERISTIC       0x4B27  /**< Accelerometer configuration characteristic UUID. */
 
+// Gyro service
+#define DK_BLE_UUID_GYRO_SERVICE                    0x3044  /**< Gyro service UUID. */
+#define DK_BLE_UUID_GYRO_RAW_CHARACTERISTIC         0x3045  /**< Gyro raw data characteristic UUID. */
+#define DK_BLE_UUID_GYRO_ALERT_CHARACTERISTIC       0x3046  /**< Gyro alert characteristic UUID. */
+#define DK_BLE_UUID_GYRO_CONFIG_CHARACTERISTIC      0x3047  /**< Gyro configuration characteristic UUID. */
 
 #endif // DK_BLE_UUIDS_H
