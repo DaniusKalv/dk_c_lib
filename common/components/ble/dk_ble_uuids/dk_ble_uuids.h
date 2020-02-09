@@ -31,4 +31,9 @@
 #define DK_BLE_UUID_MAG_RAW_CHARACTERISTIC          0xCB27  /**< Mag raw data characteristic UUID. */
 #define DK_BLE_UUID_MAG_ALERT_CHARACTERISTIC        0xCB28  /**< Mag alert characteristic UUID. */
 #define DK_BLE_UUID_MAG_CONFIG_CHARACTERISTIC       0xCB29  /**< Mag configuration characteristic UUID. */
+
+// Mr Pickle service
+#define DK_BLE_UUID_MR_PICKLE_SERVICE               0x8746  /**< Mr Pickle service UUID. */
+#define DK_BLE_UUID_MR_PICKLE_MODE_CHARACTERISTIC   0x8747  /**< Mr Pickle mode characterisitic UUID. */
+
 #endif // DK_BLE_UUIDS_H
