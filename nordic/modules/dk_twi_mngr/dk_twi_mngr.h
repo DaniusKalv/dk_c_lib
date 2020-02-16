@@ -44,38 +44,36 @@ extern "C" {
 	_type * _name = (_type *)dk_twi_mngr_data_buffer_alloc(CONCAT_2(_name, _size)); \
 	DK_TWI_MNGR_BUFF_CHECK(_name)
 
-#define DK_TWI_MNGR_NO_STOP     0x01
-
-#define DK_TWI_MNGR_WRITE(address, p_data, length, flags)                       \
-	DK_TWI_MNGR_TRANSFER(DK_TWI_MNGR_WRITE_OP(address), p_data, length, flags)
-
-#define DK_TWI_MNGR_READ(address, p_data, length, flags)                        \
-	DK_TWI_MNGR_TRANSFER(DK_TWI_MNGR_READ_OP(address), p_data, length, flags)
-
-#define DK_TWI_MNGR_TRANSFER(_operation, _p_data, _length, _flags)  \
-{                                                                   \
-	.p_data    = (uint8_t *)(_p_data),                              \
-	.length    = _length,                                           \
-	.operation = _operation,                                        \
-	.flags     = _flags                                             \
+#define DK_TWI_MNGR_TX(address, p_data, length, _flags)                         \
+{                                                                               \
+	.transfer_description = NRFX_TWI_XFER_DESC_TX(address, p_data, length),     \
+	.flags                = (_flags)                                            \
 }
 
-#define DK_TWI_MNGR_WRITE_OP(address) (((address) << 1) | 0)
+#define DK_TWI_MNGR_RX(address, p_data, length, _flags)                         \
+{                                                                               \
+	.transfer_description = NRFX_TWI_XFER_DESC_RX(address, p_data, length),     \
+	.flags                = (_flags)                                            \
+}
 
-#define DK_TWI_MNGR_READ_OP(address) (((address) << 1) | 1)
+#define DK_TWI_MNGR_TX_RX(address, p_tx, tx_len, p_rx, rx_len, _flags)                      \
+{                                                                                           \
+	.transfer_description = NRFX_TWI_XFER_DESC_TXRX(address, p_tx, tx_len, p_rx, rx_len),   \
+	.flags                = (_flags)                                                        \
+}
 
-#define DK_TWI_MNGR_IS_READ_OP(operation) ((operation) & 1)
-
-#define DK_TWI_MNGR_OP_ADDRESS(operation) ((operation) >> 1)
+#define DK_TWI_MNGR_TX_TX(address, p_tx, tx_len, p_tx2, tx_len2, _flags)                    \
+{                                                                                           \
+	.transfer_description = NRFX_TWI_XFER_DESC_TXTX(address, p_tx, tx_len, p_tx2, tx_len2), \
+	.flags                = (_flags)                                                        \
+}
 
 typedef void (* dk_twi_mngr_callback_t)(ret_code_t result, void * p_user_data);
 
 typedef struct
 {
-	uint8_t * p_data;                               ///< Pointer to a buffer holding transfer data.
-	uint8_t   length;                               ///< Number of bytes to transfer.
-	uint8_t   operation;                            ///< Device address combined with transfer direction.
-	uint8_t   flags;                                ///< Transfer flags (see @ref NRF_TWI_MNGR_NO_STOP).
+	nrfx_twi_xfer_desc_t    transfer_description;   ///< Transfer description.
+	uint8_t                 flags;                  ///< Transfer flags (see @ref NRFX_TWI_FLAG_TX_NO_STOP).
 } dk_twi_mngr_transfer_t;
 
 typedef struct

@@ -39,22 +39,8 @@ static ret_code_t start_transfer(dk_twi_mngr_t const * p_dk_twi_mngr)
 	// [use a local variable to avoid using two volatile variables in one
 	//  expression]
 	dk_twi_mngr_transfer_t transfer = p_cb->current_transaction.transfer;
-	uint8_t address = DK_TWI_MNGR_OP_ADDRESS(transfer.operation);
 
-	nrfx_twi_xfer_desc_t xfer_desc;
-	uint32_t             flags;
-
-	xfer_desc.address        = address;
-	xfer_desc.p_primary_buf  = transfer.p_data;
-	xfer_desc.primary_length = transfer.length;
-
-	xfer_desc.type = DK_TWI_MNGR_IS_READ_OP(transfer.operation) ? NRFX_TWI_XFER_RX :
-	    NRFX_TWI_XFER_TX;
-	xfer_desc.p_secondary_buf = NULL;
-	xfer_desc.secondary_length = 0;
-	flags = (transfer.flags & DK_TWI_MNGR_NO_STOP) ? NRFX_TWI_FLAG_TX_NO_STOP : 0;
-
-	return nrfx_twi_xfer(&p_dk_twi_mngr->twi, &xfer_desc, flags);
+	return nrfx_twi_xfer(&p_dk_twi_mngr->twi, &transfer.transfer_description, transfer.flags);
 }
 
 static void transaction_end_signal(dk_twi_mngr_t const * p_dk_twi_mngr,
@@ -62,14 +48,19 @@ static void transaction_end_signal(dk_twi_mngr_t const * p_dk_twi_mngr,
 {
 	ASSERT(p_dk_twi_mngr != NULL);
 
-	nrf_free(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.p_data);
-
 	if (p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.callback)
 	{
 		// [use a local variable to avoid using two volatile variables in one
 		//  expression]
 		void * p_user_data = p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.p_user_data;
 		p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.callback(result, p_user_data);
+	}
+
+	nrf_free(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_primary_buf);
+
+	if(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_secondary_buf != NULL)
+	{
+		nrf_free(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_secondary_buf);
 	}
 }
 
@@ -118,6 +109,8 @@ static void start_pending_transaction(dk_twi_mngr_t const * p_dk_twi_mngr,
 				return;
 			}
 
+			NRF_LOG_ERROR("Failed to start transaction 0x%x", result);
+
 			// Transfer failed to start - notify user that this transaction
 			// cannot be started and try with next one (in next iteration of
 			// the loop).
@@ -145,6 +138,7 @@ static void twi_event_handler(nrfx_twi_evt_t const * p_event,
 	}
 	else
 	{
+		NRF_LOG_ERROR("0x%x", p_event->type);
 		result = NRF_ERROR_INTERNAL;
 	}
 
