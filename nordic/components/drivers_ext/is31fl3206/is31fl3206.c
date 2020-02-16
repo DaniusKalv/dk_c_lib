@@ -19,7 +19,7 @@ NRF_LOG_MODULE_REGISTER();
 
 #define IS31FL3206_TWI_BUFFER_SIZE      IS31FL3206_OUT_AMOUNT
 
-typedef struct 
+typedef struct
 {
 	uint8_t reg_address;                        /**< Register address. */
 	uint8_t data[IS31FL3206_TWI_BUFFER_SIZE];   /**< Data buffer. */
@@ -57,10 +57,7 @@ static ret_code_t twi_write(is31fl3206_t const * p_is31fl3206,
 	{
 		.callback           = twi_mngr_callback,
 		.p_user_data        = (void *)p_is31fl3206,
-		.transfer.p_data    = (uint8_t *) p_twi_write,
-		.transfer.length    = buffer_size,
-		.transfer.operation = DK_TWI_MNGR_WRITE_OP(p_is31fl3206->i2c_address),
-		.transfer.flags     = 0
+		.transfer           = DK_TWI_MNGR_TX(p_is31fl3206->i2c_address, p_twi_write, buffer_size, 0)
 	};
 
 	return dk_twi_mngr_schedule(p_is31fl3206->p_dk_twi_mngr_instance,
@@ -96,7 +93,7 @@ ret_code_t is31fl3206_shutdown(is31fl3206_t * p_is31fl3206, bool shutdown)
 	p_shutdown_data->reg_address = IS31FL3206_SHUTDOWN;
 	is31fl3206_shutdown_t * p_shutdown_reg = (is31fl3206_shutdown_t *)p_shutdown_data->data;
 
-	memset(p_shutdown_data, 0, sizeof(is31fl3206_shutdown_t));
+	memset(p_shutdown_reg, 0, sizeof(is31fl3206_shutdown_t));
 	p_shutdown_reg->normal_operation = !shutdown;
 
 	return twi_write(p_is31fl3206, 
