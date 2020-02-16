@@ -35,7 +35,7 @@ static uint8_t m_gamma[] = IS31FL3206_GAMMA64;
 #endif
 #endif
 
-static void twi_mngr_callback(ret_code_t result, void * p_user_data)
+static void twi_mngr_callback(ret_code_t result, uint8_t evt, dk_twi_mngr_transfer_t * p_transfer, void * p_user_data)
 {
 	if(result != NRF_SUCCESS)
 	{
