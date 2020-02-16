@@ -43,7 +43,7 @@ extern "C" {
 #define MLX90615_CMD_EEPROM_ID0     MLX90615_CMD_EEPROM(0x0E)   /**< EEPROM ID0 command. */
 
 #define MLX90615_CMD_RAM_TAMB       MLX90615_CMD_RAM(0x06)      /**< RAM ambient temperature command. */
-#define MLX90615_CMD_RAM_TOBJ1      MLX90615_CMD_RAM(0x07)      /**< RAM object temperature command. */
+#define MLX90615_CMD_RAM_TOBJ       MLX90615_CMD_RAM(0x07)      /**< RAM object temperature command. */
 
 #ifdef __cplusplus
 }

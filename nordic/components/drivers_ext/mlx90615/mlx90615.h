@@ -36,7 +36,7 @@ typedef enum
 typedef struct
 {
 	mlx90615_t        * p_mlx90615;
-	mlx90615_evt_type_t evt_type;
+	mlx90615_evt_type_t type;
 	union
 	{
 		int8_t      int8_temp;
