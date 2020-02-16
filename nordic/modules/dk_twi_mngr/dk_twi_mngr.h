@@ -46,7 +46,7 @@ extern "C" {
 
 #define DK_TWI_MNGR_TX(address, p_data, length, _flags)                         \
 {                                                                               \
-	.transfer_description = NRFX_TWI_XFER_DESC_TX(address, p_data, length),     \
+	.transfer_description = NRFX_TWI_XFER_DESC_TX(address, (uint8_t *)p_data, length),     \
 	.flags                = (_flags)                                            \
 }
 
@@ -68,13 +68,13 @@ extern "C" {
 	.flags                = (_flags)                                                        \
 }
 
-typedef void (* dk_twi_mngr_callback_t)(ret_code_t result, void * p_user_data);
-
 typedef struct
 {
 	nrfx_twi_xfer_desc_t    transfer_description;   ///< Transfer description.
 	uint8_t                 flags;                  ///< Transfer flags (see @ref NRFX_TWI_FLAG_TX_NO_STOP).
 } dk_twi_mngr_transfer_t;
+
+typedef void (* dk_twi_mngr_callback_t)(ret_code_t result, uint8_t evt, dk_twi_mngr_transfer_t * p_transfer, void * p_user_data);
 
 typedef struct
 {
@@ -83,6 +83,9 @@ typedef struct
 
 	void                          * p_user_data;
 	///< Pointer to user data to be passed to the callback.
+
+	uint8_t                         event_type;
+	///< This variable can be used to pass event type to the callback.
 
 	dk_twi_mngr_transfer_t          transfer;
 	///< Transfer that is performed in this transaction.

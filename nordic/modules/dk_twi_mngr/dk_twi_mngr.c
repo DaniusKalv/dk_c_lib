@@ -52,16 +52,15 @@ static void transaction_end_signal(dk_twi_mngr_t const * p_dk_twi_mngr,
 	{
 		// [use a local variable to avoid using two volatile variables in one
 		//  expression]
-		void * p_user_data = p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.p_user_data;
-		p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.callback(result, p_user_data);
+		dk_twi_mngr_transaction_t transaction = p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction;
+
+		p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.callback(result, transaction.event_type, &transaction.transfer, transaction.p_user_data);
 	}
 
+	// The secondary buffer will always follow right after the primary buffer, so
+	// in order to free the memory allocated for both buffers only the address of primary
+	// buffer has to be passed to nrf_free function.
 	nrf_free(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_primary_buf);
-
-	if(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_secondary_buf != NULL)
-	{
-		nrf_free(p_dk_twi_mngr->p_dk_twi_mngr_cb->current_transaction.transfer.transfer_description.p_secondary_buf);
-	}
 }
 
 static void start_pending_transaction(dk_twi_mngr_t const * p_dk_twi_mngr,
@@ -202,7 +201,7 @@ ret_code_t dk_twi_mngr_schedule(dk_twi_mngr_t             const * p_dk_twi_mngr,
 	return result;
 }
 
-static void internal_transaction_cb(ret_code_t result, void * p_user_data)
+static void internal_transaction_cb(ret_code_t result, uint8_t evt, dk_twi_mngr_transfer_t * p_transfer, void * p_user_data)
 {
 	dk_twi_mngr_cb_data_t *p_cb_data = (dk_twi_mngr_cb_data_t *)p_user_data;
 
