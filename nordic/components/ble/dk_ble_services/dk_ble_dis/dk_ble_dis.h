@@ -1,11 +1,10 @@
 /**
- * @file dk_ble_dis.h
- * @author Danius Kalvaitis (danius.kalvaitis@gmail.com)
- * @brief Custom DK BLE device information service wraper.
- * @version 0.1
- * @date 2019-10-20
+ * @file        dk_ble_dis.h
+ * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
+ * @version     0.1
+ * @date        2019-10-20
  * 
- * @copyright (c) Danius Kalvaitis 2019 All rights reserved
+ * @copyright   (c) Danius Kalvaitis 2019 All rights reserved
  * 
  */
 
