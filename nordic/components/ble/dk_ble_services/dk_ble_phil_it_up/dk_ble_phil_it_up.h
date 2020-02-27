@@ -21,9 +21,10 @@
 #include "nrf_sdh_ble.h"
 #include "ble_config.h"
 
-#define DK_BLE_PHIL_IT_UP_AMB_CHAR_SIZE    sizeof(float)   /**< Ambient temperature characteristic size (float). */
-#define DK_BLE_PHIL_IT_UP_OBJ_CHAR_SIZE    sizeof(float)   /**< Object temperature characteristic size (float). */
-#define DK_BLE_PHIL_IT_UP_MUG_UP_CHAR_SIZE sizeof(uint8_t) /**< Mug up characteristic size. */
+#define DK_BLE_PHIL_IT_UP_AMB_TEMP_CHAR_SIZE     sizeof(float)   /**< Ambient temperature characteristic size (float). */
+#define DK_BLE_PHIL_IT_UP_MUG_TEMP_CHAR_SIZE     sizeof(float)   /**< Mug temperature characteristic size (float). */
+#define DK_BLE_PHIL_IT_UP_MUG_UP_CHAR_SIZE       sizeof(uint8_t) /**< Mug up characteristic size. */
+#define DK_BLE_PHIL_IT_UP_TARGET_TEMP_CHAR_SIZE  sizeof(float)   /**< Target temperature characteristic size. */
 
 #define ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELCIUS 0x272F  /**< Bluetooth unit celcius code as provided by Bluetooth SIG.*/
 
@@ -38,7 +39,8 @@ typedef enum
 	DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_ENABLED,       /**< Mug temperature characteristic notifications enabled. */
 	DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_DISABLED,      /**< Mug temperature characteristic notifications disabled. */
 	DK_BLE_PHIL_IT_UP_EVT_MUG_UP_NOTIFICATIONS_ENABLED,    /**< Mug Up characteristic notifications enabled. */
-	DK_BLE_PHIL_IT_UP_EVT_MUG_UP_NOTIFICATIONS_DISABLED    /**< Mug Up characteristic notifications disabled. */
+	DK_BLE_PHIL_IT_UP_EVT_MUG_UP_NOTIFICATIONS_DISABLED,   /**< Mug Up characteristic notifications disabled. */
+	DK_BLE_PHIL_IT_UP_EVT_TARGET_TEMP_RX                   /**< Target temperature characteristic value received. */
 } dk_ble_phil_it_up_event_type_t;
 
 /** @brief Phil it Up service event structure. */
@@ -46,14 +48,19 @@ typedef struct
 {
 	dk_ble_phil_it_up_event_type_t evt_type;       /**< Event type. */
 	uint16_t                       conn_handle;    /**< Connection handle. */
+	union
+	{
+		float target_temp;                         /**< Target temperature. */
+	} params;
 } dk_ble_phil_it_up_evt_t;
 
 /** @brief Phil it Up service characteristic handles. */
 typedef struct
 {
-	ble_gatts_char_handles_t amb;       /**< Ambient temperature characteristic handle. */
-	ble_gatts_char_handles_t obj;       /**< Object temperature characteristic handle. */
-	ble_gatts_char_handles_t mug_up;    /**< Mug up characteristic handle. */
+	ble_gatts_char_handles_t amb_temp;      /**< Ambient temperature characteristic handle. */
+	ble_gatts_char_handles_t mug_temp;      /**< Mug temperature characteristic handle. */
+	ble_gatts_char_handles_t mug_up;        /**< Mug up characteristic handle. */
+	ble_gatts_char_handles_t target_temp;   /**< Target temperature characteristic handle. */
 } dk_ble_phil_it_up_char_handles_t;
 
 /** @brief DK Phil it Up Service event handler type. */
@@ -62,20 +69,22 @@ typedef void (*dk_ble_phil_it_up_evt_handler_t)(dk_ble_phil_it_up_evt_t * p_dk_b
 /** @brief Phil it Up service configuration structure. */
 typedef struct
 {
-	dk_ble_phil_it_up_evt_handler_t    evt_handler;        /**< Event handler. */
-	bool                               initial_mug_up_val; /**< Initial mug up characteristic value. */
+	dk_ble_phil_it_up_evt_handler_t    evt_handler;         /**< Event handler. */
+	bool                               initial_mug_up_val;  /**< Initial mug up characteristic value. */
+	float                              initial_target_temp; /**< Initial target temperature value. */
 } dk_ble_phil_it_up_config_t;
 
 /** @brief Phil it Up service structure. */
 struct dk_ble_phil_it_up_s
 {
-	uint8_t                             uuid_type;      /**< UUID type for DK Phil it Up service. */
+	uint8_t                             uuid_type;      /**< UUID type for DK Phil It Up service. */
 	uint16_t                            service_handle; /**< Handle of Phil it Up Service (as provided by the BLE stack). */
 	dk_ble_phil_it_up_char_handles_t    char_handles;   /**< Phil it Up service characteristic handles. */
 	dk_ble_phil_it_up_evt_handler_t     evt_handler;    /**< Event handler. */
 };
 
-/**@brief Macro for defining a DK Phil it Up service instance.
+/**
+ * @brief Macro for defining a DK Phil it Up service instance.
  *
  * @param   _name   Name of the instance.
  * @hideinitializer
@@ -87,7 +96,8 @@ NRF_SDH_BLE_OBSERVER(_name##_obs,                      \
                      dk_ble_phil_it_up_on_ble_evt,     \
                      &_name)
 
-/**@brief       Function for handling the DK Phil it Up Service's BLE events.
+/**
+ * @brief       Function for handling the DK Phil it Up Service's BLE events.
  *
  * @details     The Phil it Up Service expects the application to call this function each time an
  *              event is received from the SoftDevice. This function processes the event if it
