@@ -45,11 +45,11 @@ static void on_write(dk_ble_phil_it_up_t * p_dk_ble_phil_it_up, ble_evt_t const 
 	{
 		if(ble_srv_is_notification_enabled(p_evt_write->data))
 		{
-			dk_ble_phil_it_up_evt.evt_type = DK_BLE_PHIL_IT_UP_EVT_OBJ_NOTIFICATIONS_ENABLED;
+			dk_ble_phil_it_up_evt.evt_type = DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_ENABLED;
 		}
 		else
 		{
-			dk_ble_phil_it_up_evt.evt_type = DK_BLE_PHIL_IT_UP_EVT_OBJ_NOTIFICATIONS_DISABLED;
+			dk_ble_phil_it_up_evt.evt_type = DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_DISABLED;
 		}
 		p_dk_ble_phil_it_up->evt_handler(&dk_ble_phil_it_up_evt);
 	}

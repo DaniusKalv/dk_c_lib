@@ -35,8 +35,8 @@ typedef enum
 {
 	DK_BLE_PHIL_IT_UP_EVT_AMB_NOTIFICATIONS_ENABLED,       /**< Ambient temperature characteristic notifications enabled. */
 	DK_BLE_PHIL_IT_UP_EVT_AMB_NOTIFICATIONS_DISABLED,      /**< Ambient temperature characteristic notifications disabled. */
-	DK_BLE_PHIL_IT_UP_EVT_OBJ_NOTIFICATIONS_ENABLED,       /**< Object temperature characteristic notifications enabled. */
-	DK_BLE_PHIL_IT_UP_EVT_OBJ_NOTIFICATIONS_DISABLED,      /**< Object temperature characteristic notifications disabled. */
+	DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_ENABLED,       /**< Mug temperature characteristic notifications enabled. */
+	DK_BLE_PHIL_IT_UP_EVT_MUG_NOTIFICATIONS_DISABLED,      /**< Mug temperature characteristic notifications disabled. */
 	DK_BLE_PHIL_IT_UP_EVT_MUG_UP_NOTIFICATIONS_ENABLED,    /**< Mug Up characteristic notifications enabled. */
 	DK_BLE_PHIL_IT_UP_EVT_MUG_UP_NOTIFICATIONS_DISABLED    /**< Mug Up characteristic notifications disabled. */
 } dk_ble_phil_it_up_event_type_t;
