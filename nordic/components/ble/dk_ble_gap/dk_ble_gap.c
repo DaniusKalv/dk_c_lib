@@ -9,6 +9,7 @@
  * 
  */
 
+#include <stdio.h> 
 #include "dk_ble_gap.h"
 #include "ble_gap.h"
 #include "ble_config.h"
