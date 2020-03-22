@@ -12,11 +12,15 @@
 #ifndef TLV320AIC3106_H
 #define TLV320AIC3106_H
 
-#include "nrfx_twi.h"
+#include "dk_twi_mngr.h"
+#include "sdk_errors.h"
+#include "dk_config.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct tlv320aic3106_s tlv320aic3106_t; // Forward declaration
 
 typedef enum
 {
@@ -930,13 +934,29 @@ typedef struct
 	tlv320aic3106_dac_quiescent_current_t   dac_quiescent_current   :2;
 } tlv320aic3106_dac_quiescent_current_adj_t;
 
-typedef struct
-{
-	nrfx_twi_t                * p_twi_instance;
-	uint8_t                     i2c_address;
-	tlv320aic3106_active_page_t active_page;
-} tlv320aic3106_t;
+typedef void (* tlv320aic3106_error_handler_t)(ret_code_t err_code, tlv320aic3106_t * p_tlv320aic3106);
 
+struct tlv320aic3106_s
+{
+	const dk_twi_mngr_t           * p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
+	uint8_t                         i2c_address;
+	tlv320aic3106_error_handler_t   error_handler;
+	tlv320aic3106_active_page_t     active_page;
+};
+
+#define TLV320AIC3106_DEF(_name, _p_dk_twi_mngr_instance, _i2c_address) \
+static tlv320aic3106_t _name =                                          \
+{                                                                       \
+	.p_dk_twi_mngr_instance = _p_dk_twi_mngr_instance,                  \
+	.i2c_address            = _i2c_address,                             \
+	.error_handler          = NULL,                                     \
+	.active_page            = TLV320AIC3106_ACTIVE_PAGE_0               \
+};
+
+ret_code_t tlv320aic3106_init(tlv320aic3106_t             * p_tlv320aic3106,
+                              tlv320aic3106_error_handler_t error_handler);
+
+ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106);
 
 #ifdef __cplusplus
 }
