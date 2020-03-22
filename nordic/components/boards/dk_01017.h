@@ -27,8 +27,8 @@ extern "C" {
 #define DK_BSP_OLED_MOSI        6   /**< Oled data pin. */
 
 //I2C Interface
-#define DK_BSP_I2C_SCL          NRF_GPIO_PIN_MAP(1,8)   /**< SCL pin. */
-#define DK_BSP_I2C_SDA          NRF_GPIO_PIN_MAP(0,4)   /**< SDA pin. */
+#define DK_BSP_I2C_SCL0         NRF_GPIO_PIN_MAP(1,8)   /**< SCL pin. */
+#define DK_BSP_I2C_SDA0         NRF_GPIO_PIN_MAP(0,4)   /**< SDA pin. */
 
 //I2S Interface
 #define DK_BSP_I2S_DOUT         NRF_GPIO_PIN_MAP(1,9)   /**< I2S master data out pin. */
@@ -38,8 +38,9 @@ extern "C" {
 #define DK_BSP_I2S_MCLK         NRF_GPIO_PIN_MAP(0,14)  /**< I2S master clock pin. */
 
 //Codec (TLV320AIC3106)
-#define DK_BSP_TLV320_RST       16  /**< TLV320AIC3106 reset (active low) pin. */
-#define DK_BSP_TLV320_INT       18  /**< TLV320AIC3106 interrupt pin. */
+#define DK_BSP_TLV320_RST           16  /**< TLV320AIC3106 reset (active low) pin. */
+#define DK_BSP_TLV320_INT           18  /**< TLV320AIC3106 interrupt pin. */
+#define DK_BSP_TLV320_I2C_ITERFACE  0   /**< I2C interface instance that TLV320 is connected to. */
 
 //Audio amplifier (TPA3220DDW)
 #define DK_BSP_TPA3220_MUTE     17  /**< TPA3220DDW mute (active low) pin. */
