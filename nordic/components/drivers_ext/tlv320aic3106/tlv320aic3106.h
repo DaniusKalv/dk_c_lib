@@ -814,7 +814,7 @@ typedef enum
 typedef struct
 {
 	tlv320aic3106_pll_clk_div_n_t   pllclk_div_n    :4;
-	tlv320aic3106_clk_in_src_t      pllclk_in_in_src:2;
+	tlv320aic3106_clk_in_src_t      pllclk_in_src   :2;
 	tlv320aic3106_clk_in_src_t      clkdiv_in_src   :2;
 } tlv320aic3106_clk_gen_ctrl_t;
 
@@ -957,6 +957,33 @@ ret_code_t tlv320aic3106_init(tlv320aic3106_t             * p_tlv320aic3106,
                               tlv320aic3106_error_handler_t error_handler);
 
 ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106);
+
+ret_code_t tlv320aic3106_set_passive_ana_sig_bypass_sel_pd(tlv320aic3106_t * p_tlv320aic3106,
+                                                           tlv320aic3106_passive_ana_sig_bypass_sel_pd_t * p_bypass);
+
+ret_code_t tlv320aic3106_set_pll_prog_reg_a(tlv320aic3106_t * p_tlv320aic3106,
+                                            tlv320aic3106_pll_prog_reg_a_t * p_pll_prog_reg_a);
+
+ret_code_t tlv320aic3106_set_datapath(tlv320aic3106_t * p_tlv320aic3106,
+                                      tlv320aic3106_datapath_setup_t * p_datapath_setup);
+
+ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                     tlv320aic3106_ac_pwr_and_out_drv_ctrl_t * p_ac_pwr_and_out_drv_ctrl);
+
+ret_code_t tlv320aic3106_set_dac_out_switch_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                 tlv320aic3106_dac_out_switch_ctrl_t * p_dac_out_switch_ctrl);
+
+ret_code_t tlv320aic3106_set_left_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                     tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl);
+
+ret_code_t tlv320aic3106_set_right_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl);
+
+ret_code_t tlv320aic3106_set_gpio_ctrl_b(tlv320aic3106_t * p_tlv320aic3106,
+                                         tlv320aic3106_gpio_ctrl_b_t * p_gpio_ctrl_b);
+
+ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                          tlv320aic3106_clk_gen_ctrl_t * p_clk_gen_ctrl);
 
 #ifdef __cplusplus
 }

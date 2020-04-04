@@ -195,33 +195,11 @@ static ret_code_t tlv320aic3106_page_select_set(tlv320aic3106_t           * p_tl
 ret_code_t tlv320aic3106_init(tlv320aic3106_t * p_tlv320aic3106,
                               tlv320aic3106_error_handler_t error_handler)
 {
-	ret_code_t err_code;
-	tlv320aic3106_passive_ana_sig_bypass_sel_pd_t bypass =
-	{
-		.line1lp_routed_to_left_lop  = true,
-		.line1lm_routed_to_left_lom  = true,
-		.line2lp_routed_to_left_lop  = false,
-		.line2lm_routed_to_left_lom  = false,
-		.line1rp_routed_to_right_lop = true,
-		.line1rm_routed_to_right_lom = true,
-		.line2rp_routed_to_right_lop = false,
-		.line2rm_routed_to_right_lom = false
-	};
-
 	NRF_LOG_INFO("Initializing TLV320AIC3106");
 
 	p_tlv320aic3106->error_handler = error_handler;
 
-	err_code = tlv320aic3106_soft_rst(p_tlv320aic3106);
-	VERIFY_SUCCESS(err_code);
-
-	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_bypass, sizeof(bypass));
-	p_bypass->reg_address = TLV320AIC3106_PASSIVE_ANA_SIG_BYPASS_SEL_PD;
-	memcpy(p_bypass->data, &bypass, sizeof(p_bypass->data));
-
-	return twi_write(p_tlv320aic3106,
-	                 p_bypass,
-	                 p_bypass_size);
+	return tlv320aic3106_soft_rst(p_tlv320aic3106);
 }
 
 ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106)
@@ -235,3 +213,106 @@ ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106)
 	                 p_soft_rst_size);
 	// p_tlv320aic3106->active_page = TLV320AIC3106_ACTIVE_PAGE_0; // TODO: Set active page to 0 after successful soft reset
 }
+
+ret_code_t tlv320aic3106_set_passive_ana_sig_bypass_sel_pd(tlv320aic3106_t * p_tlv320aic3106,
+                                                           tlv320aic3106_passive_ana_sig_bypass_sel_pd_t * p_bypass)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_bypass_cmd, sizeof(tlv320aic3106_passive_ana_sig_bypass_sel_pd_t));
+	p_bypass_cmd->reg_address = TLV320AIC3106_PASSIVE_ANA_SIG_BYPASS_SEL_PD;
+	memcpy(p_bypass_cmd->data, p_bypass, sizeof(tlv320aic3106_passive_ana_sig_bypass_sel_pd_t));
+
+	return twi_write(p_tlv320aic3106, p_bypass_cmd, p_bypass_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_pll_prog_reg_a(tlv320aic3106_t * p_tlv320aic3106,
+                                            tlv320aic3106_pll_prog_reg_a_t * p_pll_prog_reg_a)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_pll_prog_reg_a_t));
+	p_cmd->reg_address = TLV320AIC3106_PLL_PROG_REG_A;
+	memcpy(p_cmd->data, p_pll_prog_reg_a, sizeof(tlv320aic3106_pll_prog_reg_a_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_datapath(tlv320aic3106_t * p_tlv320aic3106,
+                                      tlv320aic3106_datapath_setup_t * p_datapath_setup)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_datapath, sizeof(tlv320aic3106_datapath_setup_t));
+	p_datapath->reg_address = TLV320AIC3106_DATAPATH_SETUP;
+	memcpy(p_datapath->data, p_datapath_setup, sizeof(tlv320aic3106_datapath_setup_t));
+
+	return twi_write(p_tlv320aic3106, p_datapath, p_datapath_size);
+}
+
+ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                     tlv320aic3106_ac_pwr_and_out_drv_ctrl_t * p_ac_pwr_and_out_drv_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_ac_pwr_and_out_drv_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_AC_PWR_AND_OUT_DRV_CTRL;
+	memcpy(p_cmd->data, p_ac_pwr_and_out_drv_ctrl, sizeof(tlv320aic3106_ac_pwr_and_out_drv_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_dac_out_switch_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                 tlv320aic3106_dac_out_switch_ctrl_t * p_dac_out_switch_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_out_switch_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_DAC_OUT_SWITCH_CTRL;
+	memcpy(p_cmd->data, p_dac_out_switch_ctrl, sizeof(tlv320aic3106_dac_out_switch_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_left_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                     tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_x_out_lvl_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_LEFT_LOP_M_OUT_LVL_CTRL;
+	memcpy(p_cmd->data, p_out_lvl_ctrl, sizeof(tlv320aic3106_x_out_lvl_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_right_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_x_out_lvl_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_RIGHT_LOP_M_OUT_LVL_CTRL;
+	memcpy(p_cmd->data, p_out_lvl_ctrl, sizeof(tlv320aic3106_x_out_lvl_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_gpio_ctrl_b(tlv320aic3106_t * p_tlv320aic3106,
+                                         tlv320aic3106_gpio_ctrl_b_t * p_gpio_ctrl_b)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_gpio_ctrl_b_t));
+	p_cmd->reg_address = TLV320AIC3106_GPIO_CTRL_B;
+	memcpy(p_cmd->data, p_gpio_ctrl_b, sizeof(tlv320aic3106_gpio_ctrl_b_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                          tlv320aic3106_clk_gen_ctrl_t * p_clk_gen_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_clk_gen_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_CLK_GEN_CTRL;
+	memcpy(p_cmd->data, p_clk_gen_ctrl, sizeof(tlv320aic3106_clk_gen_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+// TLV320AIC3106_DATAPATH_SETUP
+// TLV320AIC3106_AC_PWR_AND_OUT_DRV_CTRL
+// TLV320AIC3106_DAC_OUT_SWITCH_CTRL
+// TLV320AIC3106_LEFT_LOP_M_OUT_LVL_CTRL
+// TLV320AIC3106_RIGHT_LOP_M_OUT_LVL_CTRL
+// TLV320AIC3106_GPIO_CTRL_B
+
+
+// TLV320AIC3106_CLK_GEN_CTRL
+
+// TLV320AIC3106_DAC_L1_TO_LEFT_LOP_M_VOLUME_CTRL
+// TLV320AIC3106_DAC_R1_TO_RIGHT_LOP_M_VOLUME_CTRL
