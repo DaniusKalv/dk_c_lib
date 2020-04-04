@@ -15,7 +15,7 @@
 #include "sdk_macros.h"
 #include "string.h"
 
-static ret_code_t write(sh1106_t * p_sh1106, uint8_t * p_data, uint8_t data_size, bool data)
+static ret_code_t write(sh1106_t * p_sh1106, const uint8_t * p_data, uint8_t data_size, bool data)
 {
 	ret_code_t err_code;
 	nrfx_spi_xfer_desc_t xfer = NRFX_SPI_XFER_TX(p_data, data_size);
@@ -59,29 +59,19 @@ ret_code_t sh1106_init(sh1106_t * p_sh1106)
 
 	sh1106_set_dc_dc_on(p_sh1106, false);
 
-	sh1106_set_display_on(p_sh1106, true);
-
-
-	uint8_t buffer [] = { 0x11 };
-
+	uint8_t zero = 0;
 	for(uint8_t page = 0; page < 8; page++)
 	{
 		sh1106_set_page_address(p_sh1106, page);
 		sh1106_set_column_address(p_sh1106, 0);
-	
+
 		for(uint8_t column = 0; column < 132; column++)
 		{
-			err_code = write(p_sh1106, buffer, sizeof(buffer), true);
+			write(p_sh1106, &zero, sizeof(zero), true);
 		}
 	}
 
-	bool invert = true;
-	while(true)
-	{
-		sh1106_invert_display(p_sh1106, invert);
-		invert = !invert;
-		nrf_delay_ms(200);
-	}
+	sh1106_set_display_on(p_sh1106, true);
 
 	return err_code;
 }
@@ -262,7 +252,18 @@ ret_code_t sh1106_exit_read_modify_write_mode(sh1106_t * p_sh1106)
 	return write(p_sh1106, &read_modify_write_exit_cmd, sizeof(read_modify_write_exit_cmd), false);
 }
 
-ret_code_t sh1106_write_data(sh1106_t * p_sh1106, uint8_t * p_data, uint16_t size)
+ret_code_t sh1106_write_data(sh1106_t * p_sh1106, const uint8_t * p_data, uint16_t size)
 {
-	return write(p_sh1106, p_data, size, true);
+	uint8_t index = 0;
+	for(uint8_t page = 0; page < 8; page++)
+	{
+		sh1106_set_page_address(p_sh1106, page);
+		// sh1106_set_column_address(p_sh1106, 0);
+
+		write(p_sh1106, &p_data[index], 132, true);
+
+		index += 132;
+	}
+
+	return NRF_SUCCESS;
 }

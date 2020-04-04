@@ -132,6 +132,6 @@ ret_code_t sh1106_enter_read_modify_write_mode(sh1106_t * p_sh1106);
 
 ret_code_t sh1106_exit_read_modify_write_mode(sh1106_t * p_sh1106);
 
-ret_code_t sh1106_write_data(sh1106_t * p_sh1106, uint8_t * p_data, uint16_t size);
+ret_code_t sh1106_write_data(sh1106_t * p_sh1106, const uint8_t * p_data, uint16_t size);
 
 #endif // SH1106_H
