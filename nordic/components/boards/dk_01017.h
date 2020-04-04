@@ -20,11 +20,12 @@ extern "C" {
 #include "nrf_gpio.h"
 
 //Oled
-#define DK_BSP_OLED_CS          5   /**< Oled chip select (active low) pin. */
-#define DK_BSP_OLED_RST         27  /**< Oled reset (active low) pin. */
-#define DK_BSP_OLED_DC          7   /**< Oled data (high)/command (low) pin. */
-#define DK_BSP_OLED_SCLK        26  /**< Oled serial clock pin. */
-#define DK_BSP_OLED_MOSI        6   /**< Oled data pin. */
+#define DK_BSP_OLED_CS              5   /**< Oled chip select (active low) pin. */
+#define DK_BSP_OLED_RST             27  /**< Oled reset (active low) pin. */
+#define DK_BSP_OLED_DC              7   /**< Oled data (high)/command (low) pin. */
+#define DK_BSP_OLED_SCLK            26  /**< Oled serial clock pin. */
+#define DK_BSP_OLED_MOSI            6   /**< Oled data pin. */
+#define DK_BSP_OLED_SPI_INTERFACE   1   /**< SPI interface instance that OLED is connected to. */
 
 //I2C Interface
 #define DK_BSP_I2C_SCL0         NRF_GPIO_PIN_MAP(1,8)   /**< SCL pin. */
