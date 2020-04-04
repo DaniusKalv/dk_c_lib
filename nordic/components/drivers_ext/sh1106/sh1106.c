@@ -15,6 +15,10 @@
 #include "sdk_macros.h"
 #include "string.h"
 
+#define NRF_LOG_MODULE_NAME sh1106
+#include "nrf_log.h"
+NRF_LOG_MODULE_REGISTER();
+
 static ret_code_t write(sh1106_t * p_sh1106, const uint8_t * p_data, uint8_t data_size, bool data)
 {
 	ret_code_t err_code;
@@ -60,12 +64,12 @@ ret_code_t sh1106_init(sh1106_t * p_sh1106)
 	sh1106_set_dc_dc_on(p_sh1106, false);
 
 	uint8_t zero = 0;
-	for(uint8_t page = 0; page < 8; page++)
+	for(uint8_t page = 0; page < SH1106_PAGE_AMOUNT; page++)
 	{
 		sh1106_set_page_address(p_sh1106, page);
 		sh1106_set_column_address(p_sh1106, 0);
 
-		for(uint8_t column = 0; column < 132; column++)
+		for(uint8_t column = 0; column < p_sh1106->width; column++)
 		{
 			write(p_sh1106, &zero, sizeof(zero), true);
 		}
@@ -78,7 +82,12 @@ ret_code_t sh1106_init(sh1106_t * p_sh1106)
 
 ret_code_t sh1106_set_column_address(sh1106_t * p_sh1106, uint8_t column_address)
 {
-	column_address &= SH1106_COLUMN_ID_MAX;
+	column_address += p_sh1106->column_offset;
+
+	if(column_address > SH1106_COLUMN_ID_MAX)
+	{
+		column_address = SH1106_COLUMN_ID_MAX;
+	}
 
 	uint8_t column_address_cmd[] =
 	{
@@ -254,15 +263,15 @@ ret_code_t sh1106_exit_read_modify_write_mode(sh1106_t * p_sh1106)
 
 ret_code_t sh1106_write_data(sh1106_t * p_sh1106, const uint8_t * p_data, uint16_t size)
 {
-	uint8_t index = 0;
-	for(uint8_t page = 0; page < 8; page++)
+	uint16_t index = 0;
+	for(uint8_t page = 0; page < SH1106_PAGE_AMOUNT; page++)
 	{
 		sh1106_set_page_address(p_sh1106, page);
-		// sh1106_set_column_address(p_sh1106, 0);
+		sh1106_set_column_address(p_sh1106, 0);
 
-		write(p_sh1106, &p_data[index], 132, true);
+		write(p_sh1106, &p_data[index], p_sh1106->width, true);
 
-		index += 132;
+		index += p_sh1106->width;
 	}
 
 	return NRF_SUCCESS;

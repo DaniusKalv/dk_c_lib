@@ -40,6 +40,7 @@
 #define SH1106_CMD_DISPLAY_OFF_ON           0xAE    /**< Display on/off command. */
 
 #define SH1106_CMD_PAGE_ADDRESS             0xB0    /**< Set page address. */
+#define SH1106_PAGE_AMOUNT                  8       /**< Amount of pages. */
 #define SH1106_PAGE_ID_MAX                  7       /**< Highest page address supported by the IC. */
 
 #define SH1106_CMD_OUT_SCAN_DIR             0xC0    /**< Common output scan direction command. */

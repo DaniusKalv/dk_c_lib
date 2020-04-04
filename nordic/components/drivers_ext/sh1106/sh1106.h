@@ -16,6 +16,8 @@
 #include "nrfx_spi.h"
 #include "sdk_errors.h"
 
+#define SH1106_MAX_WIDTH    132
+
 typedef enum
 {
 	SH1106_PUMP_VOLTAGE_6_4     = 0x00, /**< 6.4V */
@@ -77,19 +79,25 @@ typedef struct
 
 typedef struct
 {
+	nrfx_spi_t    * p_spi_instance;
 	uint32_t        reset_pin;
 	uint32_t        cs_pin;
 	uint32_t        dc_pin;
-	nrfx_spi_t    * p_spi_instance;
+	uint16_t        width;
+	uint8_t         height;
+	uint8_t         column_offset;
 } sh1106_t;
 
-#define SH1106_DEF(_name, _rst_pin, _cs_pin, _dc_pin, _p_spi_instance) \
-static sh1106_t _name =                                                \
-{                                                                      \
-	.reset_pin      = _rst_pin,                                        \
-	.cs_pin         = _cs_pin,                                         \
-	.dc_pin         = _dc_pin,                                         \
-	.p_spi_instance = _p_spi_instance                                  \
+#define SH1106_DEF(_name, _p_spi_instance, _rst_pin, _cs_pin, _dc_pin, _width, _height) \
+static sh1106_t _name =                                                                 \
+{                                                                                       \
+	.p_spi_instance = _p_spi_instance,                                                  \
+	.reset_pin      = _rst_pin,                                                         \
+	.cs_pin         = _cs_pin,                                                          \
+	.dc_pin         = _dc_pin,                                                          \
+	.width          = _width,                                                           \
+	.height         = _height,                                                          \
+	.column_offset  = (SH1106_MAX_WIDTH - _width) / 2                                   \
 }
 
 ret_code_t sh1106_init(sh1106_t * p_sh1106);
