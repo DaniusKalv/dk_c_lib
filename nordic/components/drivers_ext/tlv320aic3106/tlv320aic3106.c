@@ -264,6 +264,26 @@ ret_code_t tlv320aic3106_set_dac_out_switch_ctrl(tlv320aic3106_t * p_tlv320aic31
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_left_dac_dig_volume_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_dac_dig_volume_ctrl_t * p_dac_dig_volume_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_dig_volume_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_LEFT_DAC_DIG_VOLUME_CTRL;
+	memcpy(p_cmd->data, p_dac_dig_volume_ctrl, sizeof(tlv320aic3106_dac_dig_volume_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_right_dac_dig_volume_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_dac_dig_volume_ctrl_t * p_dac_dig_volume_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_dig_volume_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_RIGHT_DAC_DIG_VOLUME_CTRL;
+	memcpy(p_cmd->data, p_dac_dig_volume_ctrl, sizeof(tlv320aic3106_dac_dig_volume_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_left_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                      tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl)
 {
@@ -307,10 +327,11 @@ ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
 // TLV320AIC3106_DATAPATH_SETUP
 // TLV320AIC3106_AC_PWR_AND_OUT_DRV_CTRL
 // TLV320AIC3106_DAC_OUT_SWITCH_CTRL
+// TLV320AIC3106_LEFT_DAC_DIG_VOLUME_CTRL
+// TLV320AIC3106_RIGHT_DAC_DIG_VOLUME_CTRL
 // TLV320AIC3106_LEFT_LOP_M_OUT_LVL_CTRL
 // TLV320AIC3106_RIGHT_LOP_M_OUT_LVL_CTRL
 // TLV320AIC3106_GPIO_CTRL_B
-
 
 // TLV320AIC3106_CLK_GEN_CTRL
 

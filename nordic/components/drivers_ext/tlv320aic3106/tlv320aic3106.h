@@ -140,8 +140,8 @@ typedef enum
 typedef struct
 {
 	uint8_t                                 _padding0               :1;
+	tlv320aic3106_right_dac_datapath_ctrl_t right_dac_datapath_ctrl :2;
 	tlv320aic3106_left_dac_datapath_ctrl_t  left_dac_datapath_ctrl  :2;
-	tlv320aic3106_right_dac_datapath_ctrl_t right_dac_datapath_ctrl  :2;
 	bool                                    dac_dual_rate_enabled   :1;
 	bool                                    adc_dual_rate_enabled   :1;
 	tlv320aic3106_fsref_setting_t           fsref_setting           :1;
@@ -479,7 +479,7 @@ typedef enum
 
 typedef struct
 {
-	uint8_t                         _padding0           :3;
+	uint8_t                         _padding0           :4; // Datasheet contains a mistake!
 	tlc320aic3106_hplcom_out_drv_t  hplcom_out_drv_cfg  :2;
 	bool                            right_dac_powered_up:1;
 	bool                            left_dac_powered_up :1;
@@ -550,7 +550,7 @@ typedef enum
 typedef struct
 {
 	tlv320aic3106_dac_dig_vol_ctrl_t    dac_dig_vol_ctrl    :2;
-	uint8_t                             _padding0           :1;
+	uint8_t                             _padding0           :2;
 	tlv320aic3106_xdac_out_switch_t     right_dac_out_switch:2;
 	tlv320aic3106_xdac_out_switch_t     left_dac_out_switch :2;
 } tlv320aic3106_dac_out_switch_ctrl_t;
@@ -643,7 +643,7 @@ typedef struct
 
 typedef struct
 {
-	uint8_t _padding0                       :1;
+	uint8_t _padding0                       :2;
 	bool    hprcom_powered_up               :1;
 	bool    hplcom_powered_up               :1;
 	bool    hprcom_short_circuit_detected   :1;
@@ -972,6 +972,12 @@ ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320a
 
 ret_code_t tlv320aic3106_set_dac_out_switch_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                  tlv320aic3106_dac_out_switch_ctrl_t * p_dac_out_switch_ctrl);
+
+ret_code_t tlv320aic3106_set_left_dac_dig_volume_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_dac_dig_volume_ctrl_t * p_dac_dig_volume_ctrl);
+
+ret_code_t tlv320aic3106_set_right_dac_dig_volume_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                      tlv320aic3106_dac_dig_volume_ctrl_t * p_dac_dig_volume_ctrl);
 
 ret_code_t tlv320aic3106_set_left_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                      tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl);
