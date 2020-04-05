@@ -16,7 +16,7 @@
 
 #include "nrf_delay.h"
 
-#define NRF_LOG_MODULE_NAME TLV320AIC3106
+#define NRF_LOG_MODULE_NAME tlv320aic3106
 #include "nrf_log.h"
 NRF_LOG_MODULE_REGISTER();
 
