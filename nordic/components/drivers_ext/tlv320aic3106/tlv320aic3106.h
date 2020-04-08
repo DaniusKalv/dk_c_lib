@@ -964,8 +964,22 @@ ret_code_t tlv320aic3106_set_passive_ana_sig_bypass_sel_pd(tlv320aic3106_t * p_t
 ret_code_t tlv320aic3106_set_pll_prog_reg_a(tlv320aic3106_t * p_tlv320aic3106,
                                             tlv320aic3106_pll_prog_reg_a_t * p_pll_prog_reg_a);
 
+ret_code_t tlv320aic3106_set_pll_prog_reg_b(tlv320aic3106_t * p_tlv320aic3106,
+                                            tlv320aic3106_pll_prog_reg_b_t * p_pll_prog_reg_b);
+
+ret_code_t tlv320aic3106_set_pll_d(tlv320aic3106_t * p_tlv320aic3106, uint16_t d_value);
+
 ret_code_t tlv320aic3106_set_datapath(tlv320aic3106_t * p_tlv320aic3106,
                                       tlv320aic3106_datapath_setup_t * p_datapath_setup);
+
+ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_a(tlv320aic3106_t * p_tlv320aic3106,
+                                                             tlv320aic3106_audio_ser_data_interface_ctrl_a_t * p_audio_ser_data_interface_ctrl_a);
+
+ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_b(tlv320aic3106_t * p_tlv320aic3106,
+                                                             tlv320aic3106_audio_ser_data_interface_ctrl_b_t * p_audio_ser_data_interface_ctrl_b);
+
+ret_code_t tlv320aic3106_set_pll_r(tlv320aic3106_t * p_tlv320aic3106,
+                                   tlv320aic3106_pll_r_t pll_r);
 
 ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                      tlv320aic3106_ac_pwr_and_out_drv_ctrl_t * p_ac_pwr_and_out_drv_ctrl);

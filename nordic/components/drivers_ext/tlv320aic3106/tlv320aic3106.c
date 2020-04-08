@@ -13,6 +13,7 @@
 #include "tlv320aic3106-internal.h"
 #include "sdk_errors.h"
 #include "sdk_macros.h"
+#include "app_util.h"
 
 #include "nrf_delay.h"
 
@@ -234,6 +235,33 @@ ret_code_t tlv320aic3106_set_pll_prog_reg_a(tlv320aic3106_t * p_tlv320aic3106,
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_pll_prog_reg_b(tlv320aic3106_t * p_tlv320aic3106,
+                                            tlv320aic3106_pll_prog_reg_b_t * p_pll_prog_reg_b)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_pll_prog_reg_b_t));
+	p_cmd->reg_address = TLV320AIC3106_PLL_PROG_REG_B;
+	memcpy(p_cmd->data, p_pll_prog_reg_b, sizeof(tlv320aic3106_pll_prog_reg_b_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_pll_d(tlv320aic3106_t * p_tlv320aic3106, uint16_t d_value)
+{
+	if(d_value > TLV320AIC3106_MAX_PLL_D_VAL)
+	{
+		return NRF_ERROR_INVALID_PARAM;
+	}
+
+	uint16_t encoded_d = uint16_big_decode(&d_value);
+	encoded_d <<= 2; // Shift by two bits
+
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(d_value));
+	p_cmd->reg_address = TLV320AIC3106_PLL_PROG_REG_C;
+	memcpy(p_cmd->data, &encoded_d, sizeof(encoded_d));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_datapath(tlv320aic3106_t * p_tlv320aic3106,
                                       tlv320aic3106_datapath_setup_t * p_datapath_setup)
 {
@@ -242,6 +270,41 @@ ret_code_t tlv320aic3106_set_datapath(tlv320aic3106_t * p_tlv320aic3106,
 	memcpy(p_datapath->data, p_datapath_setup, sizeof(tlv320aic3106_datapath_setup_t));
 
 	return twi_write(p_tlv320aic3106, p_datapath, p_datapath_size);
+}
+
+ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_a(tlv320aic3106_t * p_tlv320aic3106,
+                                                             tlv320aic3106_audio_ser_data_interface_ctrl_a_t * p_audio_ser_data_interface_ctrl_a)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_audio_ser_data_interface_ctrl_a_t));
+	p_cmd->reg_address = TLV320AIC3106_AUDIO_SER_DATA_INTERFACE_CTRL_A;
+	memcpy(p_cmd->data, p_audio_ser_data_interface_ctrl_a, sizeof(tlv320aic3106_audio_ser_data_interface_ctrl_a_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_b(tlv320aic3106_t * p_tlv320aic3106,
+                                                             tlv320aic3106_audio_ser_data_interface_ctrl_b_t * p_audio_ser_data_interface_ctrl_b)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_audio_ser_data_interface_ctrl_b_t));
+	p_cmd->reg_address = TLV320AIC3106_AUDIO_SER_DATA_INTERFACE_CTRL_B;
+	memcpy(p_cmd->data, p_audio_ser_data_interface_ctrl_b, sizeof(tlv320aic3106_audio_ser_data_interface_ctrl_b_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_pll_r(tlv320aic3106_t * p_tlv320aic3106,
+                                   tlv320aic3106_pll_r_t pll_r)
+{
+	tlv320aic3106_audio_codec_overflow_flag_t overflow_reg =
+	{
+		.pll_r= pll_r
+	};
+
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(overflow_reg));
+	p_cmd->reg_address = TLV320AIC3106_AUDIO_CODEC_OVERFLOW_FLAG;
+	memcpy(p_cmd->data, &overflow_reg, sizeof(overflow_reg));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
 ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320aic3106,

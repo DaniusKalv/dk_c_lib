@@ -19,9 +19,9 @@
 #include "nrf_log_ctrl.h"
 NRF_LOG_MODULE_REGISTER();
 
-#if !NRF_MODULE_ENABLED(NRF_TWI_MNGR)
-#error "Enable NRF_TWI_MNGR module in sdk_config!"
-#endif
+// #if !NRF_MODULE_ENABLED(NRF_TWI_MNGR)
+// #error "Enable NRF_TWI_MNGR module in sdk_config!"
+// #endif
 
 typedef volatile struct
 {

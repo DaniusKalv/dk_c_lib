@@ -16,6 +16,8 @@
 extern "C" {
 #endif
 
+#define TLV320AIC3106_MAX_PLL_D_VAL 9999
+
 #define TLV320AIC3106_PAGE0_BIT     0x00
 #define TLV320AIC3106_PAGE1_BIT     0x80
 
