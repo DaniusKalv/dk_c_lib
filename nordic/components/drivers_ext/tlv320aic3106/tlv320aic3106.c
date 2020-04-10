@@ -252,7 +252,7 @@ ret_code_t tlv320aic3106_set_pll_d(tlv320aic3106_t * p_tlv320aic3106, uint16_t d
 		return NRF_ERROR_INVALID_PARAM;
 	}
 
-	uint16_t encoded_d = uint16_big_decode(&d_value);
+	uint16_t encoded_d = uint16_big_decode((uint8_t *)&d_value);
 	encoded_d <<= 2; // Shift by two bits
 
 	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(d_value));
