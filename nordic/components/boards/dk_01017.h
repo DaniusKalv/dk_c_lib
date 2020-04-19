@@ -32,8 +32,8 @@ extern "C" {
 #define DK_BSP_I2C_SDA0         NRF_GPIO_PIN_MAP(0,4)   /**< SDA pin. */
 
 //I2S Interface
-#define DK_BSP_I2S_DOUT         NRF_GPIO_PIN_MAP(1,9)   /**< I2S master data out pin. */
-#define DK_BSP_I2S_DIN          NRF_GPIO_PIN_MAP(0,8)   /**< I2S master data in pin. */
+#define DK_BSP_I2S_DIN          NRF_GPIO_PIN_MAP(1,9)   /**< I2S master data out pin. */
+#define DK_BSP_I2S_DOUT         NRF_GPIO_PIN_MAP(0,8)   /**< I2S master data in pin. */
 #define DK_BSP_I2S_WCLK         NRF_GPIO_PIN_MAP(0,12)  /**< I2S word clock pin. */
 #define DK_BSP_I2S_BCLK         NRF_GPIO_PIN_MAP(0,11)  /**< I2S bit clock pin. */
 #define DK_BSP_I2S_MCLK         NRF_GPIO_PIN_MAP(0,14)  /**< I2S master clock pin. */
