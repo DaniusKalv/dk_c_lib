@@ -19,9 +19,10 @@
 
 #define NRF_LOG_MODULE_NAME tlv320aic3106
 #include "nrf_log.h"
+#include "nrf_log_ctrl.h"
 NRF_LOG_MODULE_REGISTER();
 
-#define TLV320AIC3106_TWI_WRITE_BUFFER_SIZE  1  /**< Maximum amount of data that will be transfered in one write. */
+#define TLV320AIC3106_TWI_WRITE_BUFFER_SIZE  2  /**< Maximum amount of data that will be transfered in one write. */
 #define TLV320AIC3106_TWI_READ_BUFFER_SIZE   2  /**< Maximum amount of data that will be read in one read. */
 
 /** @brief TWI write structure. */
@@ -91,7 +92,7 @@ static inline ret_code_t set_reg_page(tlv320aic3106_t * p_tlv320aic3106,
  * @param[in]   write_size      Write buffer size.
  * 
  * @return      NRF_SUCCESS     Upon successful twi transaction scheduling.
- * @return      Other           Error codes returned by @dk_twi_mngr_schedule.
+ * @return      Other           Error codes returned by @dk_twi_mngr_scheduler.
  */
 static ret_code_t twi_write(tlv320aic3106_t           * p_tlv320aic3106,
                             tlv320aic3106_twi_write_t * p_twi_write,
@@ -146,6 +147,18 @@ static ret_code_t twi_read_blocking(tlv320aic3106_t const * p_tlv320aic3106,
 	                                                        p_buffer,
 	                                                        buffer_size,
 	                                                        NRFX_TWI_FLAG_TX_NO_STOP);
+
+	return dk_twi_mngr_perform(p_tlv320aic3106->p_dk_twi_mngr_instance, &twi_transfer, wait_for_transfer_complete);
+}
+
+static ret_code_t twi_write_blocking(tlv320aic3106_t     const * p_tlv320aic3106,
+                                     tlv320aic3106_twi_write_t * p_twi_write,
+                                     uint8_t                     write_size)
+{
+	dk_twi_mngr_transfer_t twi_transfer = DK_TWI_MNGR_TX(p_tlv320aic3106->i2c_address,
+	                                                     p_twi_write,
+	                                                     write_size,
+	                                                     0);
 
 	return dk_twi_mngr_perform(p_tlv320aic3106->p_dk_twi_mngr_instance, &twi_transfer, wait_for_transfer_complete);
 }
@@ -205,13 +218,15 @@ ret_code_t tlv320aic3106_init(tlv320aic3106_t * p_tlv320aic3106,
 
 ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106)
 {
-	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_soft_rst, sizeof(uint8_t));
-	p_soft_rst->reg_address = TLV320AIC3106_SOFT_RST;
-	p_soft_rst->data[0]     = TLV320AIC3106_SOFT_RST_VAL;
+	tlv320aic3106_twi_write_t twi_write =
+	{
+		.reg_address = TLV320AIC3106_SOFT_RST,
+		.data[0]     = TLV320AIC3106_SOFT_RST_VAL
+	};
 
-	return twi_write(p_tlv320aic3106,
-	                 p_soft_rst,
-	                 p_soft_rst_size);
+	return twi_write_blocking(p_tlv320aic3106,
+	                          &twi_write,
+	                          2);
 	// p_tlv320aic3106->active_page = TLV320AIC3106_ACTIVE_PAGE_0; // TODO: Set active page to 0 after successful soft reset
 }
 
@@ -292,6 +307,16 @@ ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_b(tlv320aic3106_t * p
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_audio_ser_data_interface_ctrl_c(tlv320aic3106_t * p_tlv320aic3106,
+                                                             uint8_t offset)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(offset));
+	p_cmd->reg_address = TLV320AIC3106_AUDIO_SER_DATA_INTERFACE_CTRL_C;
+	memcpy(p_cmd->data, &offset, sizeof(offset));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_pll_r(tlv320aic3106_t * p_tlv320aic3106,
                                    tlv320aic3106_pll_r_t pll_r)
 {
@@ -307,6 +332,26 @@ ret_code_t tlv320aic3106_set_pll_r(tlv320aic3106_t * p_tlv320aic3106,
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_digital_filter_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                 tlv320aic3106_audio_codec_digital_filter_ctrl_t * p_dig_filter_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_audio_codec_digital_filter_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_AUDIO_CODEC_DIGITAL_FILTER_CTRL;
+	memcpy(p_cmd->data, p_dig_filter_ctrl, sizeof(tlv320aic3106_audio_codec_digital_filter_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_headset_btn_press_detect_b(tlv320aic3106_t * p_tlv320aic3106,
+                                                        tlv320aic3106_headset_btn_press_detect_b_t * p_headset_btn_press_detect_b)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_headset_btn_press_detect_b_t));
+	p_cmd->reg_address = TLV320AIC3106_HEADSET_BTN_PRESS_DETECT_B;
+	memcpy(p_cmd->data, p_headset_btn_press_detect_b, sizeof(tlv320aic3106_headset_btn_press_detect_b_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                      tlv320aic3106_ac_pwr_and_out_drv_ctrl_t * p_ac_pwr_and_out_drv_ctrl)
 {
@@ -317,12 +362,32 @@ ret_code_t tlv320aic3106_set_ac_pwr_and_out_drv_ctrl(tlv320aic3106_t * p_tlv320a
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_hi_pwr_out_stage_ctrl(tlv320aic3106_t * p_tlv320aic3106,
+                                                     tlv320aic3106_hi_pwr_out_stage_ctrl_t * p_hi_pwr_out_stage_ctrl)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_hi_pwr_out_stage_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_HI_PWR_OUT_STAGE_CTRL;
+	memcpy(p_cmd->data, p_hi_pwr_out_stage_ctrl, sizeof(tlv320aic3106_hi_pwr_out_stage_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_dac_out_switch_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                  tlv320aic3106_dac_out_switch_ctrl_t * p_dac_out_switch_ctrl)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_out_switch_ctrl_t));
 	p_cmd->reg_address = TLV320AIC3106_DAC_OUT_SWITCH_CTRL;
 	memcpy(p_cmd->data, p_dac_out_switch_ctrl, sizeof(tlv320aic3106_dac_out_switch_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_out_drv_pop_reduction(tlv320aic3106_t * p_tlv320aic3106,
+                                                   tlv320aic3106_out_drv_pop_reduction_t * p_out_drv_pop_reduction)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_out_drv_pop_reduction_t));
+	p_cmd->reg_address = TLV320AIC3106_OUT_DRV_POP_REDUCTION;
+	memcpy(p_cmd->data, p_out_drv_pop_reduction, sizeof(tlv320aic3106_out_drv_pop_reduction_t));
 
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
@@ -357,6 +422,26 @@ ret_code_t tlv320aic3106_set_left_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320a
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
+ret_code_t tlv320aic3106_set_dac_r1_to_right_lop(tlv320aic3106_t * p_tlv320aic3106,
+                                                 tlv320aic3106_x_to_y_volume_ctrl_t * p_dac_r1_to_right_lop)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_x_to_y_volume_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_DAC_R1_TO_RIGHT_LOP_M_VOLUME_CTRL;
+	memcpy(p_cmd->data, p_dac_r1_to_right_lop, sizeof(tlv320aic3106_x_to_y_volume_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_dac_l1_to_left_lop(tlv320aic3106_t * p_tlv320aic3106,
+                                                tlv320aic3106_x_to_y_volume_ctrl_t * p_dac_l1_to_left_lop)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_x_to_y_volume_ctrl_t));
+	p_cmd->reg_address = TLV320AIC3106_DAC_L1_TO_LEFT_LOP_M_VOLUME_CTRL;
+	memcpy(p_cmd->data, p_dac_l1_to_left_lop, sizeof(tlv320aic3106_x_to_y_volume_ctrl_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
 ret_code_t tlv320aic3106_set_right_lop_m_out_lvl_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                                       tlv320aic3106_x_out_lvl_ctrl_t * p_out_lvl_ctrl)
 {
@@ -385,4 +470,40 @@ ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
 	memcpy(p_cmd->data, p_clk_gen_ctrl, sizeof(tlv320aic3106_clk_gen_ctrl_t));
 
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_set_dac_quiescient_current(tlv320aic3106_t * p_tlv320aic3106,
+                                                    tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiscient)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_quiescent_current_adj_t));
+	p_cmd->reg_address = TLV320AIC3106_DAC_QUIESCENT_CURRENT_ADJ;
+	memcpy(p_cmd->data, p_dac_quiscient, sizeof(tlv320aic3106_dac_quiescent_current_adj_t));
+
+	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
+}
+
+ret_code_t tlv320aic3106_debug(tlv320aic3106_t * p_tlv320aic3106)
+{
+	ret_code_t err_code;
+	uint8_t data[5];
+
+	err_code = twi_read_blocking(p_tlv320aic3106, TLV320AIC3106_AUDIO_CODEC_OVERFLOW_FLAG, data, 1);
+	VERIFY_SUCCESS(err_code);
+
+	NRF_LOG_INFO("%u 0x%x", 11, data[0]);
+
+	err_code = twi_read_blocking(p_tlv320aic3106, TLV320AIC3106_LEFT_LOP_M_OUT_LVL_CTRL, data, 1);
+	VERIFY_SUCCESS(err_code);
+
+	NRF_LOG_INFO("%u 0x%x", 86, data[0]);
+
+	err_code = twi_read_blocking(p_tlv320aic3106, TLV320AIC3106_RIGHT_LOP_M_OUT_LVL_CTRL, data, sizeof(data));
+	VERIFY_SUCCESS(err_code);
+
+	for(uint8_t i = 0; i < sizeof(data); i++)
+	{
+		NRF_LOG_INFO("%u 0x%x", i+93, data[i]);
+	}
+
+	return NRF_SUCCESS;
 }
