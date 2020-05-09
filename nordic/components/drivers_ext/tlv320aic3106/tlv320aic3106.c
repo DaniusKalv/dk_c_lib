@@ -32,6 +32,13 @@ typedef struct
 	uint8_t data[TLV320AIC3106_TWI_WRITE_BUFFER_SIZE]; /**< Data buffer. */
 } tlv320aic3106_twi_write_t;
 
+/** @brief TWI read structure. */
+typedef struct
+{
+	uint8_t reg_address;                              /**< Register address. */
+	uint8_t data[TLV320AIC3106_TWI_READ_BUFFER_SIZE]; /**< Data buffer. */
+} tlv320aic3106_twi_read_t;
+
 static ret_code_t twi_write(tlv320aic3106_t           * p_tlv320aic3106,
                             tlv320aic3106_twi_write_t * p_twi_write,
                             uint8_t                     write_size);
@@ -49,16 +56,45 @@ static ret_code_t tlv320aic3106_page_select_set(tlv320aic3106_t           * p_tl
  */
 static void twi_mngr_callback(ret_code_t result, uint8_t evt, dk_twi_mngr_transfer_t * p_transfer, void * p_user_data)
 {
+	tlv320aic3106_t * p_tlv320aic3106 = (tlv320aic3106_t *)p_user_data;
+
+	tlv320aic3106_evt_t event =
+	{
+		.p_tlv320aic3106 = p_tlv320aic3106
+	};
+
 	if(result != NRF_SUCCESS)
 	{
-		tlv320aic3106_t * p_tlv320aic3106 = (tlv320aic3106_t *)p_user_data;
-
 		NRF_LOG_ERROR("Error: 0x%x", result);
-		if(p_tlv320aic3106->error_handler)
+
+		event.type = TLV320AIC3106_EVT_TYPE_ERROR;
+		event.params.err_code = result;
+
+		if(p_tlv320aic3106->evt_handler != NULL)
 		{
-			p_tlv320aic3106->error_handler(result, p_tlv320aic3106);
+			p_tlv320aic3106->evt_handler(&event);
 		}
 	}
+	else
+	{
+		if(p_tlv320aic3106->evt_handler == NULL)
+		{
+			return;
+		}
+
+		switch (evt)
+		{
+			case TLV320AIC3106_EVT_TYPE_RX_MODULE_PWR_STATUS:
+				event.type = TLV320AIC3106_EVT_TYPE_RX_MODULE_PWR_STATUS;
+				event.params.p_module_pwr_status = (tlv320aic3106_module_pwr_status_t *)p_transfer->transfer_description.p_secondary_buf;
+				break;
+			default:
+				return;
+		}
+
+		p_tlv320aic3106->evt_handler(&event);
+	}
+	
 }
 
 static inline tlv320aic3106_active_page_t extract_page_from_reg(uint8_t * p_reg_address)
@@ -108,6 +144,39 @@ static ret_code_t twi_write(tlv320aic3106_t           * p_tlv320aic3106,
 		.callback           = twi_mngr_callback,
 		.p_user_data        = (void *)p_tlv320aic3106,
 		.transfer           = DK_TWI_MNGR_TX(p_tlv320aic3106->i2c_address, (uint8_t *)p_twi_write, write_size, 0)
+	};
+
+	return dk_twi_mngr_schedule(p_tlv320aic3106->p_dk_twi_mngr_instance,
+	                            &twi_transaction);
+}
+
+/**
+ * @brief       Perform a TWI read operation (non-blocking).
+ * 
+ * @param[in]   p_tlv320aic3106     Pointer to TLV320AIC3106 instance.
+ * @param[in]   p_twi_read          Pointer twi_read struct.
+ * @param[in]   read_size           Amount of bytes to read.
+ * @param[in]   evt_type            Event type.
+ * 
+ * @retval      NRF_SUCCESS         On success.
+ * @retval      Other               Error codes returned by dk_twi_mngr functions.
+ */
+static ret_code_t twi_read(tlv320aic3106_t    const * p_tlv320aic3106,
+                           tlv320aic3106_twi_read_t * p_twi_read,
+                           uint8_t                    read_size,
+                           tlv320aic3106_evt_type_t   evt_type)
+{
+	dk_twi_mngr_transaction_t twi_transaction =
+	{
+		.callback           = twi_mngr_callback,
+		.p_user_data        = (void *)p_tlv320aic3106,
+		.event_type         = evt_type,
+		.transfer           = DK_TWI_MNGR_TX_RX(p_tlv320aic3106->i2c_address,
+		                                        &p_twi_read->reg_address,
+		                                        sizeof(p_twi_read->reg_address),
+		                                        p_twi_read->data,
+		                                        read_size-1,
+		                                        0)
 	};
 
 	return dk_twi_mngr_schedule(p_tlv320aic3106->p_dk_twi_mngr_instance,
@@ -215,11 +284,12 @@ static uint16_t pll_d_encode(uint16_t d_value)
 }
 
 ret_code_t tlv320aic3106_init(tlv320aic3106_t * p_tlv320aic3106,
-                              tlv320aic3106_error_handler_t error_handler)
+                              tlv320aic3106_evt_handler_t evt_handler)
 {
 	NRF_LOG_INFO("Initializing TLV320AIC3106");
 
-	p_tlv320aic3106->error_handler = error_handler;
+	VERIFY_PARAM_NOT_NULL(evt_handler);
+	p_tlv320aic3106->evt_handler = evt_handler;
 
 	return tlv320aic3106_soft_rst(p_tlv320aic3106);
 }
@@ -726,7 +796,6 @@ ret_code_t tlv320aic3106_set_gpio_ctrl_b(tlv320aic3106_t * p_tlv320aic3106,
 ret_code_t tlv320aic3106_set_clkin_src(tlv320aic3106_t * p_tlv320aic3106,
                                        tlv320aic3106_codec_clkin_src_t clkin_src)
 {
-	ret_code_t err_code;
 	tlv320aic3106_gpio_ctrl_b_t gpio_ctrl_b = p_tlv320aic3106->config.gpio_ctrl_b;
 
 	gpio_ctrl_b.codec_clkin_src = clkin_src;
@@ -769,4 +838,13 @@ ret_code_t tlv320aic3106_debug(tlv320aic3106_t * p_tlv320aic3106)
 	}
 
 	return NRF_SUCCESS;
+}
+
+ret_code_t tlv320aic3106_get_module_power_status(tlv320aic3106_t * p_tlv320aic3106)
+{
+	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_read_t, p_obj_read, sizeof(tlv320aic3106_module_pwr_status_t));
+
+	p_obj_read->reg_address = TLV320AIC3106_MODULE_PWR_STATUS;
+
+	return twi_read(p_tlv320aic3106, p_obj_read, p_obj_read_size, TLV320AIC3106_EVT_TYPE_RX_MODULE_PWR_STATUS);
 }

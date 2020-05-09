@@ -77,7 +77,7 @@ ret_code_t sh1106_init(sh1106_t * p_sh1106)
 
 	sh1106_set_display_on(p_sh1106, true);
 
-	return err_code;
+	return NRF_SUCCESS;
 }
 
 ret_code_t sh1106_set_column_address(sh1106_t * p_sh1106, uint8_t column_address)

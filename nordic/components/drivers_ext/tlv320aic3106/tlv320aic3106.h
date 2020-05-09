@@ -645,7 +645,7 @@ typedef struct
 	bool    left_lop_m_powered_up   :1;
 	bool    mono_lop_m_powered_up   :1;
 	bool    right_dac_powered_up    :1;
-	bool    left_adc_powered_up     :1;
+	bool    left_dac_powered_up     :1;
 } tlv320aic3106_module_pwr_status_t;
 
 typedef struct
@@ -964,13 +964,30 @@ typedef struct
 	tlv320aic3106_x_out_lvl_ctrl_t                  left_lop_m_out_lvl_ctrl;
 } tlv320aic3106_config_t;
 
-typedef void (* tlv320aic3106_error_handler_t)(ret_code_t err_code, tlv320aic3106_t * p_tlv320aic3106);
+typedef enum
+{
+	TLV320AIC3106_EVT_TYPE_ERROR,
+	TLV320AIC3106_EVT_TYPE_RX_MODULE_PWR_STATUS
+} tlv320aic3106_evt_type_t;
+
+typedef struct
+{
+	tlv320aic3106_t        * p_tlv320aic3106;
+	tlv320aic3106_evt_type_t type;
+	union
+	{
+		ret_code_t  err_code;
+		tlv320aic3106_module_pwr_status_t * p_module_pwr_status;
+	} params;
+} tlv320aic3106_evt_t;
+
+typedef void (* tlv320aic3106_evt_handler_t)(tlv320aic3106_evt_t * p_event);
 
 struct tlv320aic3106_s
 {
 	const dk_twi_mngr_t           * p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
 	uint8_t                         i2c_address;
-	tlv320aic3106_error_handler_t   error_handler;
+	tlv320aic3106_evt_handler_t     evt_handler;
 	tlv320aic3106_active_page_t     active_page;
 	tlv320aic3106_config_t          config;
 };
@@ -980,12 +997,12 @@ static tlv320aic3106_t _name =                                          \
 {                                                                       \
 	.p_dk_twi_mngr_instance = _p_dk_twi_mngr_instance,                  \
 	.i2c_address            = _i2c_address,                             \
-	.error_handler          = NULL,                                     \
+	.evt_handler            = NULL,                                     \
 	.active_page            = TLV320AIC3106_ACTIVE_PAGE_0               \
 };
 
 ret_code_t tlv320aic3106_init(tlv320aic3106_t             * p_tlv320aic3106,
-                              tlv320aic3106_error_handler_t error_handler);
+                              tlv320aic3106_evt_handler_t   evt_handler);
 
 ret_code_t tlv320aic3106_soft_rst(tlv320aic3106_t * p_tlv320aic3106);
 
@@ -1102,6 +1119,8 @@ ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
 
 ret_code_t tlv320aic3106_set_dac_quiescient_current(tlv320aic3106_t * p_tlv320aic3106,
                                                     tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiscient);
+
+ret_code_t tlv320aic3106_get_module_power_status(tlv320aic3106_t * p_tlv320aic3106);
 
 ret_code_t tlv320aic3106_debug(tlv320aic3106_t * p_tlv320aic3106);
 
