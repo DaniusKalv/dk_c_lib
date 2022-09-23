@@ -16,15 +16,7 @@
 #include "nrf_section.h"
 #include "nrf.h"
 
-/** @brief DK UICR HW info structure. */
-typedef struct
-{
-	uint8_t     hw_v;       /**< Hardware version. */
-	uint8_t     hw_id;      /**< Hardware ID. */
-	uint16_t    _padding0;
-} dk_uicr_hw_info_t;
-
-void dk_uicr_short_serial_number_get(uint32_t * p_short_serial_number);
+#ifdef NRF52840_XXAA
 
 void dk_uicr_full_serial_number_get(uint64_t * p_full_serial_number);
 
