@@ -34,8 +34,6 @@ static ret_code_t write(sh1106_t * p_sh1106, const uint8_t * p_data, uint8_t dat
 
 ret_code_t sh1106_init(sh1106_t * p_sh1106)
 {
-	ret_code_t err_code;
-
 	nrf_gpio_cfg_output(p_sh1106->reset_pin);
 	nrf_gpio_cfg_output(p_sh1106->cs_pin);
 	nrf_gpio_cfg_output(p_sh1106->dc_pin);
