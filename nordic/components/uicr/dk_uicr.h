@@ -16,14 +16,6 @@
 #include "nrf_section.h"
 #include "nrf.h"
 
-/** @brief DK UICR HW info structure. */
-typedef struct
-{
-	uint8_t     hw_v;       /**< Hardware version. */
-	uint8_t     hw_id;      /**< Hardware ID. */
-	uint16_t    _padding0;
-} dk_uicr_hw_info_t;
-
 #ifdef NRF52840_XXAA
 
 /** @brief Voltage regulator output setting. */
