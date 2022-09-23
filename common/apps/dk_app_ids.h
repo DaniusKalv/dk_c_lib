@@ -16,8 +16,9 @@
 #ifndef DK_APP_IDS_H
 #define DK_APP_IDS_H
 
-#define DK_APP_ID_01017     1
-#define DK_APP_ID_01013     2
-#define DK_APP_ID_01021     3
+#define DK_APP_ID_01017             1
+#define DK_APP_ID_01013             2
+#define DK_APP_ID_01021             3
+#define DK_APP_ID_VANDAL_HANDBRAKE  4
 
 #endif // DK_APP_IDS_H
