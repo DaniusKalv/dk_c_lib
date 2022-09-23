@@ -1,5 +1,5 @@
 /**
- * @file        dk_01013.h
+ * @file        dk_01021.h
  * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
  * @brief       Hardware description for Mr Pickle v1.0.
  * 
