@@ -6,7 +6,7 @@ TabWidth: 4
 IndentCaseLabels: true
 IndentWidth: 4
 ContinuationIndentWidth: 2
-UseTab: ForIndentation
+UseTab: Never
 DeriveLineEnding: false
 UseCRLF: false
 AlignTrailingComments: true
@@ -15,6 +15,11 @@ AlignOperands: true
 AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
 AlignConsecutiveMacros: true
+AlignConsecutiveBitFields: true
+AlignEscapedNewlines: Left
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackParameters: false
 IndentCaseLabels: true
 IndentWrappedFunctionNames: false
 ColumnLimit: 120
