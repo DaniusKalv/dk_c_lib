@@ -49,10 +49,10 @@ jobs:
           submodules: 'recursive'
           path: ${{ env.APP_PATH }}
 
-      - name: Use Node.js 14.x
+      - name: Use Node.js 21.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 21.x
 
       - name: install cSpell
         id: install-cspell
