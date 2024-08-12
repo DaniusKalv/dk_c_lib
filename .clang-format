@@ -1,0 +1,56 @@
+---
+# style formatter - Barr C Coding Standard
+---
+Language: Cpp
+TabWidth: 4
+IndentCaseLabels: true
+IndentWidth: 4
+ContinuationIndentWidth: 2
+UseTab: ForIndentation
+DeriveLineEnding: false
+UseCRLF: false
+AlignTrailingComments: true
+AlignAfterOpenBracket: Align
+AlignOperands: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+IndentCaseLabels: true
+IndentWrappedFunctionNames: false
+ColumnLimit: 120
+PointerAlignment: Left
+AlwaysBreakBeforeMultilineStrings: true
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: true
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+IncludeBlocks: Preserve
+MaxEmptyLinesToKeep: 1
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortBlocksOnASingleLine: true
+AllowAllArgumentsOnNextLine: true
