@@ -9,5 +9,6 @@
       }
     ],
     "dictionaries": ["project-words"],
-    "ignorePaths": ["/.project-words.txt"]
+    "ignorePaths": ["/.project-words.txt"],
+    "flagWords": ["uninit", "uninitialize", "uninitialise"],
   }
