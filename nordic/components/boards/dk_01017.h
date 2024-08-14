@@ -41,7 +41,7 @@ extern "C" {
 //Codec (TLV320AIC3106)
 #define DK_BSP_TLV320_RST           16  /**< TLV320AIC3106 reset (active low) pin. */
 #define DK_BSP_TLV320_INT           18  /**< TLV320AIC3106 interrupt pin. */
-#define DK_BSP_TLV320_I2C_ITERFACE  0   /**< I2C interface instance that TLV320 is connected to. */
+#define DK_BSP_TLV320_I2C_INTERFACE  0   /**< I2C interface instance that TLV320 is connected to. */
 
 //Audio amplifier (TPA3220DDW)
 #define DK_BSP_TPA3220_MUTE     17  /**< TPA3220DDW mute (active low) pin. */

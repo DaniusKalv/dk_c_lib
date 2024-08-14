@@ -126,7 +126,7 @@ typedef struct
 ret_code_t dk_twi_mngr_init(dk_twi_mngr_t     const * p_dk_twi_mngr,
                             nrfx_twi_config_t const * p_default_twi_config);
 
-void dk_twi_mngr_uninit(dk_twi_mngr_t const * p_dk_twi_mngr);
+void dk_twi_mngr_deinit(dk_twi_mngr_t const * p_dk_twi_mngr);
 
 inline void * dk_twi_mngr_data_buffer_alloc(uint32_t size)
 {

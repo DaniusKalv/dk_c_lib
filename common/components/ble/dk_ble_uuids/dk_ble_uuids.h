@@ -34,7 +34,7 @@
 
 // Mr Pickle service
 #define DK_BLE_UUID_MR_PICKLE_SERVICE                       0x8746  /**< Mr Pickle service UUID. */
-#define DK_BLE_UUID_MR_PICKLE_MODE_CHARACTERISTIC           0x8747  /**< Mr Pickle mode characterisitic UUID. */
+#define DK_BLE_UUID_MR_PICKLE_MODE_CHARACTERISTIC           0x8747  /**< Mr Pickle mode characteristic UUID. */
 
 // Phil It Up service
 #define DK_BLE_UUID_PHIL_IT_UP_SERVICE                      0xFD98  /**< Phil It Up service UUID. */

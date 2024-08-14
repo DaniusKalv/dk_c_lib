@@ -21,7 +21,7 @@ NRF_LOG_MODULE_REGISTER();
  * 
  * @param   _broadcast  Broadcast value.
  */
-#define LP5024_BRADCAST_PROCESS(_broadcast)     \
+#define LP5024_BROADCAST_PROCESS(_broadcast)     \
 uint8_t i2c_address = p_lp5024->i2c_address;    \
 if(_broadcast)                                  \
 {                                               \
@@ -58,7 +58,7 @@ ret_code_t lp5024_init(lp5024_t * p_lp5024, bool broadcast, lp5024_config_t * p_
 
 	NRF_LOG_INFO("Initialising LP5024");
 
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	err_code = lp5024_reset(p_lp5024, broadcast);
 	VERIFY_SUCCESS(err_code);
@@ -69,7 +69,7 @@ ret_code_t lp5024_init(lp5024_t * p_lp5024, bool broadcast, lp5024_config_t * p_
 ret_code_t lp5024_set_led_config0(lp5024_t * p_lp5024, bool broadcast, uint8_t * p_led_config0)
 {
 	ret_code_t err_code;
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	err_code = twi_write(p_lp5024->p_i2c_instance, i2c_address, LP5024_LED_CONFIG0, p_led_config0, sizeof(uint8_t));
 	VERIFY_SUCCESS(err_code);
@@ -97,7 +97,7 @@ ret_code_t lp5024_led_config0_en(lp5024_t * p_lp5024, bool broadcast, lp5024_led
 
 ret_code_t lp5024_set_bank_rgb(lp5024_t * p_lp5024, bool broadcast, lp5024_rgb_t * p_rgb)
 {
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	return twi_write(p_lp5024->p_i2c_instance, i2c_address, LP5024_BANK_A_COLOR, (uint8_t *)p_rgb, sizeof(lp5024_rgb_t));
 }
@@ -106,7 +106,7 @@ ret_code_t lp5024_set_led_rgb(lp5024_t * p_lp5024, bool broadcast, lp5024_led_t 
 {
 	uint8_t reg_address = LP5024_OUT0_COLOR + (led * 3);
 
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	return twi_write(p_lp5024->p_i2c_instance, i2c_address, reg_address, (uint8_t *)p_rgb, sizeof(lp5024_rgb_t));
 }
@@ -115,7 +115,7 @@ ret_code_t lp5024_set_led_brightness(lp5024_t * p_lp5024, bool broadcast, lp5024
 {
 	uint8_t reg_address = LP5024_LED0_BRIGHTNESS + led;
 
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	return twi_write(p_lp5024->p_i2c_instance, i2c_address, reg_address, &brightness, sizeof(brightness));
 }
@@ -124,7 +124,7 @@ ret_code_t lp5024_set_led_color(lp5024_t * p_lp5024, bool broadcast, lp5024_led_
 {
 	uint8_t reg_address = LP5024_OUT0_COLOR + (led * 3) + color;
 
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	return twi_write(p_lp5024->p_i2c_instance, i2c_address, reg_address, &color_brightness, sizeof(color_brightness));
 }
@@ -132,7 +132,7 @@ ret_code_t lp5024_set_led_color(lp5024_t * p_lp5024, bool broadcast, lp5024_led_
 ret_code_t lp5024_reset(lp5024_t * p_lp5024, bool broadcast)
 {
 	uint8_t data = 0xFF;
-	LP5024_BRADCAST_PROCESS(broadcast);
+	LP5024_BROADCAST_PROCESS(broadcast);
 
 	return twi_write(p_lp5024->p_i2c_instance, i2c_address, LP5024_RESET, &data, sizeof(uint8_t));
 }

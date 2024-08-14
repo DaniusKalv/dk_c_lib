@@ -91,7 +91,7 @@ static uint32_t dk_ble_phil_it_up_amb_tmp_characteristic_add(dk_ble_phil_it_up_t
 	memset(&amb_temp_pf, 0, sizeof(amb_temp_pf));
 	
 	amb_temp_pf.format = BLE_GATT_CPF_FORMAT_FLOAT32;
-	amb_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELCIUS;	
+	amb_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELSIUS;	
 
 	ble_add_char_params_t amb_temp_char_params;
 	memset(&amb_temp_char_params, 0, sizeof(amb_temp_char_params));
@@ -125,7 +125,7 @@ static uint32_t dk_ble_phil_it_up_mug_tmp_characteristic_add(dk_ble_phil_it_up_t
 	memset(&mug_temp_pf, 0, sizeof(mug_temp_pf));
 	
 	mug_temp_pf.format = BLE_GATT_CPF_FORMAT_FLOAT32;
-	mug_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELCIUS;
+	mug_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELSIUS;
 
 	ble_add_char_params_t obj_temp_char_params;
 	memset(&obj_temp_char_params, 0, sizeof(obj_temp_char_params));
@@ -192,7 +192,7 @@ static uint32_t dk_ble_phil_it_up_target_temp_characteristic_add(dk_ble_phil_it_
 	memset(&target_temp_pf, 0, sizeof(target_temp_pf));
 	
 	target_temp_pf.format = BLE_GATT_CPF_FORMAT_FLOAT32;
-	target_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELCIUS;
+	target_temp_pf.unit   = ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELSIUS;
 
 	ble_add_char_params_t target_temp_char_params;
 	memset(&target_temp_char_params, 0, sizeof(target_temp_char_params));

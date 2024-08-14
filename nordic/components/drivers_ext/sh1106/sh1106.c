@@ -211,14 +211,14 @@ ret_code_t sh1106_set_clk_freq(sh1106_t * p_sh1106, sh1106_clk_freq_t * p_clk_fr
 	return write(p_sh1106, clk_freq_cmd, sizeof(clk_freq_cmd), false);
 }
 
-ret_code_t sh1106_set_dis_pre_chrg_period(sh1106_t * p_sh1106, sh1106_dis_pre_chrg_t * p_period)
+ret_code_t sh1106_set_dis_pre_charge_period(sh1106_t * p_sh1106, sh1106_dis_pre_charge_t * p_period)
 {
-	uint8_t period_cmd[sizeof(SH1106_CMD_DIS_PRE_CHRG) + sizeof(sh1106_dis_pre_chrg_t)] =
+	uint8_t period_cmd[sizeof(SH1106_CMD_DIS_PRE_CHARGE) + sizeof(sh1106_dis_pre_charge_t)] =
 	{
-		SH1106_CMD_DIS_PRE_CHRG
+		SH1106_CMD_DIS_PRE_CHARGE
 	};
 
-	memcpy(&period_cmd[sizeof(SH1106_CMD_DIS_PRE_CHRG)], p_period, sizeof(sh1106_dis_pre_chrg_t));
+	memcpy(&period_cmd[sizeof(SH1106_CMD_DIS_PRE_CHARGE)], p_period, sizeof(sh1106_dis_pre_charge_t));
 
 	return write(p_sh1106, period_cmd, sizeof(period_cmd), false);
 }

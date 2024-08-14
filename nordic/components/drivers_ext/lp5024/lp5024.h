@@ -120,7 +120,7 @@ typedef struct
  * @brief       Initialize LP5024 instance.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Initialize using broudcast address. Can be used to initialize multiple devices with one function call.
+ * @param[in]   broadcast       Initialize using broadcast address. Can be used to initialize multiple devices with one function call.
  * @param[in]   p_lp5024_config Pointer to LP5024 configuration.
  * 
  * @retval      NRF_SUCCESS     On success.
@@ -132,7 +132,7 @@ ret_code_t lp5024_init(lp5024_t * p_lp5024, bool broadcast, lp5024_config_t * p_
  * @brief       Set led config 0 register value.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast       Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   p_led_config0   Pointer to LED config 0 value.
  * 
  * @retval      NRF_SUCCESS     On success.
@@ -144,7 +144,7 @@ ret_code_t lp5024_set_led_config0(lp5024_t * p_lp5024, bool broadcast, uint8_t *
  * @brief       Enable/disable specified LED in LED configuration 0 register.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast       Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   led             LED to process.
  * @param[in]   enable          True = enable specified LED, false = disable specified LED.
  * 
@@ -157,7 +157,7 @@ ret_code_t lp5024_led_config0_en(lp5024_t * p_lp5024, bool broadcast, lp5024_led
  * @brief       Set bank RGB color.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast       Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   p_rgb           Pointer to RGB color.
  * 
  * @retval      NRF_SUCCESS     On success.
@@ -169,7 +169,7 @@ ret_code_t lp5024_set_bank_rgb(lp5024_t * p_lp5024, bool broadcast, lp5024_rgb_t
  * @brief       Set specified LED RGB color.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast       Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   led             LED to process.
  * @param[in]   p_rgb           Pointer to RGB color.
  * 
@@ -182,7 +182,7 @@ ret_code_t lp5024_set_led_rgb(lp5024_t * p_lp5024, bool broadcast, lp5024_led_t 
  * @brief       Set specified LED brightness.
  * 
  * @param[in]   p_lp5024        Pointer to LP5024 instance.
- * @param[in]   broadcast       Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast       Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   led             LED to process.
  * @param[in]   brightness      LED brightness (0-255).
  * 
@@ -195,7 +195,7 @@ ret_code_t lp5024_set_led_brightness(lp5024_t * p_lp5024, bool broadcast, lp5024
  * @brief       Set specified LED color brightness.
  * 
  * @param[in]   p_lp5024            Pointer to LP5024 instance.
- * @param[in]   broadcast           Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast           Use broadcast address. Can be used to write to multiple devices with one function call.
  * @param[in]   led                 LED to process.
  * @param[in]   color               Color to process.
  * @param[in]   color_brightness    Color brightness.
@@ -209,7 +209,7 @@ ret_code_t lp5024_set_led_color(lp5024_t * p_lp5024, bool broadcast, lp5024_led_
  * @brief Reset LP5024
  * 
  * @param[in]   p_lp5024    Pointer to LP5024 instance.
- * @param[in]   broadcast   Use broudcast address. Can be used to write to multiple devices with one function call.
+ * @param[in]   broadcast   Use broadcast address. Can be used to write to multiple devices with one function call.
  * 
  * @retval      NRF_SUCCESS On success.
  * @retval      Other       Error codes returned by internal functions.

@@ -30,32 +30,32 @@ typedef enum
 
 typedef enum
 {
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_1    = 0x00,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_1_5  = 0x01,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_2    = 0x02,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_2_5  = 0x03,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_3    = 0x04,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_3_5  = 0x05,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_4    = 0x06,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_4_5  = 0x07,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_5    = 0x08,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_5_5  = 0x09,
-	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FSREF_DIV_6    = 0x0A,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_1    = 0x00,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_1_5  = 0x01,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_2    = 0x02,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_2_5  = 0x03,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_3    = 0x04,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_3_5  = 0x05,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_4    = 0x06,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_4_5  = 0x07,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_5    = 0x08,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_5_5  = 0x09,
+	TLV320AIC3106_ADC_SAMPLE_RATE_SELECT_FS_REF_DIV_6    = 0x0A,
 } tlv320aic3106_adc_sample_rate_select_t;
 
 typedef enum
 {
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_1    = 0x00,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_1_5  = 0x01,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_2    = 0x02,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_2_5  = 0x03,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_3    = 0x04,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_3_5  = 0x05,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_4    = 0x06,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_4_5  = 0x07,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_5    = 0x08,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_5_5  = 0x09,
-	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FSREF_DIV_6    = 0x0A,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_1    = 0x00,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_1_5  = 0x01,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_2    = 0x02,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_2_5  = 0x03,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_3    = 0x04,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_3_5  = 0x05,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_4    = 0x06,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_4_5  = 0x07,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_5    = 0x08,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_5_5  = 0x09,
+	TLV320AIC3106_DAC_SAMPLE_RATE_SELECT_FS_REF_DIV_6    = 0x0A,
 } tlv320aic3106_dac_sample_rate_select_t;
 
 typedef struct
@@ -124,9 +124,9 @@ typedef struct
 
 typedef enum
 {
-	TLV320AIC3106_FSREF_SETTING_48KHZ   = 0x00,
-	TLV320AIC3106_FSREF_SETTING_44_1KHZ = 0x01,
-} tlv320aic3106_fsref_setting_t;
+	TLV320AIC3106_FS_REF_SETTING_48KHZ   = 0x00,
+	TLV320AIC3106_FS_REF_SETTING_44_1KHZ = 0x01,
+} tlv320aic3106_fs_ref_setting_t;
 
 typedef enum
 {
@@ -151,7 +151,7 @@ typedef struct
 	tlv320aic3106_left_dac_datapath_ctrl_t  left_dac_datapath_ctrl  :2;
 	bool                                    dac_dual_rate_enabled   :1;
 	bool                                    adc_dual_rate_enabled   :1;
-	tlv320aic3106_fsref_setting_t           fsref_setting           :1;
+	tlv320aic3106_fs_ref_setting_t           fs_ref_setting           :1;
 } tlv320aic3106_datapath_setup_t;
 
 typedef enum
@@ -480,8 +480,8 @@ typedef struct
 typedef enum
 {
 	TLC320AIC3106_HPLCOM_OUT_DRV_DIFF_HPLOUT    = 0x00,
-	TLC320AIC3106_HPLCOM_OUT_DRV_CONST_VCMOUT   = 0x01,
-	TLC320AIC3106_HPLCOM_OUT_DRV_SNGL_ENDED     = 0x02,
+	TLC320AIC3106_HPLCOM_OUT_DRV_CONST_VCM_OUT   = 0x01,
+	TLC320AIC3106_HPLCOM_OUT_DRV_SINGLE_ENDED     = 0x02,
 } tlc320aic3106_hplcom_out_drv_t;
 
 typedef struct
@@ -495,10 +495,10 @@ typedef struct
 typedef enum
 {
 	TLC320AIC3106_HPRCOM_OUT_DRV_DIFF_HPROUT                    = 0x00,
-	TLC320AIC3106_HPRCOM_OUT_DRV_CONST_VCMOUT                   = 0x01,
-	TLC320AIC3106_HPRCOM_OUT_DRV_SNGL_ENDED                     = 0x02,
+	TLC320AIC3106_HPRCOM_OUT_DRV_CONST_VCM_OUT                   = 0x01,
+	TLC320AIC3106_HPRCOM_OUT_DRV_SINGLE_ENDED                     = 0x02,
 	TLC320AIC3106_HPRCOM_OUT_DRV_DIFF_HPLCOM                    = 0x03,
-	TLC320AIC3106_HPRCOM_OUT_DRV_EXT_FBACK_HPLCOM_CONST_VCMOUT  = 0x04,
+	TLC320AIC3106_HPRCOM_OUT_DRV_EXT_FEEDBACK_HPLCOM_CONST_VCM_OUT  = 0x04,
 } tlc320aic3106_hprcom_out_drv_t;
 
 typedef enum
@@ -527,8 +527,8 @@ typedef enum
 typedef enum
 {
 	TLV320AIC3106_LINE2X_BYPASS_PATH_DISABLED           = 0x00,
-	TLV320AIC3106_LINE2X_BYPASS_PATH_LINE2XP_SNGL_END   = 0x01,
-	TLV320AIC3106_LINE2X_BYPASS_PATH_LINE2XM_SNGL_END   = 0x02,
+	TLV320AIC3106_LINE2X_BYPASS_PATH_LINE2XP_SINGLE_END   = 0x01,
+	TLV320AIC3106_LINE2X_BYPASS_PATH_LINE2XM_SINGLE_END   = 0x02,
 	TLV320AIC3106_LINE2X_BYPASS_PATH_LINE2XP_M_DIFF     = 0x03,
 } tlv320aic3106_line2x_bypass_path_t;
 
@@ -542,14 +542,14 @@ typedef struct
 
 typedef enum
 {
-	TLV320AIC3106_XDAC_OUT_SWITCH_DAC_X1    = 0x00,
-	TLV320AIC3106_XDAC_OUT_SWITCH_DAC_X3    = 0x01,
-	TLV320AIC3106_XDAC_OUT_SWITCH_DAC_X2    = 0x02,
-} tlv320aic3106_xdac_out_switch_t;
+	TLV320AIC3106_DAC_OUT_SWITCH_DAC_X1    = 0x00,
+	TLV320AIC3106_DAC_OUT_SWITCH_DAC_X3    = 0x01,
+	TLV320AIC3106_DAC_OUT_SWITCH_DAC_X2    = 0x02,
+} tlv320aic3106_dac_out_switch_t;
 
 typedef enum
 {
-	TLV320AIC3106_DAC_DIG_VOL_CTRL_LEFT_AND_RIGHT_INDEPENDANT   = 0x00,
+	TLV320AIC3106_DAC_DIG_VOL_CTRL_LEFT_AND_RIGHT_INDEPENDENT   = 0x00,
 	TLV320AIC3106_DAC_DIG_VOL_CTRL_LEFT_FOLLOWS_RIGHT_CHANNEL   = 0x01,
 	TLV320AIC3106_DAC_DIG_VOL_CTRL_RIGHT_FOLLOWS_LEFT_CHANNEL   = 0x02,
 } tlv320aic3106_dac_dig_vol_ctrl_t;
@@ -558,8 +558,8 @@ typedef struct
 {
 	tlv320aic3106_dac_dig_vol_ctrl_t    dac_dig_vol_ctrl    :2;
 	uint8_t                             _padding0           :2;
-	tlv320aic3106_xdac_out_switch_t     right_dac_out_switch:2;
-	tlv320aic3106_xdac_out_switch_t     left_dac_out_switch :2;
+	tlv320aic3106_dac_out_switch_t     right_dac_out_switch:2;
+	tlv320aic3106_dac_out_switch_t     left_dac_out_switch :2;
 } tlv320aic3106_dac_out_switch_ctrl_t;
 
 typedef enum
@@ -633,7 +633,7 @@ typedef struct
 	bool                        not_all_programmed_gains_applied:1;
 	bool                        high_z_power_down               :1;
 	bool                        not_muted                       :1;
-	tlv320aic3106_x_out_lvl_t   xout_out_lvl                    :4;
+	tlv320aic3106_x_out_lvl_t   out_out_lvl                    :4;
 } tlv320aic3106_x_out_lvl_ctrl_t;
 
 typedef struct
@@ -711,15 +711,15 @@ typedef enum
 
 typedef enum
 {
-	TLV320AIC3106_GPIOX_INT_DURATION_CTRL_SNGL_ACT_HIGH_2MS = 0x00,
-	TLV320AIC3106_GPIOX_INT_DURATION_CTRL_CONT_PULSES       = 0x01,
-} tlv320aic3106_gpiox_int_duration_ctrl_t;
+	TLV320AIC3106_GPIO_INT_DURATION_CTRL_SINGLE_ACT_HIGH_2MS = 0x00,
+	TLV320AIC3106_GPIO_INT_DURATION_CTRL_CONT_PULSES       = 0x01,
+} tlv320aic3106_gpio_int_duration_ctrl_t;
 
 typedef struct
 {
 	uint8_t                                 gpio1_out_val           :1;
 	uint8_t                                 gpio1_in_val            :1;
-	tlv320aic3106_gpiox_int_duration_ctrl_t gpio1_int_duration_ctrl :1;
+	tlv320aic3106_gpio_int_duration_ctrl_t gpio1_int_duration_ctrl :1;
 	tlv320aic3106_gpio1_clk_mux_out_t       gpio1_clk_mux_out       :1;
 	tlv320aic3106_gpio1_cfg_t               gpio1_cfg               :4;
 } tlv320aic3106_gpio1_ctrl_t;
@@ -744,7 +744,7 @@ typedef enum
 typedef struct
 {
 	uint8_t                                 _padding0               :1;
-	tlv320aic3106_gpiox_int_duration_ctrl_t gpio1_int_duration_ctrl :1;
+	tlv320aic3106_gpio_int_duration_ctrl_t gpio1_int_duration_ctrl :1;
 	uint8_t                                 gpio2_in_val            :1;
 	uint8_t                                 gpio2_out_val           :1;
 	tlv320aic3106_gpio2_cfg_t               gpio2_cfg               :4;
@@ -849,11 +849,11 @@ typedef enum
 
 typedef enum
 {
-	TLV320AIC3106_BASELINE_AGC_ATTCK_TIME_7MS   = 0x00,
-	TLV320AIC3106_BASELINE_AGC_ATTCK_TIME_8MS   = 0x01,
-	TLV320AIC3106_BASELINE_AGC_ATTCK_TIME_10MS  = 0x02,
-	TLV320AIC3106_BASELINE_AGC_ATTCK_TIME_11MS  = 0x03,
-} tlv320aic3106_baseline_agc_attck_time_t;
+	TLV320AIC3106_BASELINE_AGC_ATTACK_TIME_7MS   = 0x00,
+	TLV320AIC3106_BASELINE_AGC_ATTACK_TIME_8MS   = 0x01,
+	TLV320AIC3106_BASELINE_AGC_ATTACK_TIME_10MS  = 0x02,
+	TLV320AIC3106_BASELINE_AGC_ATTACK_TIME_11MS  = 0x03,
+} tlv320aic3106_baseline_agc_attack_time_t;
 
 typedef enum
 {
@@ -871,9 +871,9 @@ typedef struct
 {
 	uint8_t                                         _padding0                   :2;
 	tlv320aic3106_mult_factor_for_baseline_agc_t    mult_factor_for_baseline_agc:3;
-	tlv320aic3106_baseline_agc_attck_time_t         baseline_agc_attck_time     :2;
-	tlv320aic3106_left_agc_time_reg_select_t        attck_time_reg_select       :1;
-} tlv320aic3106_left_agc_new_prog_attck_time_t;
+	tlv320aic3106_baseline_agc_attack_time_t         baseline_agc_attack_time     :2;
+	tlv320aic3106_left_agc_time_reg_select_t        attack_time_reg_select       :1;
+} tlv320aic3106_left_agc_new_prog_attack_time_t;
 
 typedef enum
 {
@@ -895,9 +895,9 @@ typedef struct
 {
 	uint8_t                                         _padding0                   :2;
 	tlv320aic3106_mult_factor_for_baseline_agc_t    mult_factor_for_baseline_agc:3;
-	tlv320aic3106_baseline_agc_attck_time_t         baseline_agc_attck_time     :2;
-	tlv320aic3106_right_agc_time_reg_select_t       attck_time_reg_select       :1;
-} tlv320aic3106_right_agc_new_prog_attck_time_t;
+	tlv320aic3106_baseline_agc_attack_time_t         baseline_agc_attack_time     :2;
+	tlv320aic3106_right_agc_time_reg_select_t       attack_time_reg_select       :1;
+} tlv320aic3106_right_agc_new_prog_attack_time_t;
 
 typedef struct
 {
@@ -1117,8 +1117,8 @@ ret_code_t tlv320aic3106_set_clkin_src(tlv320aic3106_t * p_tlv320aic3106,
 ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
                                           tlv320aic3106_clk_gen_ctrl_t * p_clk_gen_ctrl);
 
-ret_code_t tlv320aic3106_set_dac_quiescient_current(tlv320aic3106_t * p_tlv320aic3106,
-                                                    tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiscient);
+ret_code_t tlv320aic3106_set_dac_quiescent_current(tlv320aic3106_t * p_tlv320aic3106,
+                                                    tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiescent);
 
 ret_code_t tlv320aic3106_get_module_power_status(tlv320aic3106_t * p_tlv320aic3106);
 

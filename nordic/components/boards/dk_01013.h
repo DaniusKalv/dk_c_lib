@@ -33,7 +33,7 @@ extern "C" {
 
 //IS31FL3206 LED driver
 #define DK_BSP_IS31FL3206_EN            6   /**< IS31FL3206 LED driver enable pin. */
-#define DK_BSP_IS31FL3206_I2C_ITERFACE  0   /**< I2C interface instance that IS31FL3206 is connected to. */
+#define DK_BSP_IS31FL3206_I2C_INTERFACE  0   /**< I2C interface instance that IS31FL3206 is connected to. */
 
 #define DK_BSP_LED_OUT_PATTERN_GRB  /**< LEDs are connected to IS31fl3206 outputs using GRB pattern. */
 #define DK_BSP_RGB_LED_AMOUNT 4     /**< RGB LED amount. */
@@ -43,7 +43,7 @@ extern "C" {
 #define DK_BSP_BLUE_LED_CURRENT_LIMIT   IS31FL3206_OUT_CURRENT_MAX      /**< Current resulting in 16mA. */
 
 //MLX9061 infrared thermometer
-#define DK_BSP_MLX9061_I2C_ITERFACE     0   /**< I2C interface instance that MLX9061 is connected to. */
+#define DK_BSP_MLX9061_I2C_INTERFACE     0   /**< I2C interface instance that MLX9061 is connected to. */
 
 //I2S interface
 #define DK_BSP_I2S_WCLK     NRF_GPIO_PIN_MAP(0,24)  /**< I2S word clock pin. */
@@ -54,7 +54,7 @@ extern "C" {
 //TLV320DAC codec
 #define DK_BSP_TLV320_PWR_EN        NRF_GPIO_PIN_MAP(1,1)   /**< Enable voltage regulator for TLV320 pin. */
 #define DK_BSP_TLV320_RST           NRF_GPIO_PIN_MAP(1,3)   /**< TLV320 reset pin (active low). */
-#define DK_BSP_TLV320_I2C_ITERFACE  1                       /**< I2C interface instance that TLV320 is connected to. */
+#define DK_BSP_TLV320_I2C_INTERFACE  1                       /**< I2C interface instance that TLV320 is connected to. */
 
 //I2C slave addresses
 #define DK_BSP_IS31FL3206_I2C_ADDRESS   0x6C    /**< IS31FL3206 I2C address. */
