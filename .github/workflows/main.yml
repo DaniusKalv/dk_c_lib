@@ -1,5 +1,5 @@
 # main workflow to run on code for checking
-name: ci
+name: code formatting
 
 # run on every commit to master and on every PR and subsequent commit on the PR
 on:
