@@ -19,7 +19,7 @@
 NRF_LOG_MODULE_REGISTER();
 #include "nrf_log_ctrl.h"
 
-#define MLX90615_TWI_WRITE_BUFFER_SIZE  1   /**< Maximum amount of data that will be transfered in one write. */
+#define MLX90615_TWI_WRITE_BUFFER_SIZE  1   /**< Maximum amount of data that will be transferred in one write. */
 #define MLX90615_TWI_READ_BUFFER_SIZE   2   /**< Maximum amount of data that will be read in one read. */
 
 /** @brief TWI write structure. */
@@ -37,18 +37,18 @@ typedef struct
 } mlx90615_twi_read_t;
 
 /**
- * @brief   Macro for converting raw data to Celcius represented as float.
+ * @brief   Macro for converting raw data to Celsius represented as float.
  * 
  * @param   p_raw_data  Pointer to raw MLX90615 data.
  */
-#define RAW_TO_CELCIUS_FLOAT(p_raw_data) (float)(((float)(uint16_decode(p_raw_data) & 0x7FFF) * 0.02) - 273.15)
+#define RAW_TO_CELSIUS_FLOAT(p_raw_data) (float)(((float)(uint16_decode(p_raw_data) & 0x7FFF) * 0.02) - 273.15)
 
 /**
- * @brief   Macro for converting raw data to Celcius represented as int8_t.
+ * @brief   Macro for converting raw data to Celsius represented as int8_t.
  * 
  * @param   p_raw_data  Pointer to raw MLX90615 data.
  */
-#define RAW_TO_CELCIUS_INT8(p_raw_data) (int8_t)RAW_TO_CELCIUS_FLOAT(p_raw_data)
+#define RAW_TO_CELSIUS_INT8(p_raw_data) (int8_t)RAW_TO_CELSIUS_FLOAT(p_raw_data)
 
 /**
  * @brief       Function to be called by twi manager upon twi transaction result.
@@ -98,11 +98,11 @@ static void twi_mngr_callback(ret_code_t result, uint8_t evt, dk_twi_mngr_transf
 		{
 			case MLX90615_EVT_TYPE_AMB_TEMP_INT8_READY:
 			case MLX90615_EVT_TYPE_OBJ_TEMP_INT8_READY:
-				mlx90615_evt.params.int8_temp = RAW_TO_CELCIUS_INT8(p_transfer->transfer_description.p_secondary_buf);
+				mlx90615_evt.params.int8_temp = RAW_TO_CELSIUS_INT8(p_transfer->transfer_description.p_secondary_buf);
 				break;
 			case MLX90615_EVT_TYPE_AMB_TEMP_FLOAT_READY:
 			case MLX90615_EVT_TYPE_OBJ_TEMP_FLOAT_READY:
-				mlx90615_evt.params.float_temp = RAW_TO_CELCIUS_FLOAT(p_transfer->transfer_description.p_secondary_buf);
+				mlx90615_evt.params.float_temp = RAW_TO_CELSIUS_FLOAT(p_transfer->transfer_description.p_secondary_buf);
 				break;
 			default:
 				break;
@@ -141,7 +141,7 @@ static ret_code_t twi_write(mlx90615_t     const * p_mlx90615,
 }
 
 /**
- * @brief   Function to be called by dk_twi_mngr when waiting for a tansfer to finish.
+ * @brief   Function to be called by dk_twi_mngr when waiting for a transfer to finish.
  *          Just waits for one millisecond.
  */
 static void wait_for_transfer_complete()
@@ -152,14 +152,14 @@ static void wait_for_transfer_complete()
 /**
  * @brief       Perform a blocking twi read.
  * 
- * @note        Use this function when data must be read imediately (ie during initialization).
+ * @note        Use this function when data must be read immediately (ie during initialization).
  * 
  * @param[in]   p_mlx90615  Pointer to mlx90615 instance.
  * @param[in]   reg         Register address to read from.
  * @param[in]   p_buffer    Pointer to read buffer.
  * @param[in]   buffer_size Read buffer size.
  * 
- * @return      NRF_SUCESS  Upon successful twi transaction.
+ * @return      NRF_SUCCESS Upon successful twi transaction.
  * @return      Other       Error codes returned by @dk_twi_mngr_perform function.
  */
 static ret_code_t twi_read_blocking(mlx90615_t const * p_mlx90615,
@@ -245,7 +245,7 @@ ret_code_t mlx90615_read_amb_temp_int8(mlx90615_t * p_mlx90615)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(mlx90615_twi_read_t, p_amb_read, sizeof(uint16_t));
 
-	p_amb_read->reg_address = MLX90615_CMD_RAM_TAMB;
+	p_amb_read->reg_address = MLX90615_CMD_RAM_T_AMB;
 
 	return twi_read(p_mlx90615, p_amb_read, p_amb_read_size, MLX90615_EVT_TYPE_AMB_TEMP_INT8_READY);
 }
@@ -254,7 +254,7 @@ ret_code_t mlx90615_read_obj_temp_int8(mlx90615_t * p_mlx90615)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(mlx90615_twi_read_t, p_obj_read, sizeof(uint16_t));
 
-	p_obj_read->reg_address = MLX90615_CMD_RAM_TOBJ;
+	p_obj_read->reg_address = MLX90615_CMD_RAM_T_OBJ;
 
 	return twi_read(p_mlx90615, p_obj_read, p_obj_read_size, MLX90615_EVT_TYPE_OBJ_TEMP_INT8_READY);
 }
@@ -263,7 +263,7 @@ ret_code_t mlx90615_read_amb_temp_float(mlx90615_t * p_mlx90615)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(mlx90615_twi_read_t, p_amb_read, sizeof(uint16_t));
 
-	p_amb_read->reg_address = MLX90615_CMD_RAM_TAMB;
+	p_amb_read->reg_address = MLX90615_CMD_RAM_T_AMB;
 
 	return twi_read(p_mlx90615, p_amb_read, p_amb_read_size, MLX90615_EVT_TYPE_AMB_TEMP_FLOAT_READY);
 }
@@ -272,7 +272,7 @@ ret_code_t mlx90615_read_obj_temp_float(mlx90615_t * p_mlx90615)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(mlx90615_twi_read_t, p_obj_read, sizeof(uint16_t));
 
-	p_obj_read->reg_address = MLX90615_CMD_RAM_TOBJ;
+	p_obj_read->reg_address = MLX90615_CMD_RAM_T_OBJ;
 
 	return twi_read(p_mlx90615, p_obj_read, p_obj_read_size, MLX90615_EVT_TYPE_OBJ_TEMP_FLOAT_READY);
 }

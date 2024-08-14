@@ -22,7 +22,7 @@
 #include "nrf_log_ctrl.h"
 NRF_LOG_MODULE_REGISTER();
 
-#define TLV320AIC3106_TWI_WRITE_BUFFER_SIZE  4  /**< Maximum amount of data that will be transfered in one write. */
+#define TLV320AIC3106_TWI_WRITE_BUFFER_SIZE  4  /**< Maximum amount of data that will be transferred in one write. */
 #define TLV320AIC3106_TWI_READ_BUFFER_SIZE   2  /**< Maximum amount of data that will be read in one read. */
 
 /** @brief TWI write structure. */
@@ -184,7 +184,7 @@ static ret_code_t twi_read(tlv320aic3106_t    const * p_tlv320aic3106,
 }
 
 /**
- * @brief   Function to be called by dk_twi_mngr when waiting for a tansfer to finish.
+ * @brief   Function to be called by dk_twi_mngr when waiting for a transfer to finish.
  *          Just waits for one millisecond.
  */
 static void wait_for_transfer_complete() // TODO: Look for ways to utilize this wait time for something else
@@ -195,14 +195,14 @@ static void wait_for_transfer_complete() // TODO: Look for ways to utilize this 
 /**
  * @brief       Perform a blocking twi read.
  * 
- * @note        Use this function when data must be read imediately (ie during initialization).
+ * @note        Use this function when data must be read immediately (ie during initialization).
  * 
  * @param[in]   p_tlv320aic3106 Pointer to tlv320aic3106 instance.
  * @param[in]   reg             Register address to read from.
  * @param[in]   p_buffer        Pointer to read buffer.
  * @param[in]   buffer_size     Read buffer size.
  * 
- * @return      NRF_SUCESS      Upon successful twi transaction.
+ * @return      NRF_SUCCESS     Upon successful twi transaction.
  * @return      Other           Error codes returned by @dk_twi_mngr_perform function.
  */
 static ret_code_t twi_read_blocking(tlv320aic3106_t const * p_tlv320aic3106,
@@ -813,12 +813,12 @@ ret_code_t tlv320aic3106_set_clk_gen_ctrl(tlv320aic3106_t * p_tlv320aic3106,
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }
 
-ret_code_t tlv320aic3106_set_dac_quiescient_current(tlv320aic3106_t * p_tlv320aic3106,
-                                                    tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiscient)
+ret_code_t tlv320aic3106_set_dac_quiescent_current(tlv320aic3106_t * p_tlv320aic3106,
+                                                    tlv320aic3106_dac_quiescent_current_adj_t * p_dac_quiescent)
 {
 	DK_TWI_MNGR_BUFF_ALLOC(tlv320aic3106_twi_write_t, p_cmd, sizeof(tlv320aic3106_dac_quiescent_current_adj_t));
 	p_cmd->reg_address = TLV320AIC3106_DAC_QUIESCENT_CURRENT_ADJ;
-	memcpy(p_cmd->data, p_dac_quiscient, sizeof(tlv320aic3106_dac_quiescent_current_adj_t));
+	memcpy(p_cmd->data, p_dac_quiescent, sizeof(tlv320aic3106_dac_quiescent_current_adj_t));
 
 	return twi_write(p_tlv320aic3106, p_cmd, p_cmd_size);
 }

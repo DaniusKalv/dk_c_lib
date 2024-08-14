@@ -173,7 +173,7 @@ ret_code_t dk_twi_mngr_init(dk_twi_mngr_t       const * p_dk_twi_mngr,
 	return NRF_SUCCESS;
 }
 
-void dk_twi_mngr_uninit(dk_twi_mngr_t const * p_dk_twi_mngr)
+void dk_twi_mngr_deinit(dk_twi_mngr_t const * p_dk_twi_mngr)
 {
 	ASSERT(p_dk_twi_mngr != NULL);
 

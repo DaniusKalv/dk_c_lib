@@ -37,7 +37,7 @@ static tca9548a_t _name =                                   \
 	.i2c_address = _i2c_address                             \
 }
 
-/** @breif TCA9548A channel control. */
+/** @brief TCA9548A channel control. */
 typedef enum
 {
 	TCA9548A_DISABLE  = (0 << 0),   /**< All channels disabled. */

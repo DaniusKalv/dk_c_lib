@@ -19,7 +19,7 @@ static dk_lpcomp_event_handler_t m_lpcomp_event_handler = NULL; // Variable to s
 static nrfx_drv_state_t m_state = NRFX_DRV_STATE_UNINITIALIZED; // Variable to keep track of driver state.
 
 /**
- * @brief       Low power comparator event handler execution fnction.
+ * @brief       Low power comparator event handler execution function.
  * 
  * @param[in]   event       Low power comparator event.
  * @param[in]   event_mask  Low power comparator event mask.
@@ -116,7 +116,7 @@ uint32_t dk_lpcomp_event_address_get(dk_lpcomp_event_t lpcomp_event)
 	return (uint32_t)nrf_lpcomp_event_address_get(lpcomp_event);
 }
 
-void dk_lpcomp_uninit(void)
+void dk_lpcomp_deinit(void)
 {
 	NRFX_ASSERT(m_state != NRFX_DRV_STATE_UNINITIALIZED);
 

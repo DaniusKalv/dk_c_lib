@@ -29,5 +29,5 @@ For SPI2:
 *(volatile uint32_t *)0x40023FFC = 1;
 ```
 
-A consequence of toggling the power register is that the registers of the peripheral get reset, so the safest approach is to do nrfx_twi_uninit in order to reset the application variables to an uninitilised state. This also means that the next time before enabling the peripheral it has to be reinitialized again.
+A consequence of toggling the power register is that the registers of the peripheral get reset, so the safest approach is to do nrfx_twi_uninit in order to reset the application variables to an uninitialized state. This also means that the next time before enabling the peripheral it has to be reinitialized again.
 dk_twi_enable() and dk_twi_disable() functions implement the ERRATA 89 workaround and allow enabling and disabling the peripheral easily.

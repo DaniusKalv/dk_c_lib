@@ -26,7 +26,7 @@
 #define DK_BLE_PHIL_IT_UP_MUG_UP_CHAR_SIZE       sizeof(uint8_t) /**< Mug up characteristic size. */
 #define DK_BLE_PHIL_IT_UP_TARGET_TEMP_CHAR_SIZE  sizeof(float)   /**< Target temperature characteristic size. */
 
-#define ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELCIUS 0x272F  /**< Bluetooth unit celcius code as provided by Bluetooth SIG.*/
+#define ORG_BLUETOOTH_UNIT_THERMODYNAMIC_TEMPERATURE_DEGREE_CELSIUS 0x272F  /**< Bluetooth unit celsius code as provided by Bluetooth SIG.*/
 
 /* Forward declaration of the dk_ble_phil_it_up_t type. */
 typedef struct dk_ble_phil_it_up_s dk_ble_phil_it_up_t;

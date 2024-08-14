@@ -111,7 +111,7 @@ bool lsm9ds1_init(lsm9ds1_t * p_lsm9ds1)
 		return false;
 	}
 
-	if(!write_acc_gyr_reg(p_lsm9ds1, LSM9DS1_CTRL_REG8, LSM9DS1_MASK_REG8_BDU_LACT_OD_ADD_INC)){ // Enable BDU, configure interrupts to be active low open-drain, enable register address auto increment
+	if(!write_acc_gyr_reg(p_lsm9ds1, LSM9DS1_CTRL_REG8, LSM9DS1_MASK_REG8_BDU_LACTIVE_OD_ADD_INC)){ // Enable BDU, configure interrupts to be active low open-drain, enable register address auto increment
 		return false;
 	}
 
@@ -137,7 +137,7 @@ bool lsm9ds1_reset(lsm9ds1_t * p_lsm9ds1){
 		return false;
 	}
 
-	if(!write_mag_reg(p_lsm9ds1, LSM9DS1_CTRL_REG2_M, LSM9DS1_MASK_REG2_M_SOFT_RST)){ // Soft reset magnettometer
+	if(!write_mag_reg(p_lsm9ds1, LSM9DS1_CTRL_REG2_M, LSM9DS1_MASK_REG2_M_SOFT_RST)){ // Soft reset magnetometer
 		return false;
 	}
 

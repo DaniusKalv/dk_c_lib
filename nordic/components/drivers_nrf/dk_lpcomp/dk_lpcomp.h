@@ -112,10 +112,10 @@ uint32_t dk_lpcomp_task_address_get(dk_lpcomp_task_t lpcomp_task);
 uint32_t dk_lpcomp_event_address_get(dk_lpcomp_event_t lpcomp_event);
 
 /**
- * @brief Uninitialize low power comparator.
+ * @brief Deinitialize low power comparator.
  * 
  */
-void dk_lpcomp_uninit(void);
+void dk_lpcomp_deinit(void);
 
 /**
  * @brief Enable low power comparator.

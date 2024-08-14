@@ -27,7 +27,7 @@
 
 #define SH1106_CMD_SEGMENT_REMAP            0xA0    /**< Relationship between RAM and column address order. */
 
-#define SH1106_CMD_DISPLAY_FORCE_OFF_ON     0xA4    /**< Force entir display off/on command. RAM data is ignored. */
+#define SH1106_CMD_DISPLAY_FORCE_OFF_ON     0xA4    /**< Force entire display off/on command. RAM data is ignored. */
 
 #define SH1106_CMD_INVERT_DISPLAY           0xA6    /**< Invert display pixels command. */
 
@@ -50,7 +50,7 @@
 
 #define SH1106_CMD_CLK_FREQ                 0xD5    /**< Display clock frequency control command. */
 
-#define SH1106_CMD_DIS_PRE_CHRG             0xD9    /**< Discharge/precharge period command. */
+#define SH1106_CMD_DIS_PRE_CHARGE             0xD9    /**< Discharge/pre-charge period command. */
 
 #define SH1106_CMD_COM_PADS_HW_CONF_CTRL    0xDA    /**< Common pads hardware configuration control command. */
 #define SH1106_COM_PADS_HW_CONF             0x02    /**< Common pads hardware configuration setting. */

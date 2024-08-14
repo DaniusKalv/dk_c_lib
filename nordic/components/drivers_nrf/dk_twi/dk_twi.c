@@ -32,7 +32,7 @@ ret_code_t dk_twi_enable(nrfx_twi_t * p_twi_instance, uint32_t scl_pin, uint32_t
 
 void dk_twi_disable(nrfx_twi_t * p_twi_instance)
 {
-	nrfx_twi_uninit(p_twi_instance); // Uninitialize TWI, this is done instead of disable because when the TWI has to be enabled again it has to be reinitialized as mantioned in ERRATA 89
+	nrfx_twi_uninit(p_twi_instance); // Deinitialize TWI, this is done instead of disable because when the TWI has to be enabled again it has to be reinitialized as mentioned in ERRATA 89
 
 	if (p_twi_instance->drv_inst_idx == 0)
 	{

@@ -60,20 +60,20 @@ extern "C" {
 #define DK_BSP_I2C_SDA0         15  /**< I2C interface 0 SDA pin. */
 
 // LIS3MDL
-#define DK_BSP_LIS3MDL_I2C_ITERFACE     0   /**< NRF52832 I2C interface instance that LIS3MDL is connected to. */
+#define DK_BSP_LIS3MDL_I2C_INTERFACE     0   /**< NRF52832 I2C interface instance that LIS3MDL is connected to. */
 #define DK_BSP_LIS3MDL_I2C_SW_CHANNEL   6   /**< TCA548 I2C interface channel that LIS3MDL is connected to. */
 
 #define DK_BSP_LIS3MDL_INT              29  /**< LIS3MDL interrupt pin. */
 
 // LSM303
-#define DK_BSP_LSM303_I2C_ITERFACE      0   /**< NRF52832 I2C interface instance that LSM303 is connected to. */
+#define DK_BSP_LSM303_I2C_INTERFACE      0   /**< NRF52832 I2C interface instance that LSM303 is connected to. */
 #define DK_BSP_LSM303_I2C_SW_CHANNEL    7   /**< TCA548 I2C interface channel that LSM303 is connected to. */
 
 #define DK_BSP_LSM303_INT               12  /**< LSM303 interrupt pin. */
 
 // LSM9DS1
-#define DK_BSP_LSM9DS1_I2C_ITERFACE     0   /**< NRF52832 I2C interface instance that LSMDS1 is connected to. */
-#define DK_BSP_LSM9DS1_I2C_SW_CHANNEL   7   /**< TCA548 I2C interface channel that LSMDS1 is connected to. */
+#define DK_BSP_LSM9DS1_I2C_INTERFACE     0   /**< NRF52832 I2C interface instance that LSM9DS1 is connected to. */
+#define DK_BSP_LSM9DS1_I2C_SW_CHANNEL   7   /**< TCA548 I2C interface channel that LSM9DS1 is connected to. */
 
 #define DK_BSP_LSM9DS1_A_INT1           8   /**< LSM9DS1 accelerometer interrupt 1 pin. */
 #define DK_BSP_LSM9DS1_A_INT2           4   /**< LSM9DS1 accelerometer interrupt 2 pin. */

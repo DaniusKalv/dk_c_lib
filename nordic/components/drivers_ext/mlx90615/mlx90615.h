@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-typedef struct mlx90615_s mlx90615_t; // Forward declaraation
+typedef struct mlx90615_s mlx90615_t; // Forward declaration
 
 typedef enum
 {

@@ -43,7 +43,7 @@ NRF_SECTION_ITEM_REGISTER(dk_uicr_regout0, dk_uicr_regout0_t dk_uicr_regout0) =
 #endif // defined(NRF52840_XXAA) && defined(DK_UICR_REGOUT0)
 
 /**
- * @brief Retirve 32 least significant bits of device serial number from FICR.
+ * @brief Retrieve 32 least significant bits of device serial number from FICR.
  * 
  * @param p_short_serial_number Pointer to where return short serial number.
  */
