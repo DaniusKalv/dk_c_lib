@@ -1,3 +1,5 @@
+![code-formatting](https://github.com/DaniusKalv/dk_c_lib/actions/workflows/main.yml/badge.svg)
+
 # dk_c_lib
 
 Embedded C library that is common to most of my embedded projects.
