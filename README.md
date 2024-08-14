@@ -6,11 +6,11 @@ Embedded C library that is common to most of my embedded projects.
 
 ## Prologue
 
-Writing/testing/debugging code takes time, therefore rewriting the same code is a waste of effort and should be avoided. In my opinion only the code that is defining application level logic should reside in the project files. Everything else that is applicatioon non-specific should be turned into neat reusable code components and packaged into this library that can be shared across a lot of projects. So that the next time when you need that I²C or SPI driver you don't have to go through microcontroller user manual or google and write/copy/paste code, just grab a component (that has been already tested and verified) and concentrate on that application level logic that really makes your project what it is. Everything else is just tools to get to that point.
+Writing/testing/debugging code takes time, therefore rewriting the same code is a waste of effort and should be avoided. In my opinion only the code that is defining application level logic should reside in the project files. Everything else that is application non-specific should be turned into neat reusable code components and packaged into this library that can be shared across a lot of projects. So that the next time when you need that I²C or SPI driver you don't have to go through microcontroller user manual or google and write/copy/paste code, just grab a component (that has been already tested and verified) and concentrate on that application level logic that really makes your project what it is. Everything else is just tools to get to that point.
 
 Reusability in embedded is not always easy especially when it comes to dealing with different microcontroller manufacturers. So far in this library I've only included components that are designed for Nordic microcontroller family. Makes it easier to start out on this reusability quest of mine. Although I have a lot of experience with a variety of microcontrollers from various manufacturers like Espressif, Microchip, NXP, SiliconLabs to name a few. Once you understand how through registers we are interacting with peripherals at digital logic level it becomes way easier to adapt to new microcontroller families quickly. So when it will come to adding support for more families I'll have some tricks that I learned during many years in the industry, some I came up with by myself. But so far my projects mainly revolve around Bluetooth low energy and in my opinion Nordic is the best microcontroller manufacturer in this space. The quality of their hardware, software and community is unlike any other I've seen so far. Learned a lot from them by exploring their low and high level embedded code.
 
-So, to sum it all up this library is for myself to enforce the reusability mindset. Hopefuly one day when I start a new project I'll have so many components in this library that all will be left to do will be application level logic.
+So, to sum it all up this library is for myself to enforce the reusability mindset. Hopefully one day when I start a new project I'll have so many components in this library that all will be left to do will be application level logic.
 
 ## Library features
 ### BLE
@@ -54,7 +54,7 @@ So, to sum it all up this library is for myself to enforce the reusability minds
 | dk_twi_mngr    | TWI manager that implements a queue buffer on top of nrf_twi_mngr |
 
 ### Toolchain
-I heavily modified the Makefile provided by Nordic to include a lot of aditional commands.
+I heavily modified the Makefile provided by Nordic to include a lot of additional commands.
 
 | Command | Description |
 |---|---|
