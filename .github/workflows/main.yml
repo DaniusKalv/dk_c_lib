@@ -22,7 +22,7 @@ env:
 jobs:
   code-formatting:
     name: code formatting
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: checkout app
         uses: actions/checkout@v4
