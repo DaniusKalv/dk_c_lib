@@ -43,24 +43,29 @@ typedef nrf_lpcomp_task_t dk_lpcomp_task_t;
 typedef nrf_lpcomp_event_t dk_lpcomp_event_t;
 
 /** @brief Default @ref dk_lpcomp_int_flags_t values initialization. */
-#define DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG {.ready_en = false, .down_en = false, .up_en = false, .cross_en = false}
+#define DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG                                                                             \
+    {                                                                                                                  \
+        .ready_en = false, .down_en = false, .up_en = false, .cross_en = false                                         \
+    }
 
 #ifdef NRF52_SERIES
 /** @brief Default @ref dk_lpcomp_config_t configuration. */
 #define DK_LPCOMP_DEFAULT_CONFIG                                                                                       \
-    {.hal                = {(nrf_lpcomp_ref_t)NRFX_LPCOMP_CONFIG_REFERENCE,                                            \
-                            (nrf_lpcomp_detect_t)NRFX_LPCOMP_CONFIG_DETECTION,                                         \
-                            (nrf_lpcomp_hysteresis_t)NRFX_LPCOMP_CONFIG_HYST},                                         \
-     .input              = (nrf_lpcomp_input_t)NRFX_LPCOMP_CONFIG_INPUT,                                               \
-     .interrupt_priority = NRFX_LPCOMP_CONFIG_IRQ_PRIORITY,                                                            \
-     .int_flags          = DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG}
+    {                                                                                                                  \
+        .hal   = {(nrf_lpcomp_ref_t)NRFX_LPCOMP_CONFIG_REFERENCE,                                                      \
+                  (nrf_lpcomp_detect_t)NRFX_LPCOMP_CONFIG_DETECTION,                                                   \
+                  (nrf_lpcomp_hysteresis_t)NRFX_LPCOMP_CONFIG_HYST},                                                   \
+        .input = (nrf_lpcomp_input_t)NRFX_LPCOMP_CONFIG_INPUT, .interrupt_priority = NRFX_LPCOMP_CONFIG_IRQ_PRIORITY,  \
+        .int_flags = DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG                                                                \
+    }
 #else
 /** @brief Default @ref dk_lpcomp_config_t configuration. */
 #define DK_LPCOMP_DEFAULT_CONFIG                                                                                       \
-    {.hal   = {(nrf_lpcomp_ref_t)NRFX_LPCOMP_CONFIG_REFERENCE, (nrf_lpcomp_detect_t)NRFX_LPCOMP_CONFIG_DETECTION},     \
-     .input = (nrf_lpcomp_input_t)NRFX_LPCOMP_CONFIG_INPUT,                                                            \
-     .interrupt_priority = NRFX_LPCOMP_CONFIG_IRQ_PRIORITY,                                                            \
-     .int_flags          = DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG}
+    {                                                                                                                  \
+        .hal   = {(nrf_lpcomp_ref_t)NRFX_LPCOMP_CONFIG_REFERENCE, (nrf_lpcomp_detect_t)NRFX_LPCOMP_CONFIG_DETECTION},  \
+        .input = (nrf_lpcomp_input_t)NRFX_LPCOMP_CONFIG_INPUT, .interrupt_priority = NRFX_LPCOMP_CONFIG_IRQ_PRIORITY,  \
+        .int_flags = DK_LPCOMP_INT_FLAGS_DEFAULT_CONFIG                                                                \
+    }
 #endif
 
 /**
