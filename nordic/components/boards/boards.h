@@ -138,9 +138,9 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx);
 #define BSP_BOARD_LED_6 6
 #define BSP_BOARD_LED_7 7
 
-#define PIN_MASK(_pin) /*lint -save -e504 */ (1u << (uint32_t)((_pin) & (~P0_PIN_NUM))) /*lint -restore    */
+#define PIN_MASK(_pin)  /*lint -save -e504 */ (1u << (uint32_t)((_pin) & (~P0_PIN_NUM))) /*lint -restore    */
 
-#define PIN_PORT(_pin) (((_pin) >= P0_PIN_NUM) ? NRF_P1 : NRF_GPIO)
+#define PIN_PORT(_pin)  (((_pin) >= P0_PIN_NUM) ? NRF_P1 : NRF_GPIO)
 
 #ifdef BSP_LED_0
 #define BSP_LED_0_MASK PIN_MASK(BSP_LED_0)

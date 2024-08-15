@@ -20,7 +20,8 @@ NRF_LOG_MODULE_REGISTER();
 
 #define IS31FL3206_TWI_BUFFER_SIZE IS31FL3206_OUT_AMOUNT
 
-typedef struct {
+typedef struct
+{
     uint8_t reg_address;                      /**< Register address. */
     uint8_t data[IS31FL3206_TWI_BUFFER_SIZE]; /**< Data buffer. */
 } is31fl3206_twi_write_t;

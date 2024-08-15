@@ -46,7 +46,8 @@ typedef enum
 } lp5024_color_t;
 
 /** @brief TWI write struct. */
-typedef struct {
+typedef struct
+{
     uint8_t reg_address;                  /**< Register address. */
     uint8_t data[LP5024_TWI_BUFFER_SIZE]; /**< Data buffer. */
 } lp5024_twi_write_t;
@@ -59,14 +60,16 @@ typedef enum
 } lp5024_max_current_t;
 
 /** @brief Device configuration 0 register. */
-typedef struct {
+typedef struct
+{
     uint8_t _padding1 : 6;
     bool    chip_en   : 1; /**< 1 = LP5024 enabled, 0 = LP5024 disabled. */
     uint8_t _padding0 : 1;
 } lp5024_device_config0_t;
 
 /** @brief Device configuration 1 register. */
-typedef struct {
+typedef struct
+{
     bool                 led_global_off   : 1; /**< Shut down all LEDs. */
     lp5024_max_current_t max_current      : 1; /**< Max current setting. */
     bool                 pwm_dithering_en : 1; /**< Enable PWM dithering. */
@@ -77,7 +80,8 @@ typedef struct {
 } lp5024_device_config1_t;
 
 /** @brief LP5024 configuration struct. Contains all configuration registers. */
-typedef struct {
+typedef struct
+{
     lp5024_device_config0_t device_config0;  /**< Device config 0 register. */
     lp5024_device_config1_t device_config1;  /**< Device config 1 register. */
     uint8_t                 led_config0;     /**< LED config 0 register. */
@@ -85,7 +89,8 @@ typedef struct {
 } lp5024_config_t;
 
 /** @brief LP5024 driver struct. */
-typedef struct {
+typedef struct
+{
     nrfx_twi_t     *p_i2c_instance; /**< Pointer to I2C instance. */
     uint8_t         i2c_address;    /**< Device I2C slave address. */
     lp5024_config_t config;         /**< Device configuration. */
@@ -102,7 +107,8 @@ typedef struct {
     static lp5024_t _name = {.p_i2c_instance = _p_i2c_instance, .i2c_address = _i2c_address};
 
 /** @brief RGB color. */
-typedef struct {
+typedef struct
+{
     uint8_t blue;  /**< Amount of blue. */
     uint8_t green; /**< Amount of green. */
     uint8_t red;   /**< Amount of red. */

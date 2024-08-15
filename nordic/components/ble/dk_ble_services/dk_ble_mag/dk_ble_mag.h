@@ -31,7 +31,8 @@ typedef enum
     DK_BLE_MAG_EVT_CONFIGURATION_CHANGED
 } dk_ble_mag_evt_type_t;
 
-typedef struct {
+typedef struct
+{
     dk_ble_mag_evt_type_t event_type;
     uint8_t               data[DK_MAG_CONFIG_CHARACTERISTIC_VALUE_SIZE];
     uint8_t               data_length;
@@ -41,7 +42,8 @@ typedef struct dk_ble_mag_service_s dk_ble_mag_service_t;
 
 typedef void (*dk_ble_mag_evt_handler_t)(dk_ble_mag_evt_t *p_dk_ble_mag_evt);
 
-struct dk_ble_mag_service_s {
+struct dk_ble_mag_service_s
+{
     uint8_t                  uuid_type;      /**< UUID type for dk magnetometer service. */
     uint16_t                 conn_handle;    /**< Handle of the current connection (as provided by the BLE stack, is
                                                 BLE_CONN_HANDLE_INVALID if not in a connection).*/

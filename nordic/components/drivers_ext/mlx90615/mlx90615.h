@@ -37,7 +37,8 @@ typedef struct
 {
     mlx90615_t         *p_mlx90615;
     mlx90615_evt_type_t type;
-    union {
+    union
+    {
         int8_t     int8_temp;
         float      float_temp;
         ret_code_t err_code;

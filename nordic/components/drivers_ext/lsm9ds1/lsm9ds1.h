@@ -20,19 +20,22 @@
 extern "C" {
 #endif
 
-typedef struct {
+typedef struct
+{
     int16_t x_axis; /**< Accelerometer data from x-axis */
     int16_t y_axis; /**< Accelerometer data from y_axis */
     int16_t z_axis; /**< Accelerometer data from z_axis */
 } lsm9ds1_acc_data_t;
 
-typedef struct {
+typedef struct
+{
     int16_t x_axis; /**< Gyroscope data from x-axis */
     int16_t y_axis; /**< Gyroscope data from y_axis */
     int16_t z_axis; /**< Gyroscope data from z_axis */
 } lsm9ds1_gyr_data_t;
 
-typedef struct {
+typedef struct
+{
     int16_t x_axis; /**< Magnetometer data from x-axis */
     int16_t y_axis; /**< Magnetometer data from y_axis */
     int16_t z_axis; /**< Magnetometer data from z_axis */
@@ -139,17 +142,20 @@ typedef enum
     LSM9DS1_STATUS_REG_GYR_INT = 0x20
 } lsm9ds1_status_reg_t;
 
-typedef struct {
+typedef struct
+{
     lsm9ds1_acc_gyr_odr_t odr;
     lsm9ds1_acc_fs_t      fs;
 } lsm9ds1_acc_config_t;
 
-typedef struct {
+typedef struct
+{
     lsm9ds1_acc_gyr_odr_t odr;
     lsm9ds1_gyr_fs_t      fs;
 } lsm9ds1_gyr_config_t;
 
-typedef struct {
+typedef struct
+{
     lsm9ds1_mag_odr_t   odr;
     lsm9ds1_mag_fs_t    fs;
     lsm9ds1_mag_xy_om_t xy_operating_mode;
@@ -159,7 +165,8 @@ typedef struct {
 /**
  * @brief Device descriptor for LSM9DS1 sensor
  */
-typedef struct {
+typedef struct
+{
     nrfx_twi_t          *i2c_instance;        /**<  Pointer to I2C instance device is connected to */
     uint8_t              acc_gyr_i2c_address; /**<  Accelerometer & Gyro I2C address */
     uint8_t              mag_i2c_address;     /**<  Magnetometer I2C address */

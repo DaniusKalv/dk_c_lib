@@ -24,7 +24,8 @@ typedef enum
     DK_BLE_MR_PICKLE_EVT_CONFIGURATION_CHANGED
 } dk_mr_pickle_evt_type_t;
 
-typedef struct {
+typedef struct
+{
     dk_mr_pickle_evt_type_t event_type;
     uint8_t                 mode;
 } dk_mr_pickle_evt_t;
@@ -33,7 +34,8 @@ typedef struct dk_mr_pickle_service_s dk_mr_pickle_service_t;
 
 typedef void (*dk_mr_pickle_evt_handler_t)(dk_mr_pickle_evt_t *p_dk_mr_pickle_evt);
 
-struct dk_mr_pickle_service_s {
+struct dk_mr_pickle_service_s
+{
     uint8_t                    uuid_type;      /**< UUID type for device service. */
     uint16_t                   conn_handle;    /**< Handle of the current connection (as provided by the BLE stack, is
                                                   BLE_CONN_HANDLE_INVALID if not in a connection).*/

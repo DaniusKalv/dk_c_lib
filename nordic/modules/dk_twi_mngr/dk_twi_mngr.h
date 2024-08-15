@@ -46,16 +46,24 @@ extern "C" {
     DK_TWI_MNGR_BUFF_CHECK(_name)
 
 #define DK_TWI_MNGR_TX(address, p_data, length, _flags)                                                                \
-    {.transfer_description = NRFX_TWI_XFER_DESC_TX(address, (uint8_t *)p_data, length), .flags = (_flags)}
+    {                                                                                                                  \
+        .transfer_description = NRFX_TWI_XFER_DESC_TX(address, (uint8_t *)p_data, length), .flags = (_flags)           \
+    }
 
 #define DK_TWI_MNGR_RX(address, p_data, length, _flags)                                                                \
-    {.transfer_description = NRFX_TWI_XFER_DESC_RX(address, p_data, length), .flags = (_flags)}
+    {                                                                                                                  \
+        .transfer_description = NRFX_TWI_XFER_DESC_RX(address, p_data, length), .flags = (_flags)                      \
+    }
 
 #define DK_TWI_MNGR_TX_RX(address, p_tx, tx_len, p_rx, rx_len, _flags)                                                 \
-    {.transfer_description = NRFX_TWI_XFER_DESC_TXRX(address, p_tx, tx_len, p_rx, rx_len), .flags = (_flags)}
+    {                                                                                                                  \
+        .transfer_description = NRFX_TWI_XFER_DESC_TXRX(address, p_tx, tx_len, p_rx, rx_len), .flags = (_flags)        \
+    }
 
 #define DK_TWI_MNGR_TX_TX(address, p_tx, tx_len, p_tx2, tx_len2, _flags)                                               \
-    {.transfer_description = NRFX_TWI_XFER_DESC_TXTX(address, p_tx, tx_len, p_tx2, tx_len2), .flags = (_flags)}
+    {                                                                                                                  \
+        .transfer_description = NRFX_TWI_XFER_DESC_TXTX(address, p_tx, tx_len, p_tx2, tx_len2), .flags = (_flags)      \
+    }
 
 typedef struct
 {

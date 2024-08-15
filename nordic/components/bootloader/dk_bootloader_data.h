@@ -17,7 +17,8 @@
 #include "nrf_section.h"
 
 /** @brief Bootloader data struct. */
-typedef struct {
+typedef struct
+{
     uint32_t application_version;                                /**< Application version. */
     uint32_t bootloader_version;                                 /**< Bootloader version. */
 } dk_bootloader_data_t;

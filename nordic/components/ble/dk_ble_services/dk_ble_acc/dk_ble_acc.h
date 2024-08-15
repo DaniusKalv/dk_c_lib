@@ -31,7 +31,8 @@ typedef enum
     DK_BLE_ACC_EVT_CONFIGURATION_CHANGED
 } dk_ble_acc_evt_type_t;
 
-typedef struct {
+typedef struct
+{
     dk_ble_acc_evt_type_t event_type;
     uint8_t               data[DK_ACC_CONFIG_CHARACTERISTIC_VALUE_SIZE]; // Maximum amount of bytes to be
                                                                          // received from central
@@ -42,7 +43,8 @@ typedef struct dk_ble_acc_service_s dk_ble_acc_service_t;
 
 typedef void (*dk_ble_acc_evt_handler_t)(dk_ble_acc_evt_t *p_dk_ble_acc_evt);
 
-struct dk_ble_acc_service_s {
+struct dk_ble_acc_service_s
+{
     uint8_t                  uuid_type;               /**< UUID type for dk accelerometer service. */
     uint16_t                 conn_handle;             /**< Handle of the current connection.*/
     uint16_t                 service_handle;          /**< Handle of Our Service (as provided by the BLE stack). */

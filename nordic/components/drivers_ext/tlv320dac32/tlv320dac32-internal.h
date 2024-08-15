@@ -6,5 +6,5 @@
  * @date        2024-08-15
  *
  * @copyright   Copyright (c) Danius Kalvaitis 2024 All rights reserved
- * 
+ *
  */

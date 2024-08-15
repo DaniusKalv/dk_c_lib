@@ -23,7 +23,8 @@ extern "C" {
 
 typedef struct is31fl3206_s is31fl3206_t; // Forward declaration
 
-typedef struct {
+typedef struct
+{
     bool    normal_operation : 1;
     uint8_t _padding0        : 7;
 } is31fl3206_shutdown_t;
@@ -37,11 +38,13 @@ typedef enum
     IS31FL3206_OUT_CURRENT_7_12  = 0x13,
 } is31fl3206_out_current_t;
 
-typedef struct {
+typedef struct
+{
     is31fl3206_out_current_t out_current : 8;
 } is31fl3206_led_ctrl_t;
 
-typedef struct {
+typedef struct
+{
     uint8_t _padding0     : 7;
     bool    shutdown_leds : 1;
 } is31fl3206_global_ctrl_t;
@@ -52,14 +55,16 @@ typedef enum
     IS31FL3206_OFS_3_6KHZ = 0x01,
 } is31fl3206_ofs_t;
 
-typedef struct {
+typedef struct
+{
     uint8_t          _padding0 : 7;
     is31fl3206_ofs_t ofs       : 1;
 } is31fl3206_out_frequency_t;
 
 typedef void (*is31fl3206_error_handler_t)(ret_code_t err_code, is31fl3206_t *p_is31fl3206);
 
-struct is31fl3206_s {
+struct is31fl3206_s
+{
     const dk_twi_mngr_t       *p_dk_twi_mngr_instance; /**< Pointer to TWI manager instance. */
     uint8_t                    i2c_address;            /**< Device I2C slave address. */
     is31fl3206_error_handler_t error_handler;
@@ -87,11 +92,13 @@ typedef enum
     IS31FL3206_OUT_AMOUNT,
 } is31fl3206_out_t;
 
-typedef struct {
+typedef struct
+{
     uint8_t pwm[IS31FL3206_OUT_AMOUNT];
 } is31fl3206_all_out_pwm_t;
 
-typedef struct {
+typedef struct
+{
     is31fl3206_out_current_t out_current[IS31FL3206_OUT_AMOUNT];
 } is31fl3206_all_out_current_t;
 
