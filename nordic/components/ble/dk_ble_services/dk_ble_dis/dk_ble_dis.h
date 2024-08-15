@@ -1,11 +1,11 @@
 /**
  * @file        dk_ble_dis.h
  * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
- * @version     0.1
- * @date        2019-10-20
- * 
- * @copyright   (c) Danius Kalvaitis 2019 All rights reserved
- * 
+ * @version     0.2
+ * @date        2024-08-15
+ *
+ * @copyright Copyright (c) Danius Kalvaitis 2024 All rights reserved
+ *
  */
 
 #ifndef DK_BLE_DIS_H
@@ -16,7 +16,7 @@
 
 /**
  * @brief   Initialize device information service with DK advertising data.
- * 
+ *
  * @retval  NRF_SUCCESS on success,
  * @retval  Other       error codes returned by internal functions.
  */
