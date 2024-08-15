@@ -2,11 +2,11 @@
  * @file        dk_ble_gap.h
  * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
  * @brief       BLE GAP initialization functions according to DK standard.
- * @version     0.1
- * @date        2020-02-27
- * 
- * @copyright   Copyright (c) Danius Kalvaitis 2020 All rights reserved
- * 
+ * @version     0.2
+ * @date        2024-08-15
+ *
+ * @copyright Copyright (c) Danius Kalvaitis 2024 All rights reserved
+ *
  */
 
 #ifndef DK_BLE_GAP_H

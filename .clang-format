@@ -9,39 +9,52 @@ ContinuationIndentWidth: 2
 UseTab: Never
 DeriveLineEnding: false
 UseCRLF: false
-AlignTrailingComments: true
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
 AlignAfterOpenBracket: Align
 AlignOperands: true
 AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true
-AlignConsecutiveMacros: true
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
 AlignConsecutiveBitFields: true
-AlignEscapedNewlines: Left
+AlignEscapedNewlines: Right
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 BinPackParameters: false
-IndentCaseLabels: true
 IndentWrappedFunctionNames: false
 ColumnLimit: 120
-PointerAlignment: Left
+PointerAlignment: Right
 AlwaysBreakBeforeMultilineStrings: true
+BreakBeforeBraces: Custom
 BraceWrapping:
-  AfterCaseLabel: false
+  AfterCaseLabel: true
   AfterClass: true
-  AfterControlStatement: false
-  AfterEnum: false
-  AfterFunction: false
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
   AfterNamespace: false
-  AfterStruct: false
-  AfterUnion: false
-  AfterExternBlock: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: false
   BeforeCatch: false
   BeforeElse: false
   IndentBraces: false
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
-IncludeBlocks: Preserve
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '<[[:alnum:].]+>'
+    Priority:        1
+  - Regex:           '.*'
+    Priority:        2
 MaxEmptyLinesToKeep: 1
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
@@ -56,6 +69,9 @@ SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-AllowShortCaseLabelsOnASingleLine: true
 AllowShortBlocksOnASingleLine: true
-AllowAllArgumentsOnNextLine: true
+BinPackArguments: false
+IndentCaseBlocks: true
+AllowShortCaseLabelsOnASingleLine: false
+ReflowComments: true
+PenaltyReturnTypeOnItsOwnLine: 200

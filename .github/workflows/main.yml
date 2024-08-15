@@ -22,24 +22,18 @@ env:
 jobs:
   code-formatting:
     name: code formatting
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout app
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-          path: ${{ env.APP_PATH }}
-
-      - name: check code formatting
-        id: check-code-format
-        shell: bash
-        run: |
-          cd $APP_PATH
-          python ./scripts/ci/run-clang-format.py -r .
+    - uses: actions/checkout@v4
+    - name: Run clang-format style check for C/C++/Protobuf programs.
+      uses: jidicula/clang-format-action@v4.13.0
+      with:
+        clang-format-version: '18'
+        check-path: '.'
 
   spell-check:
     name: spell checker
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout app

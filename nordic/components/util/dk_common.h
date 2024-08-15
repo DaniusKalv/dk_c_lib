@@ -2,11 +2,11 @@
  * @file        dk_common.h
  * @author      Danius Kalvaitis (danius.kalvaitis@gmail.com)
  * @brief       Common defines and macros for firmware developed by Danius Kalvaitis.
- * @version     0.1
- * @date        2019-11-26
- * 
- * @copyright   Copyright (c) Danius Kalvaitis 2019 All rights reserved
- * 
+ * @version     0.2
+ * @date        2024-08-15
+ *
+ * @copyright   Copyright (c) Danius Kalvaitis 2024 All rights reserved
+ *
  */
 
 #ifndef DK_COMMON_H
@@ -35,8 +35,7 @@
  * And given parameter would be connected with @c _ENABLED postfix directly
  * without evaluating its value.
  */
-#define DK_MODULE_ENABLED(module) \
-    ((defined(module ## _ENABLED) && (module ## _ENABLED)) ? 1 : 0)
+#define DK_MODULE_ENABLED(module) ((defined(module##_ENABLED) && (module##_ENABLED)) ? 1 : 0)
 
 /**
  * @brief Macro for checking if the specified identifier is defined and it has
@@ -48,6 +47,6 @@
  * such warnings only in places where this macro is used for evaluation, not in
  * the whole analyzed code.
  */
-#define DK_CHECK(module_enabled)  (module_enabled)
+#define DK_CHECK(module_enabled) (module_enabled)
 
 #endif // DK_COMMON_H
